@@ -138,8 +138,6 @@ if __name__ == "__main__":
         )
     print("All configs are valid. Starting experiment submission.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        if "80yr" not in name:
-            continue
         config = {**base_config, **overlay}
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)

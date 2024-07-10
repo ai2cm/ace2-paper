@@ -1,0 +1,17 @@
+aggregator:
+  log_histograms: true
+checkpoint_path: /ckpt.tar
+data_writer:
+  save_monthly_files: false
+  save_prediction_files: false
+experiment_dir: /output
+forward_steps_in_memory: 40
+loader:
+  dataset:
+    data_path: /climate-default/2024-06-14-era5-1deg-8layer-1940-2022-netcdfs
+  num_data_workers: 8
+  start_indices:
+    times:
+    - '1940-01-01T06:00:00'
+logging:
+  project: ace2

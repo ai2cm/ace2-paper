@@ -14,6 +14,7 @@ IMAGE_NAME = "oliverwm/fme-e48a3777"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
+STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019"
 
 
 # experiments defined by overlays which will overwrite the keys of the base config
@@ -54,6 +55,10 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
         beaker.DataMount(
             source=beaker.DataSource(beaker=config_dataset.id),
             mount_path=DATASET_CONFIG_MOUNTPATH,
+        ),
+        beaker.DataMount(
+            source=beaker.DataSource(beaker=STATS_DATASET_NAME),
+            mount_path="/statsdata",
         ),
         beaker.DataMount(
             mount_path="/climate-default",

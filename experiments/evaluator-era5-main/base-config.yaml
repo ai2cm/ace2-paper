@@ -12,6 +12,6 @@ loader:
   num_data_workers: 8
   start_indices:
     times:
-    - '1940-01-01T06:00:00'
+    - '1940-01-01T12:00:00'
 logging:
   project: ace2

@@ -38,7 +38,7 @@ EXPERIMENT_OVERLAYS = {
     "era5-truth-80yr": {
         "n_forward_steps": 116800,
         "prediction_loader": {
-            "start_indices": {"times": ["1940-01-01T06:00:00"]},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "dataset": {"data_path": DATA_PATH},
             "num_data_workers": 8,
         },
@@ -138,6 +138,8 @@ if __name__ == "__main__":
         )
     print("All configs are valid. Starting experiment submission.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
+        if "80yr" not in name:
+            continue
         config = {**base_config, **overlay}
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)

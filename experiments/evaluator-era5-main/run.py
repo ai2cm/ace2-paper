@@ -56,6 +56,16 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
+    "era5-100day-2020-video": {
+        "n_forward_steps": 400,
+        "forward_steps_in_memory": 40,
+        "aggregator": {"log_video": True, "log_histograms": True},
+        "loader": {
+            "start_indices": {"times": ["2020-08-20T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+    },
 }
 
 
@@ -141,5 +151,13 @@ if __name__ == "__main__":
         config = {**base_config, **overlay}
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
-        experiment = client.experiment.create(name, spec)
-        print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        try:
+            experiment = client.experiment.create(name, spec)
+            print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )

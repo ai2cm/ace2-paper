@@ -34,9 +34,13 @@ EXPERIMENT_OVERLAYS = {
             "time_coarsen": {"coarsen_factor": 4},
         },
     },
-    "era5-80yr": {"n_forward_steps": 116800},
+    "era5-80yr": {
+        "n_forward_steps": 116800,
+        "aggregator": {"log_zonal_mean_images": False},
+    },
     "era5-truth-80yr": {
         "n_forward_steps": 116800,
+        "aggregator": {"log_zonal_mean_images": False},
         "prediction_loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "dataset": {"data_path": DATA_PATH},
@@ -153,7 +157,9 @@ if __name__ == "__main__":
         spec = get_experiment_spec(name, config)
         try:
             experiment = client.experiment.create(name, spec)
-            print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+            print(
+                f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
+            )
         except beaker.exceptions.ExperimentConflict:
             print(
                 f"Failed to create experiment {name} because it already exists. "

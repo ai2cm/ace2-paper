@@ -71,6 +71,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                     "torchrun",
                     "--nproc_per_node",
                     "8",
+                    "-m",
                     "fme.ace.train",
                     f"{DATASET_CONFIG_MOUNTPATH}/{DATASET_CONFIG_FILENAME}",
                 ],

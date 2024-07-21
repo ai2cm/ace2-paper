@@ -81,7 +81,6 @@ stepper:
       specific_total_water_1: 0.25
       specific_total_water_2: 0.5
       PRATEsfc: 0.5
-      PRESsfc: 2
       h500: 10
       TMP850: 5
       Q2m: 0.5

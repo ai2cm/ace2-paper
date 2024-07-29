@@ -9,27 +9,27 @@ train_loader:
   batch_size: 16
   num_data_workers: 32
   dataset:
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
       subset:
         stop_time: '1995-12-31'
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
       subset:
         stop_time: '1995-12-31'
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
       subset:
         start_time: '2011-01-01'
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
       subset:
         start_time: '2011-01-01'
 validation_loader:
   batch_size: 128
   num_data_workers: 32
   dataset:
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001
       subset:
         start_time: '1996-01-01'
         stop_time: '2010-12-31'
-    - data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
+    - data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
       subset:
         start_time: '1996-01-01'
         stop_time: '2010-12-31'
@@ -48,7 +48,7 @@ inference:
         - '1996-10-01T00:00:00'
         - '1996-11-15T00:00:00'
     dataset:
-      data_path: /climate-default/2024-07-12-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
+      data_path: /climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/validation/ic_0002
     num_data_workers: 32
   aggregator:
     monthly_reference_data: /refdata/monthly_mean_data.nc

@@ -14,16 +14,17 @@ IMAGE_NAME = "brianhenn/fme-028c085e"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
-STATS_DATASET_NAME = "andrep/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-stats"
-REFERENCE_DATASET_NAME = "brianhenn/2024-07-21-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
-
+STATS_DATASET_1DEG_NAME = "andrep/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-stats"
+STATS_DATASET_4DEG_NAME = "andrep/2024-07-21-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset-stats"
+REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-21-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
+REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-21-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-ace2-training-rs0": {},
-    "shield-amip-ace2-training-rs1": {},
-    "shield-amip-ace2-training-rs2": {},
-    "shield-amip-ace2-training-rs3": {},
+    "shield-amip-1deg-ace2-training-rs0": {},
+    "shield-amip-1deg-ace2-training-rs1": {},
+    "shield-amip-1deg-ace2-training-rs2": {},
+    "shield-amip-1deg-ace2-training-rs3": {},
 }
 
 
@@ -57,12 +58,20 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
             source=beaker.DataSource(weka="climate-default"),
         ),
         beaker.DataMount(
-            source=beaker.DataSource(beaker=STATS_DATASET_NAME),
-            mount_path="/statsdata",
+            source=beaker.DataSource(beaker=STATS_DATASET_1DEG_NAME),
+            mount_path="/statsdata-1deg",
         ),
         beaker.DataMount(
-            source=beaker.DataSource(beaker=REFERENCE_DATASET_NAME),
-            mount_path="/refdata",
+            source=beaker.DataSource(beaker=STATS_DATASET_4DEG_NAME),
+            mount_path="/statsdata-4deg",
+        ),
+        beaker.DataMount(
+            source=beaker.DataSource(beaker=REFERENCE_DATASET_1DEG_NAME),
+            mount_path="/refdata-1deg",
+        ),
+        beaker.DataMount(
+            source=beaker.DataSource(beaker=REFERENCE_DATASET_4DEG_NAME),
+            mount_path="/refdata-4deg",
         ),
     ]
     spec = beaker.ExperimentSpec(

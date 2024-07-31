@@ -14,10 +14,10 @@ IMAGE_NAME = "brianhenn/fme-028c085e"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
-STATS_DATASET_1DEG_NAME = "andrep/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-stats"
-STATS_DATASET_4DEG_NAME = "andrep/2024-07-21-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset-stats"
-REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-21-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
-REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-21-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
+STATS_DATASET_1DEG_NAME = "andrep/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-stats"
+STATS_DATASET_4DEG_NAME = "andrep/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset-stats"
+REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
+REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {

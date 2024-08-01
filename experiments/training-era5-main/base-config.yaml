@@ -3,7 +3,7 @@ save_checkpoint: true
 validate_using_ema: true
 ema:
   decay: 0.999
-max_epochs: 150
+max_epochs: 120
 n_forward_steps: 2
 train_loader:
   batch_size: 16
@@ -127,6 +127,7 @@ stepper:
   - sea_ice_fraction
   - DSWRFtoa
   - HGTsfc
+  - global_mean_co2
   - PRESsfc
   - surface_temperature
   - TMP2m

@@ -78,7 +78,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do 10-year inference with ACE2 model trained on ERA5.",
+        description="Train ACE2 model on ERA5.",
         tasks=[
             beaker.TaskSpec(
                 name=name,

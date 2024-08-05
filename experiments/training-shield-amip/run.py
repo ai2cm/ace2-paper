@@ -24,8 +24,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs0": {},
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
+    "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
 }
 
+
+def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
+    """Merge nested configurations."""
+    for k, v in new.items():
+        if isinstance(v, dict):
+            base[k] = merge_configs(base.get(k, {}), v)
+        else:
+            base[k] = v
+    return base
 
 def write_config_dataset(config: Dict[str, Any]):
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -90,7 +101,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="urgent", preemptible=True),
+                context=beaker.TaskContext(priority="high", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,
@@ -108,13 +119,13 @@ if __name__ == "__main__":
 
     print("Validating that configs have correct types.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
+        config = merge_configs(base_config, overlay)
         print(f"Validating config for experiment {name}.")
         print(f"Config that is being validated:\n{config}")
         dacite.from_dict(fme.ace.TrainConfig, config, config=dacite.Config(strict=True))
     print("All configs are valid. Starting experiment submission.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
+        config = merge_configs(base_config, overlay)
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         experiment = client.experiment.create(name, spec, workspace="ai2/ace")

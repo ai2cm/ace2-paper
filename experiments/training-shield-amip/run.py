@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-028c085e"
+IMAGE_NAME = "brianhenn/fme-c7a51eff"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -24,7 +24,6 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs0": {},
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
-    "shield-amip-1deg-ace2-training-rs3": {},
 }
 
 
@@ -91,7 +90,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="high", preemptible=True),
+                context=beaker.TaskContext(priority="urgent", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,

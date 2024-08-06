@@ -38,7 +38,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-82yr-IC0": {
         "n_forward_steps": 119732,
         "loader": {
-            "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            "start_indices": {"times": ["1940-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-82yr-IC1": {
@@ -58,12 +58,13 @@ EXPERIMENT_OVERLAYS = {
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
+    base_copy = base.copy() # don't modify the original base
     for k, v in new.items():
         if isinstance(v, dict):
-            base[k] = merge_configs(base.get(k, {}), v)
+            base_copy[k] = merge_configs(base_copy.get(k, {}), v)
         else:
-            base[k] = v
-    return base
+            base_copy[k] = v
+    return base_copy
 
 
 def write_config_dataset(config: Dict[str, Any]):
@@ -108,7 +109,7 @@ def get_experiment_spec(
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do 10-year inference with ACE2 model trained on SHiELD-AMIP.",
+        description="Do inference with ACE2 model trained on SHiELD-AMIP.",
         tasks=[
             beaker.TaskSpec(
                 name=name,

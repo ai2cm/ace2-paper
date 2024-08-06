@@ -23,6 +23,8 @@ SHIELD_DATA_PATH = "/climate-default/2024-07-21-vertically-resolved-c96-1deg-shi
 EXPERIMENT_OVERLAYS = {
     "era5-ace2-co2-rs0": {},
     "era5-ace2-co2-rs1": {},
+    "era5-ace2-co2-rs2": {},
+    "era5-ace2-co2-rs3": {},
     # "era5-ace2-rw4-shield-data": {   # need SHiELD data with CO2 before can launch this
     #    "max_epochs": 75,
     #    "train_loader": {

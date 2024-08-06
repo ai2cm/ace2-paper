@@ -1,5 +1,6 @@
 experiment_dir: /output
 save_checkpoint: true
+checkpoint_save_epochs: 25
 validate_using_ema: true
 ema:
   decay: 0.999

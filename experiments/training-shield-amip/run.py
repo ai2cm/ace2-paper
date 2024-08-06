@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "brianhenn/fme-88704f99"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -21,11 +21,12 @@ REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-4deg
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-training-rs0": {},
-    "shield-amip-1deg-ace2-training-rs1": {},
-    "shield-amip-1deg-ace2-training-rs2": {},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+#     "shield-amip-1deg-ace2-training-rs0": {},
+#     "shield-amip-1deg-ace2-training-rs1": {},
+#     "shield-amip-1deg-ace2-training-rs2": {},
+#     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+#     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-1deg-ace2-training-pwchannelmean-rs0": {},
 }
 
 

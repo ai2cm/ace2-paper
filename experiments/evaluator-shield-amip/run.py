@@ -12,6 +12,7 @@ import dacite
 
 IMAGE_NAME = "brianhenn/fme-c7a51eff"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt"
+REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
@@ -52,6 +53,23 @@ EXPERIMENT_OVERLAYS = {
         "loader": {
             "start_indices": {"times": ["1940-01-03T00:00:00"]},
         },
+    },
+    "shield-amip-1deg-reference-inference-10yr": {
+        "n_forward_steps": 14600,
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["2000-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-82yr": {
+        "n_forward_steps": 119732,
+        "loader": {"start_indices": {"times": ["1940-01-01T00:00:00"]}},
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
     },
 }
 

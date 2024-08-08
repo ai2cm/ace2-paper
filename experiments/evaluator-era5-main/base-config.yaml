@@ -8,7 +8,7 @@ experiment_dir: /output
 forward_steps_in_memory: 40
 loader:
   dataset:
-    data_path: /climate-default/2024-06-14-era5-1deg-8layer-1940-2022-netcdfs
+    data_path: /climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs
   num_data_workers: 8
   start_indices:
     times:

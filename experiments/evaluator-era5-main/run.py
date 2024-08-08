@@ -10,18 +10,18 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-e48a3777"
-TRAINED_MODEL_DATASET_ID = "01J28DBXV72DQ7XQ3P9X753GN6"
-CHECKPOINT_NAME = "best_inference_ckpt.tar"
+IMAGE_NAME = "oliverwm/fme-c7a51eff"
+TRAINED_MODEL_DATASET_ID = "01J4831KMJ5DZEE5RX4HGC1DB1"
+CHECKPOINT_NAME = "ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 
 # experiments defined by overlays which will overwrite the keys of the base config
-DATA_PATH = "/climate-default/2024-06-14-era5-1deg-8layer-1940-2022-netcdfs"
+DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 EXPERIMENT_OVERLAYS = {
-    "era5-10yr": {
+    "era5-co2-rs0-10yr": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
@@ -31,12 +31,21 @@ EXPERIMENT_OVERLAYS = {
         "data_writer": {
             "save_prediction_files": True,
             "names": ["PRATEsfc", "eastward_wind_0"],
-            "time_coarsen": {"coarsen_factor": 4},
         },
     },
-    "era5-80yr": {
+    "era5-co2-rs0-80yr": {
         "n_forward_steps": 116800,
         "aggregator": {"log_zonal_mean_images": False},
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "PRATEsfc",
+                "eastward_wind_0",
+                "air_temperature_7",
+                "total_water_path",
+                "PRESsfc",
+            ],
+        },
     },
     "era5-truth-80yr": {
         "n_forward_steps": 116800,
@@ -47,7 +56,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
-    "era5-15day-2020": {
+    "era5-co2-rs0-15day-2020": {
         "n_forward_steps": 60,
         "forward_steps_in_memory": 1,
         "loader": {
@@ -60,7 +69,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
-    "era5-100day-2020-video": {
+    "era5-co2-rs0-100day-2020-video": {
         "n_forward_steps": 400,
         "forward_steps_in_memory": 40,
         "aggregator": {"log_video": True, "log_histograms": True},
@@ -113,7 +122,7 @@ def get_experiment_spec(
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do 10-year inference with ACE2 model trained on ERA5.",
+        description="Do inference with ACE2 model trained on ERA5.",
         tasks=[
             beaker.TaskSpec(
                 name=name,
@@ -126,7 +135,7 @@ def get_experiment_spec(
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=1, shared_memory="50GiB"),
-                context=beaker.TaskContext(priority="normal", preemptible=True),
+                context=beaker.TaskContext(priority="high", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,
@@ -156,7 +165,7 @@ if __name__ == "__main__":
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
-            experiment = client.experiment.create(name, spec)
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
             print(
                 f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
             )

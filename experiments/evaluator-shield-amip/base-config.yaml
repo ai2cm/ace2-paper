@@ -7,7 +7,7 @@ loader:
   num_data_workers: 8
   start_indices:
     times:
-    - '2000-01-01T00:00:00'
+    - '2001-01-01T00:00:00'
 aggregator:
   log_zonal_mean_images: false
   log_histograms: true

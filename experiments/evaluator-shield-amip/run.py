@@ -58,7 +58,7 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 14600,
         "prediction_loader": {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
-            "start_indices": {"times": ["2000-01-01T00:00:00"]},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         }
     },

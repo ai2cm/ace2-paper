@@ -10,9 +10,10 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "brianhenn/fme-55db6175"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
+ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
@@ -71,6 +72,29 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         }
     },
+    'era5-vs-shield-amip-IC2-80yr': {
+        "n_forward_steps": 116800,
+        "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
+        "prediction_loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'era5-vs-shield-amip-IC1-80yr': {
+        "n_forward_steps": 116800,
+        "loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    }
 }
 
 
@@ -140,7 +164,7 @@ def get_experiment_spec(
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=1, shared_memory="50GiB"),
-                context=beaker.TaskContext(priority="normal", preemptible=True),
+                context=beaker.TaskContext(priority="high", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,

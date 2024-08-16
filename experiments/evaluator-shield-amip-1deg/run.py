@@ -10,9 +10,10 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c9e16059"
+IMAGE_NAME = "brianhenn/fme-fb545026"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
+TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
@@ -72,29 +73,58 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         }
     },
-    'era5-vs-shield-amip-IC2-80yr': {
-        "n_forward_steps": 116800,
-        "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
-        "prediction_loader": {
+    'shield-amip-IC1-vs-era5-10yr': {
+        "n_forward_steps": 14600,
+        "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-IC2-vs-era5-10yr': {
+        "n_forward_steps": 14600,
+        "loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": TARGET_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-IC1-vs-era5-82yr': {
+        "n_forward_steps": 119732,
+        "loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
         "aggregator": {"monthly_reference_data": None}
     },
-    'era5-vs-shield-amip-IC1-80yr': {
-        "n_forward_steps": 116800,
+    'shield-amip-IC2-vs-era5-82yr': {
+        "n_forward_steps": 119732,
         "loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {"data_path": ERA5_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "dataset": {"data_path": TARGET_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
         "aggregator": {"monthly_reference_data": None}
-    }
+    },
 }
 
 

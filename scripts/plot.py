@@ -142,7 +142,12 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
         ds_1deg = convert_to_pred_and_target(ds_1deg)
         area_1deg = get_area(ds_1deg.lat, ds_1deg.lon)
         ds_1deg_coarse = (ds_1deg * area_1deg).coarsen(lat=4, lon=4).mean() / (area_1deg).coarsen(lat=4, lon=4).mean()
+        biases = {}
+        bias_limits = {}
+        rmses = {}
+        long_names = {}
         for var in comparison.variables:
+            long_names[var.name] = var.long_name
             target_1deg_coarse = ds_1deg_coarse.sel(source="target")[var.name] * var.scale
             var_4deg = ds_4deg.sel(source="pred")[var.name].assign_coords(coords=target_1deg_coarse.coords) * var.scale
             var_1deg = ds_1deg_coarse.sel(source="pred")[var.name].assign_coords(coords=target_1deg_coarse.coords) * var.scale
@@ -161,28 +166,30 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             )
 
             fig, ax = plt.subplots(4, 1, figsize=(10, 20))
-            target_1deg_coarse.plot(ax=ax[0], vmin=vmin, vmax=vmax)
-            var_1deg.plot(ax=ax[1], vmin=vmin, vmax=vmax)
-            var_4deg_ref.plot(ax=ax[2], vmin=vmin, vmax=vmax)
-            var_4deg.plot(ax=ax[3], vmin=vmin, vmax=vmax)
-            ax[0].set_title("1deg Target")
-            ax[1].set_title("1deg Predicted")
-            ax[2].set_title("4deg Target")
-            ax[3].set_title("4deg Predicted")
+            target_1deg_coarse.plot(ax=ax[2], vmin=vmin, vmax=vmax)
+            var_1deg.plot(ax=ax[3], vmin=vmin, vmax=vmax)
+            var_4deg_ref.plot(ax=ax[1], vmin=vmin, vmax=vmax)
+            var_4deg.plot(ax=ax[2], vmin=vmin, vmax=vmax)
+            ax[2].set_title("1deg Target")
+            ax[3].set_title("1deg Predicted")
+            ax[1].set_title("4deg Target")
+            ax[2].set_title("4deg Predicted")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_map.png")
 
             err_1deg = var_1deg - target_1deg_coarse
             err_4deg = var_4deg - var_4deg_ref
+            biases[var.name] = (err_4deg, err_1deg)
             vmin = min(err_1deg.min().item(), err_4deg.min().item())
             vmax = max(err_1deg.max().item(), err_4deg.max().item())
             vmin = min(vmin, -vmax)
             vmax = -vmin
+            bias_limits[var.name] = (vmin, vmax)
             fig, ax = plt.subplots(2, 1, figsize=(10, 10))
-            (err_1deg).plot(ax=ax[0], vmin=vmin, vmax=vmax)
-            (err_4deg).plot(ax=ax[1], vmin=vmin, vmax=vmax)
-            ax[0].set_title("1deg time-mean bias")
-            ax[1].set_title("4deg time-mean bias")
+            (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax)
+            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax)
+            ax[1].set_title("1deg time-mean bias")
+            ax[0].set_title("4deg time-mean bias")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_bias_map.png")
             
@@ -207,9 +214,45 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             ax.set_ylabel(f"Time-mean RMSE of {var.long_name} ({var.units})")
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_rmse.png")
             plt.close(fig)
+            rmses[var.name] = (rmse_4deg, rmse_1deg)
+        # combined bias plot
+        fig, ax = plt.subplots(len(biases), 2, figsize=(8, 3.2*len(biases)))
+        for i, var_name in enumerate(biases):
+            vmin, vmax = bias_limits[var_name]
+            c = (biases[var_name][0]).plot(ax=ax[i, 0], vmin=vmin, vmax=vmax, add_colorbar=False)
+            (biases[var_name][1]).plot(ax=ax[i, 1], vmin=vmin, vmax=vmax, add_colorbar=False)
+            long_name = long_names[var_name]
+            fig.colorbar(
+                c,
+                ax=ax[i],
+                orientation='vertical',
+                fraction=0.05,
+                pad=0,
+                label=f"{long_name}\ntime-mean bias ({comparison.variables[i].units})"
+            )
+            ax[i, 0].set_title("")
+            ax[i, 1].set_title("")
+            ax[i, 1].set_ylabel("")
+            ax[i, 1].set_yticklabels([])
+            if i < len(biases) - 1:
+                ax[i, 0].set_xticklabels([])
+                ax[i, 1].set_xticklabels([])
+                ax[i, 0].set_xlabel("")
+                ax[i, 1].set_xlabel("")
+            ax[i, 0].set_ylabel("latitude")
+
+        ax[0, 0].set_title("4-degree ensemble mean")
+        ax[0, 1].set_title("1-degree ensemble mean")
+        ax[-1, 0].set_xlabel("longitude")
+        ax[-1, 1].set_xlabel("longitude")
+        plt.tight_layout()
+        fig.subplots_adjust(right=0.83)
+        fig.savefig(comparison_out_path / "time_mean_bias_map.png")
+        plt.close(fig)
 
 
 def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
+
     enso_coefficients = {}
     for comparison in config.comparisons:
         res_4deg = comparison.res_4deg
@@ -277,12 +320,20 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             vmax = max(err_4deg.max().item(), err_1deg.max().item())
             vmin = min(vmin, -vmax)
             vmax = -vmin
-            fig, ax = plt.subplots(1, 2, figsize=(10, 5))
-            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax)
-            (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax)
-            ax[0].set_title("4deg bias")
-            ax[1].set_title("1deg bias")
+            fig, ax = plt.subplots(1, 2, figsize=(8, 3.5))
+            c = (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
+            (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
+            cbar = fig.colorbar(c, ax=ax, orientation='vertical', fraction=0.05, pad=0)
+            cbar.set_label(f"{var.long_name}\nENSO coefficient bias ({var.units})")
+            ax[0].set_title("4-degree ensemble mean")
+            ax[1].set_title("1-degree ensemble mean")
+            for i in (0, 1):
+                ax[i].set_xlabel("longitude")
+                ax[i].set_ylabel("latitude")
+            ax[1].set_ylabel("")
+            ax[1].set_yticklabels([])
             plt.tight_layout()
+            fig.subplots_adjust(right=0.83)
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_bias_map.png")
 
 
@@ -322,17 +373,27 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             var_4deg_ref = ds_4deg[var.name].sel(source="target") * var.scale
             var_1deg = ds_1deg[var.name].sel(source="prediction") * var.scale
             var_1deg_ref = ds_1deg[var.name].sel(source="target") * var.scale
-            fig, ax = plt.subplots(2, 1, figsize=(10, 10))
-            var_4deg.plot(ax=ax[0], label="4deg")
-            var_4deg_ref.plot(ax=ax[0], label="4deg ref")
-            var_1deg.plot(ax=ax[0], label="1deg")
-            var_1deg_ref.plot(ax=ax[0], label="1deg ref")
-            ax[0].set_title("annual means")
+            fig, ax = plt.subplots(
+                2,
+                1,
+                figsize=(8, 6),
+                gridspec_kw={"height_ratios": [2, 1]},
+            )
+            var_4deg.plot(ax=ax[0], label="4-degree ensemble mean")
+            var_1deg.plot(ax=ax[0], label="1-degree ensemble mean")
+            var_1deg_ref.plot(ax=ax[0], label="target data", color="gray")
+            ax[0].set_title("Annual mean series")
             ax[0].legend()
-            (var_4deg - var_4deg_ref).plot(ax=ax[1], label="4deg bias")
-            (var_1deg - var_1deg_ref).plot(ax=ax[1], label="1deg bias")
-            ax[1].set_title("annual mean biases")
+            ax[0].set_ylabel(f"mean {var.long_name} ({var.units})")
+            xmin, xmax = ds_4deg.year.min().item(), ds_4deg.year.max().item()
+            ax[0].set_xlim(xmin, xmax)
+            (var_4deg - var_4deg_ref).plot(ax=ax[1], label="4-degree ensemble mean bias")
+            (var_1deg - var_1deg_ref).plot(ax=ax[1], label="1-degree ensemble mean bias")
+            ax[1].hlines(0, xmin, xmax, color="gray")
+            ax[1].set_title("Annual mean biases")
             ax[1].legend()
+            ax[1].set_ylabel(f"mean bias ({var.units})")
+            ax[1].set_xlim(xmin, xmax)
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_series.png")
 

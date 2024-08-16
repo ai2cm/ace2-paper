@@ -10,8 +10,8 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-55db6175"
-TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt"
+IMAGE_NAME = "brianhenn/fme-c9e16059"
+TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"

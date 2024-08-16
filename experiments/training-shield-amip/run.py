@@ -79,9 +79,9 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs2": {},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-1deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
-    "shield-amip-1deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
-    "shield-amip-1deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
 }
 
 

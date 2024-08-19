@@ -2,6 +2,8 @@ import beaker
 import wandb
 import xarray as xr
 import io
+from typing import Iterable
+
 
 def wandb_to_beaker_experiment(project: str, id: str, entity: str = "ai2cm") -> str:
     """Given a wandb run ID, return corresponding beaker experiment ID"""
@@ -24,3 +26,12 @@ def beaker_to_xarray(dataset_id: str, path: str) -> xr.Dataset:
     client = beaker.Beaker.from_env()
     file = client.dataset.get_file(dataset_id, path)
     return xr.open_dataset(io.BytesIO(file), engine='h5netcdf').load()
+
+def get_scalar_metrics(run: wandb.apis.public.runs.Run, metric_names: Iterable[str]):
+    """Assumes metrics occurs once in run history,
+    and each metric occurs at the same step."""
+    history = run.scan_history(keys=metric_names)
+    metrics = {}
+    for key in metric_names:
+        metrics[key] = [row for row in history][0][key]
+    return metrics

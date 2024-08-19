@@ -272,6 +272,7 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
         OUT_PATH.mkdir()
     
     for comparison in config.comparisons:
+        print(f"{comparison.long_name}:")
         comparison_out_path = OUT_PATH / comparison.name
         if not comparison_out_path.exists():
             comparison_out_path.mkdir()
@@ -284,29 +285,30 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             dim="run",
         ).mean(dim="run")
         area_1deg = get_area(ds_1deg.lat, ds_1deg.lon)
+        area_4deg = get_area(ds_4deg.lat, ds_4deg.lon)
         ds_1deg_coarse = (ds_1deg * area_1deg).coarsen(lat=4, lon=4).mean() / (area_1deg).coarsen(lat=4, lon=4).mean()
         for var in comparison.variables:
-            var_4deg = ds_4deg[var.name].sel(source="prediction") * var.scale
-            var_4deg_ref = ds_4deg[var.name].sel(source="target") * var.scale
-            var_1deg = ds_1deg_coarse[var.name].sel(source="prediction") * var.scale
-            var_1deg_ref = ds_1deg_coarse[var.name].sel(source="target") * var.scale
+            data_4deg = ds_4deg[var.name].sel(source="prediction") * var.scale
+            data_4deg_ref = ds_4deg[var.name].sel(source="target") * var.scale
+            data_1deg = ds_1deg_coarse[var.name].sel(source="prediction") * var.scale
+            data_1deg_ref = ds_1deg_coarse[var.name].sel(source="target") * var.scale
             vmin = min(
-                var_4deg.min().item(),
-                var_4deg_ref.min().item(),
-                var_1deg.min().item(),
-                var_1deg_ref.min().item(),
+                data_4deg.min().item(),
+                data_4deg_ref.min().item(),
+                data_1deg.min().item(),
+                data_1deg_ref.min().item(),
             )
             vmax = max(
-                var_4deg.max().item(),
-                var_4deg_ref.max().item(),
-                var_1deg.max().item(),
-                var_1deg_ref.max().item(),
+                data_4deg.max().item(),
+                data_4deg_ref.max().item(),
+                data_1deg.max().item(),
+                data_1deg_ref.max().item(),
             )
             fig, ax = plt.subplots(2, 2, figsize=(10, 10))
-            var_4deg.plot(ax=ax[0, 0], vmin=vmin, vmax=vmax)
-            var_4deg_ref.plot(ax=ax[0, 1], vmin=vmin, vmax=vmax)
-            var_1deg.plot(ax=ax[1, 0], vmin=vmin, vmax=vmax)
-            var_1deg_ref.plot(ax=ax[1, 1], vmin=vmin, vmax=vmax)
+            data_4deg.plot(ax=ax[0, 0], vmin=vmin, vmax=vmax)
+            data_4deg_ref.plot(ax=ax[0, 1], vmin=vmin, vmax=vmax)
+            data_1deg.plot(ax=ax[1, 0], vmin=vmin, vmax=vmax)
+            data_1deg_ref.plot(ax=ax[1, 1], vmin=vmin, vmax=vmax)
             ax[0, 0].set_title("4deg")
             ax[0, 1].set_title("4deg ref")
             ax[1, 0].set_title("1deg")
@@ -314,19 +316,41 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_map.png")
 
-            err_4deg = var_4deg - var_4deg_ref
-            err_1deg = var_1deg - var_1deg_ref
+            err_4deg = data_4deg - data_4deg_ref
+            err_1deg = data_1deg - data_1deg_ref
             vmin = min(err_4deg.min().item(), err_1deg.min().item())
             vmax = max(err_4deg.max().item(), err_1deg.max().item())
             vmin = min(vmin, -vmax)
             vmax = -vmin
+
+            # R2 = 1 - MSE / Var
+            mse_4deg = metrics.weighted_std(
+                torch.as_tensor(err_4deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy() ** 2
+            mse_1deg = metrics.weighted_std(
+                torch.as_tensor(err_1deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy() ** 2
+            var_4deg = metrics.weighted_std(
+                torch.as_tensor(data_4deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy() ** 2
+            var_1deg = metrics.weighted_std(
+                torch.as_tensor(data_1deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy() ** 2
+            r2_4deg = 1 - mse_4deg / var_4deg
+            r2_1deg = 1 - mse_1deg / var_1deg
+            print(f"{var.long_name}: R2 4deg: {r2_4deg}, R2 1deg: {r2_1deg}")
+
             fig, ax = plt.subplots(1, 2, figsize=(8, 3.5))
             c = (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
             (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
             cbar = fig.colorbar(c, ax=ax, orientation='vertical', fraction=0.05, pad=0)
             cbar.set_label(f"{var.long_name}\nENSO coefficient bias ({var.units})")
-            ax[0].set_title("4-degree ensemble mean")
-            ax[1].set_title("1-degree ensemble mean")
+            ax[0].set_title("4-degree ensemble mean\nR2: {:.2f}".format(r2_4deg))
+            ax[1].set_title("1-degree ensemble mean\nR2: {:.2f}".format(r2_1deg))
             for i in (0, 1):
                 ax[i].set_xlabel("longitude")
                 ax[i].set_ylabel("latitude")
@@ -409,6 +433,6 @@ if __name__ == '__main__':
     config = dacite.from_dict(Config, config, config=dacite.Config(strict=True))
     dataset_cache = DatasetCache(Beaker.from_env())
 
-    plot_time_means(config, dataset_cache)
     plot_enso_coefficients(config, dataset_cache)
+    plot_time_means(config, dataset_cache)
     plot_annual_means(config, dataset_cache)

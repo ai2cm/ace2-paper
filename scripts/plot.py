@@ -1,5 +1,6 @@
 import dataclasses
 from typing import Dict, List
+import numpy as np
 import torch
 import yaml
 import dacite
@@ -176,6 +177,7 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             ax[2].set_title("4deg Predicted")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_map.png")
+            plt.close(fig)
 
             err_1deg = var_1deg - target_1deg_coarse
             err_4deg = var_4deg - var_4deg_ref
@@ -192,6 +194,7 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             ax[0].set_title("4deg time-mean bias")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_bias_map.png")
+            plt.close(fig)
             
             rmse_1deg = metrics.weighted_std(
                 torch.as_tensor((var_1deg.values - target_1deg_coarse.values)),
@@ -315,6 +318,7 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             ax[1, 1].set_title("1deg ref")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_map.png")
+            plt.close(fig)
 
             err_4deg = data_4deg - data_4deg_ref
             err_1deg = data_1deg - data_1deg_ref
@@ -359,6 +363,7 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             plt.tight_layout()
             fig.subplots_adjust(right=0.83)
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_bias_map.png")
+            plt.close(fig)
 
 
 def plot_annual_means(config: Config, dataset_cache: DatasetCache):
@@ -411,8 +416,10 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             ax[0].set_ylabel(f"mean {var.long_name} ({var.units})")
             xmin, xmax = ds_4deg.year.min().item(), ds_4deg.year.max().item()
             ax[0].set_xlim(xmin, xmax)
-            (var_4deg - var_4deg_ref).plot(ax=ax[1], label="4-degree ensemble mean bias")
-            (var_1deg - var_1deg_ref).plot(ax=ax[1], label="1-degree ensemble mean bias")
+            bias_4deg = var_4deg - var_4deg_ref
+            bias_1deg = var_1deg - var_1deg_ref
+            (bias_4deg).plot(ax=ax[1], label="4-degree ensemble mean bias")
+            (bias_1deg).plot(ax=ax[1], label="1-degree ensemble mean bias")
             ax[1].hlines(0, xmin, xmax, color="gray")
             ax[1].set_title("Annual mean biases")
             ax[1].legend()
@@ -420,6 +427,68 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             ax[1].set_xlim(xmin, xmax)
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_series.png")
+            plt.close(fig)
+
+            # plot bias as a histogram over 1-year changes in reference
+            fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+            var_4deg_ref_1yr_change = var_4deg_ref.diff("year")
+            var_1deg_ref_1yr_change = var_1deg_ref.diff("year")
+            ax[0].plot(
+                var_4deg_ref_1yr_change.values.flatten(),
+                bias_4deg.isel(year=slice(1, None)).values.flatten(),
+                marker="x",
+                linestyle="",
+            )
+            ax[1].plot(
+                var_1deg_ref_1yr_change.values.flatten(),
+                bias_1deg.isel(year=slice(1, None)).values.flatten(),
+                marker="x",
+                linestyle="",
+            )
+            ax[0].set_title(f"4-degree ensemble mean {var.long_name}")
+            ax[1].set_title(f"1-degree ensemble mean {var.long_name}")
+            ax[0].set_xlabel("1-year change in reference")
+            ax[1].set_xlabel("1-year change in reference")
+            ax[0].set_ylabel("mean bias")
+            ax[1].set_ylabel("mean bias")
+            plt.tight_layout()
+            fig.savefig(comparison_out_path / f"{var.name}-annual_mean_bias_vs_1yr_change.png")
+            plt.close(fig)
+
+            # plot scatter of 1-year changes in var_4deg against var_1deg
+            fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+            # Calculate the 1-year changes
+            var_4deg_1yr_change = var_4deg.diff("year")
+            var_1deg_1yr_change = var_1deg.diff("year")
+
+            # Plot the scatter for 4-degree data
+            ax[0].scatter(
+                var_4deg_ref_1yr_change.values.flatten(),
+                var_4deg_1yr_change.values.flatten(),
+                marker="x",
+            )
+
+            # Plot the scatter for 1-degree data
+            ax[1].scatter(
+                var_1deg_ref_1yr_change.values.flatten(),
+                var_1deg_1yr_change.values.flatten(),
+                marker="x",
+            )
+
+            # Set titles and labels
+            ax[0].set_title(f"4-degree ensemble mean {var.long_name} vs reference")
+            ax[1].set_title(f"1-degree ensemble mean {var.long_name} vs reference")
+            ax[0].set_xlabel("1-year change in 4-degree reference")
+            ax[1].set_xlabel("1-year change in 1-degree reference")
+            ax[0].set_ylabel("1-year change in 1-degree reference")
+            ax[1].set_ylabel("1-year change in 4-degree reference")
+
+            # Adjust layout and save the figure
+            plt.tight_layout()
+            fig.savefig(comparison_out_path / f"{var.name}-annual_1yr_change_scatter.png")
+            plt.close(fig)
+
 
 
 if __name__ == '__main__':
@@ -433,6 +502,6 @@ if __name__ == '__main__':
     config = dacite.from_dict(Config, config, config=dacite.Config(strict=True))
     dataset_cache = DatasetCache(Beaker.from_env())
 
+    plot_annual_means(config, dataset_cache)
     plot_enso_coefficients(config, dataset_cache)
     plot_time_means(config, dataset_cache)
-    plot_annual_means(config, dataset_cache)

@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "jeremym/fme-c9e16059"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -95,17 +95,17 @@ AMIP_4DEG_768_CHANNEL_OVERLAY = {
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-training-rs0": {},
-    "shield-amip-1deg-ace2-training-rs1": {},
-    "shield-amip-1deg-ace2-training-rs2": {},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_OVERLAY,
+    # "shield-amip-1deg-ace2-training-rs0": {},
+    # "shield-amip-1deg-ace2-training-rs1": {},
+    # "shield-amip-1deg-ace2-training-rs2": {},
+    # "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    # "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    # "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    # "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    # "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
 }
 
 

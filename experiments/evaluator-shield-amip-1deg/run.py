@@ -127,6 +127,90 @@ EXPERIMENT_OVERLAYS = {
     },
 }
 
+# non-best inference checkpoint runs
+RANDOM_SEED_OVERLAYS = {
+    "shield-amip-1deg-ace2-inference-82yr-RS0-IC0": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS0-IC1": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS0-IC2": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS1-IC0": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS1-IC1": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS1-IC2": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS2-IC0": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS2-IC1": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-82yr-RS2-IC2": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 119732,
+            "loader": {
+                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+            },
+        },
+    )
+}
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
@@ -223,6 +307,32 @@ if __name__ == "__main__":
         config = merge_configs(base_config, overlay)
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
+        try:
+            experiment = client.experiment.create(name, spec)
+            print(
+                f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
+            )
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )
+
+    for name, (checkpoint, overlay) in RANDOM_SEED_OVERLAYS.items():
+        config = merge_configs(base_config, overlay)
+        print(f"Validating config for experiment {name}.")
+        print(f"Config that is being validated:\n{config}")
+        try:
+            dacite.from_dict(
+                fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
+            )
+        except:
+            print(f"Error in config for experiment {name}.")
+            break
+        print(f"Creating experiment {name}.")
+        spec = get_experiment_spec(name, config, trained_model_dataset_id=checkpoint)
         try:
             experiment = client.experiment.create(name, spec)
             print(

@@ -38,22 +38,22 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-82yr-IC0": {
-        "n_forward_steps": 119732,
+    "shield-amip-1deg-ace2-inference-81yr-IC0": {
+        "n_forward_steps": 118341,
         "loader": {
-            "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-82yr-IC1": {
-        "n_forward_steps": 119732,
+    "shield-amip-1deg-ace2-inference-81yr-IC1": {
+        "n_forward_steps": 118341,
         "loader": {
-            "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            "start_indices": {"times": ["1940-01-02T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-82yr-IC2": {
-        "n_forward_steps": 119732,
+    "shield-amip-1deg-ace2-inference-81yr-IC2": {
+        "n_forward_steps": 118341,
         "loader": {
-            "start_indices": {"times": ["1940-01-03T00:00:00"]},
+            "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
     },
     "shield-amip-1deg-reference-inference-10yr": {
@@ -64,12 +64,12 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         }
     },
-    "shield-amip-1deg-reference-inference-82yr": {
-        "n_forward_steps": 119732,
-        "loader": {"start_indices": {"times": ["1940-01-01T00:00:00"]}},
+    "shield-amip-1deg-reference-inference-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
         "prediction_loader": {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
-            "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         }
     },
@@ -99,8 +99,8 @@ EXPERIMENT_OVERLAYS = {
         },
         "aggregator": {"monthly_reference_data": None}
     },
-    'shield-amip-IC1-vs-era5-82yr': {
-        "n_forward_steps": 119732,
+    'shield-amip-IC1-vs-era5-81yr': {
+        "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
@@ -112,8 +112,8 @@ EXPERIMENT_OVERLAYS = {
         },
         "aggregator": {"monthly_reference_data": None}
     },
-    'shield-amip-IC2-vs-era5-82yr': {
-        "n_forward_steps": 119732,
+    'shield-amip-IC2-vs-era5-81yr': {
+        "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
@@ -129,84 +129,84 @@ EXPERIMENT_OVERLAYS = {
 
 # non-best inference checkpoint runs
 RANDOM_SEED_OVERLAYS = {
-    "shield-amip-1deg-ace2-inference-82yr-RS0-IC0": (
+    "shield-amip-1deg-ace2-inference-81yr-RS0-IC0": (
         "01J4R87G93A5TNTFMRMVKB88CW",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+                "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS0-IC1": (
+    "shield-amip-1deg-ace2-inference-81yr-RS0-IC1": (
         "01J4R87G93A5TNTFMRMVKB88CW",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+                "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS0-IC2": (
+    "shield-amip-1deg-ace2-inference-81yr-RS0-IC2": (
         "01J4R87G93A5TNTFMRMVKB88CW",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-03T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS1-IC0": (
+    "shield-amip-1deg-ace2-inference-81yr-RS1-IC0": (
         "01J4R89AD8YQ0ZBPWRESYEB8TN",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+                "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS1-IC1": (
+    "shield-amip-1deg-ace2-inference-81yr-RS1-IC1": (
         "01J4R89AD8YQ0ZBPWRESYEB8TN",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+                "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS1-IC2": (
+    "shield-amip-1deg-ace2-inference-81yr-RS1-IC2": (
         "01J4R89AD8YQ0ZBPWRESYEB8TN",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-03T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS2-IC0": (
+    "shield-amip-1deg-ace2-inference-81yr-RS2-IC0": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-01T00:00:00"]},
+                "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS2-IC1": (
+    "shield-amip-1deg-ace2-inference-81yr-RS2-IC1": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-02T00:00:00"]},
+                "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-82yr-RS2-IC2": (
+    "shield-amip-1deg-ace2-inference-81yr-RS2-IC2": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
         {
-            "n_forward_steps": 119732,
+            "n_forward_steps": 118341,
             "loader": {
-                "start_indices": {"times": ["1940-01-03T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
         },
     )

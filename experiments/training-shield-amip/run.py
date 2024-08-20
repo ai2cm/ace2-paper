@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "brianhenn/fme-c8336903"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -77,6 +77,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs0": {},
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
+    "shield-amip-1deg-ace2-training-rs3": {},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
@@ -157,7 +158,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="high", preemptible=True),
+                context=beaker.TaskContext(priority="urgent", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,
@@ -184,5 +185,13 @@ if __name__ == "__main__":
         config = merge_configs(base_config, overlay)
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
-        experiment = client.experiment.create(name, spec, workspace="ai2/ace")
-        print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        try:
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
+            print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )

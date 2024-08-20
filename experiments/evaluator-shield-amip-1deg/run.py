@@ -152,7 +152,7 @@ RANDOM_SEED_OVERLAYS = {
         {
             "n_forward_steps": 119732,
             "loader": {
-                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T00:00:00"]},
             },
         },
     ),
@@ -179,7 +179,7 @@ RANDOM_SEED_OVERLAYS = {
         {
             "n_forward_steps": 119732,
             "loader": {
-                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T00:00:00"]},
             },
         },
     ),
@@ -206,7 +206,7 @@ RANDOM_SEED_OVERLAYS = {
         {
             "n_forward_steps": 119732,
             "loader": {
-                "start_indices": {"times": ["1940-01-3T00:00:00"]},
+                "start_indices": {"times": ["1940-01-03T00:00:00"]},
             },
         },
     )

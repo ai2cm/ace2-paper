@@ -47,7 +47,7 @@ EXPERIMENT_OVERLAYS = {
         },
     },
     "era5-co2-30yr-daily-output-RS3": {
-        "n_forward_steps": 14600,
+        "n_forward_steps": 43800,
         "loader": {
             "start_indices": {"times": ["1991-01-01T00:00:00"]},
             "dataset": {"data_path": DATA_PATH},

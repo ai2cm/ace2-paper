@@ -39,12 +39,12 @@ SHiELD_AMIP_1DEG_REFERENCE_82YR_WANDB_RUN_ID = "bb1icrnr"
 
 # 'dataset comparison' runs of SHiELD-AMIP ICs against ERA5
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS = {
-    "IC0001": "vium678t",
-    "IC0002": "yde9orc7",
+    "IC0": "vium678t",
+    "IC1": "yde9orc7",
 }
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_82YR_WANDB_RUN_IDS = {
-    "IC0001": "hwhy4ce9",
-    "IC0002": "jm2or9pv",
+    "IC0": "hwhy4ce9",
+    "IC1": "jm2or9pv",
 }
 
 # inference summary at 1deg

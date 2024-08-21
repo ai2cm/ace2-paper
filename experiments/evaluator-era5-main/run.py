@@ -10,9 +10,9 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-c7a51eff"
-TRAINED_MODEL_DATASET_ID = "01J4831KMJ5DZEE5RX4HGC1DB1"
-CHECKPOINT_NAME = "ckpt.tar"
+IMAGE_NAME = "oliverwm/fme-7fc6b9f8"
+TRAINED_MODEL_DATASET_ID = "01J5NADA3E9PPAAT63X010B3HB"
+CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -21,7 +21,7 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 # experiments defined by overlays which will overwrite the keys of the base config
 DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 EXPERIMENT_OVERLAYS = {
-    "era5-co2-rs0-10yr": {
+    "era5-co2-10yr-RS3": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
@@ -30,25 +30,63 @@ EXPERIMENT_OVERLAYS = {
         },
         "data_writer": {
             "save_prediction_files": True,
-            "names": ["PRATEsfc", "eastward_wind_0"],
+            "names": ["PRATEsfc"],
         },
     },
-    "era5-co2-rs0-80yr": {
-        "n_forward_steps": 116800,
+    "era5-co2-10yr-daily-output-RS3": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": True,
+            "names": ["eastward_wind_0"],
+            "time_coarsen": {"coarsen_factor": 4},
+        },
+    },
+    "era5-co2-30yr-daily-output-RS3": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1991-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": True,
+            "names": ["eastward_wind_0"],
+            "time_coarsen": {"coarsen_factor": 4},
+        },
+    },
+    "era5-co2-81yr-RS3-IC0": {
+        "n_forward_steps": 118341,
         "aggregator": {"log_zonal_mean_images": False},
+    },
+    "era5-co2-81yr-RS3-IC1": {
+        "n_forward_steps": 118341,
+        "aggregator": {"log_zonal_mean_images": False},
+        "loader": {
+            "start_indices": {"times": ["1940-01-02T12:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+    },
+    "era5-co2-81yr-RS3-IC2": {
+        "n_forward_steps": 118341,
+        "aggregator": {"log_zonal_mean_images": False},
+        "loader": {
+            "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
         "data_writer": {
             "save_monthly_files": True,
-            "names": [
-                "PRATEsfc",
-                "eastward_wind_0",
-                "air_temperature_7",
-                "total_water_path",
-                "PRESsfc",
-            ],
+            "names": ["total_water_path", "air_temperature_7", "eastward_wind_0"],
         },
     },
-    "era5-truth-80yr": {
-        "n_forward_steps": 116800,
+    "era5-truth-81yr": {
+        "n_forward_steps": 118341,
         "aggregator": {"log_zonal_mean_images": False},
         "prediction_loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
@@ -56,7 +94,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
-    "era5-co2-rs0-15day-2020": {
+    "era5-co2-15day-2020-RC3": {
         "n_forward_steps": 60,
         "forward_steps_in_memory": 1,
         "loader": {
@@ -69,7 +107,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
-    "era5-co2-rs0-100day-2020-video": {
+    "era5-co2-100day-2020-video-RC3": {
         "n_forward_steps": 400,
         "forward_steps_in_memory": 40,
         "aggregator": {"log_video": True, "log_histograms": True},

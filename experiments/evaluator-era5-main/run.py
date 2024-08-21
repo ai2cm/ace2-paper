@@ -81,6 +81,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
         "data_writer": {
+            "save_prediction_files": False,
             "save_monthly_files": True,
             "names": ["total_water_path", "air_temperature_7", "eastward_wind_0"],
         },

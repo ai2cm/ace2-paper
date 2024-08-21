@@ -280,15 +280,10 @@ def get_experiment_spec(
             source=beaker.DataSource(beaker=config_dataset.id),
             mount_path=DATASET_CONFIG_MOUNTPATH,
         ),
-        # beaker.DataMount(
-        #     mount_path="/ckpt.tar",
-        #     source=beaker.DataSource(beaker=trained_model_dataset_id),
-        #     sub_path=f"training_checkpoints/{CHECKPOINT_NAME}",
-        # ),
         beaker.DataMount(
             mount_path="/ckpt.tar",
             source=beaker.DataSource(beaker=trained_model_dataset_id),
-            sub_path="ace_ckpt.tar",
+            sub_path=f"training_checkpoints/{CHECKPOINT_NAME}",
         ),
         beaker.DataMount(
             mount_path="/climate-default",

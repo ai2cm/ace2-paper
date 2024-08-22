@@ -47,6 +47,12 @@ SHiELD_AMIP_ERA5_1DEG_COMPARISON_82YR_WANDB_RUN_IDS = {
     "IC1": "jm2or9pv",
 }
 
+CLIMSST_DEG_WANDB_RUN_IDS = {
+    "IC0": "g87nkb9w",
+    "IC1": "vbf7sq8n",
+    "IC2": "s474gx2h"
+}
+
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {

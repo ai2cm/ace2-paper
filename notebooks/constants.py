@@ -8,14 +8,17 @@ ERA5_TRAINING_RUN_WANDB_IDS = {
     "rs2": "593xn6l8",
     "rs3": "380pn4s",
 }
-ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs2"]
+ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs3"]
 
 # inference job wandb IDs using best checkpoint from above
 ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
-    "80yr": "q0ozc0o2",
-    "10yr": "yl839jou",
-    "15day": "cv2dfqs4",
-    "100day": "6dood5ee",
+    "81yr-IC0": "ffyjif5r",
+    "81yr-IC1": "rsv9yjp1",
+    "81yr-IC2": "k8hnc4sz",
+    "10yr": "k5kh8cm7",
+    "30yr": "ennqyul0",
+    "15day": "6x44o2h0",
+    "100day": "drnzyfn1",
 }
 
 # 'dataset comparison' run of ERA5 data against itself

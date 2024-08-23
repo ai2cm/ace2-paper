@@ -2,6 +2,8 @@ import beaker
 import wandb
 import xarray as xr
 import io
+import datetime
+import numpy as np
 from typing import Optional, Sequence
 
 
@@ -55,10 +57,10 @@ def wandb_to_xarray(
     run = api.run(f"{entity}/{project}/{id}")
     metrics = run.history(keys=metric_names, samples=samples)
     if add_time_coord:
-        metrics["time"] = metrics._step / 4
-        metrics = metrics.set_index("time")
+        metrics["lead_time"] = metrics._step / 4
+        metrics = metrics.set_index("lead_time")
     ds = xr.Dataset.from_dataframe(metrics)
     if add_time_coord:
-        ds['time'].attrs = {'units': 'days since init'}
+        ds['lead_time'].attrs["units"] = "days since init"
         del ds["_step"]
     return ds

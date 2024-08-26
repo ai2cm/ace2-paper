@@ -12,6 +12,10 @@ import xarray as xr
 import logging
 from fme.core import metrics
 import matplotlib.pyplot as plt
+from cartopy import crs as ccrs
+
+TRANSFORM = ccrs.PlateCarree()
+PROJECTION = ccrs.Robinson(central_longitude=180)
 
 DATA_PATH = Path("./data")
 OUT_PATH = Path("./output")
@@ -166,15 +170,15 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                 var_4deg_ref.max().item(),
             )
 
-            fig, ax = plt.subplots(4, 1, figsize=(10, 20))
-            target_1deg_coarse.plot(ax=ax[2], vmin=vmin, vmax=vmax)
-            var_1deg.plot(ax=ax[3], vmin=vmin, vmax=vmax)
-            var_4deg_ref.plot(ax=ax[1], vmin=vmin, vmax=vmax)
-            var_4deg.plot(ax=ax[2], vmin=vmin, vmax=vmax)
+            fig, ax = plt.subplots(4, 1, figsize=(10, 20), subplot_kw={"projection": PROJECTION})
+            target_1deg_coarse.plot(ax=ax[2], vmin=vmin, vmax=vmax, transform=TRANSFORM)
+            var_1deg.plot(ax=ax[3], vmin=vmin, vmax=vmax, transform=TRANSFORM)
+            var_4deg_ref.plot(ax=ax[0], vmin=vmin, vmax=vmax, transform=TRANSFORM)
+            var_4deg.plot(ax=ax[1], vmin=vmin, vmax=vmax, transform=TRANSFORM)
             ax[2].set_title("1deg Target")
             ax[3].set_title("1deg Predicted")
-            ax[1].set_title("4deg Target")
-            ax[2].set_title("4deg Predicted")
+            ax[0].set_title("4deg Target")
+            ax[1].set_title("4deg Predicted")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_map.png")
             plt.close(fig)
@@ -187,12 +191,25 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             vmin = min(vmin, -vmax)
             vmax = -vmin
             bias_limits[var.name] = (vmin, vmax)
-            fig, ax = plt.subplots(2, 1, figsize=(10, 10))
-            (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax)
-            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax)
-            ax[1].set_title("1deg time-mean bias")
-            ax[0].set_title("4deg time-mean bias")
+            fig, ax = plt.subplots(1, 2, figsize=(8, 3), subplot_kw={"projection": PROJECTION})
+            c = (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
+            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
+            rmse_1deg = metrics.weighted_std(
+                torch.as_tensor(err_1deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy()
+            rmse_4deg = metrics.weighted_std(
+                torch.as_tensor(err_4deg.values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy()
+            cbar = fig.colorbar(c, ax=ax, orientation='vertical', fraction=0.05, pad=0)
+            cbar.set_label(f"{var.long_name}\ntime-mean bias ({var.units})")
+            ax[1].set_title("1-degree ensemble mean\nRMSE: {:.2f}".format(rmse_1deg))
+            ax[0].set_title("4-degree ensemble mean\nRMSE: {:.2f}".format(rmse_4deg))
+            for iax in ax:
+                iax.coastlines(color="gray")
             plt.tight_layout()
+            fig.subplots_adjust(right=0.83)
             fig.savefig(comparison_out_path / f"{var.name}-time_mean_bias_map.png")
             plt.close(fig)
             
@@ -219,11 +236,15 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             plt.close(fig)
             rmses[var.name] = (rmse_4deg, rmse_1deg)
         # combined bias plot
-        fig, ax = plt.subplots(len(biases), 2, figsize=(8, 3.2*len(biases)))
+        fig, ax = plt.subplots(len(biases), 2, figsize=(8, 3.2*len(biases)), subplot_kw={"projection": PROJECTION})
         for i, var_name in enumerate(biases):
             vmin, vmax = bias_limits[var_name]
-            c = (biases[var_name][0]).plot(ax=ax[i, 0], vmin=vmin, vmax=vmax, add_colorbar=False)
-            (biases[var_name][1]).plot(ax=ax[i, 1], vmin=vmin, vmax=vmax, add_colorbar=False)
+            c = (biases[var_name][0]).plot(
+                ax=ax[i, 0], vmin=vmin, vmax=vmax, add_colorbar=False, transform=TRANSFORM
+            )
+            (biases[var_name][1]).plot(
+                ax=ax[i, 1], vmin=vmin, vmax=vmax, add_colorbar=False, transform=TRANSFORM
+            )
             long_name = long_names[var_name]
             fig.colorbar(
                 c,
@@ -307,15 +328,17 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
                 data_1deg.max().item(),
                 data_1deg_ref.max().item(),
             )
-            fig, ax = plt.subplots(2, 2, figsize=(10, 10))
-            data_4deg.plot(ax=ax[0, 0], vmin=vmin, vmax=vmax)
-            data_4deg_ref.plot(ax=ax[0, 1], vmin=vmin, vmax=vmax)
-            data_1deg.plot(ax=ax[1, 0], vmin=vmin, vmax=vmax)
-            data_1deg_ref.plot(ax=ax[1, 1], vmin=vmin, vmax=vmax)
+            fig, ax = plt.subplots(2, 2, figsize=(10, 5), subplot_kw={"projection": PROJECTION})
+            data_4deg.plot(ax=ax[0, 0], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
+            data_4deg_ref.plot(ax=ax[0, 1], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
+            data_1deg.plot(ax=ax[1, 0], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
+            data_1deg_ref.plot(ax=ax[1, 1], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
             ax[0, 0].set_title("4deg")
             ax[0, 1].set_title("4deg ref")
             ax[1, 0].set_title("1deg")
             ax[1, 1].set_title("1deg ref")
+            for iax in ax.flatten():
+                iax.coastlines(color="gray")
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_map.png")
             plt.close(fig)
@@ -348,9 +371,15 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             r2_1deg = 1 - mse_1deg / var_1deg
             print(f"{var.long_name}: R2 4deg: {r2_4deg}, R2 1deg: {r2_1deg}")
 
-            fig, ax = plt.subplots(1, 2, figsize=(8, 3.5))
-            c = (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
-            (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False)
+            fig, ax = plt.subplots(1, 2, figsize=(8, 3), subplot_kw={"projection": PROJECTION})
+            c = (err_4deg).plot(
+                ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+            )
+            (err_1deg).plot(
+                ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+            )
+            for iax in ax:
+                iax.coastlines(color="gray")
             cbar = fig.colorbar(c, ax=ax, orientation='vertical', fraction=0.05, pad=0)
             cbar.set_label(f"{var.long_name}\nENSO coefficient bias ({var.units})")
             ax[0].set_title("4-degree ensemble mean\nR2: {:.2f}".format(r2_4deg))
@@ -502,6 +531,6 @@ if __name__ == '__main__':
     config = dacite.from_dict(Config, config, config=dacite.Config(strict=True))
     dataset_cache = DatasetCache(Beaker.from_env())
 
-    plot_annual_means(config, dataset_cache)
-    plot_enso_coefficients(config, dataset_cache)
     plot_time_means(config, dataset_cache)
+    plot_enso_coefficients(config, dataset_cache)
+    plot_annual_means(config, dataset_cache)

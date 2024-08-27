@@ -527,41 +527,6 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_bias_vs_1yr_change.png")
             plt.close(fig)
 
-            # # plot scatter of 1-year changes in var_4deg against var_1deg
-            # fig, ax = plt.subplots(2, 1, figsize=(8, 6))
-
-            # # Calculate the 1-year changes
-            # var_4deg_1yr_change = var_4deg.diff("year")
-            # var_1deg_1yr_change = var_1deg.diff("year")
-
-            # # Plot the scatter for 4-degree data
-            # ax[0].scatter(
-            #     var_4deg_ref_1yr_change.values.flatten(),
-            #     var_4deg_1yr_change.values.flatten(),
-            #     marker="x",
-            # )
-
-            # # Plot the scatter for 1-degree data
-            # ax[1].scatter(
-            #     var_1deg_ref_1yr_change.values.flatten(),
-            #     var_1deg_1yr_change.values.flatten(),
-            #     marker="x",
-            # )
-
-            # # Set titles and labels
-            # ax[0].set_title(f"4-degree ensemble mean {var.long_name} vs reference")
-            # ax[1].set_title(f"1-degree ensemble mean {var.long_name} vs reference")
-            # ax[0].set_xlabel("1-year change in 4-degree reference")
-            # ax[1].set_xlabel("1-year change in 1-degree reference")
-            # ax[0].set_ylabel("1-year change in 1-degree reference")
-            # ax[1].set_ylabel("1-year change in 4-degree reference")
-
-            # # Adjust layout and save the figure
-            # plt.tight_layout()
-            # fig.savefig(comparison_out_path / f"{var.name}-annual_1yr_change_scatter.png")
-            # plt.close(fig)
-
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

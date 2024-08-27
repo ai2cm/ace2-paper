@@ -1,0 +1,20 @@
+name: ace2-paper
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - wandb
+  - beaker-py
+  - xarray
+  - numpy<2
+  - tempest-extremes
+  - matplotlib
+  - cartopy
+  - fsspec
+  - jupyterlab
+  - ipywidgets
+  - scipy
+  - netcdf4
+  - h5netcdf
+  - zarr
+  - gcsfs

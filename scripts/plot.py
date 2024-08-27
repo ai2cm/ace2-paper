@@ -191,7 +191,7 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             vmin = min(vmin, -vmax)
             vmax = -vmin
             bias_limits[var.name] = (vmin, vmax)
-            fig, ax = plt.subplots(1, 2, figsize=(8, 3), subplot_kw={"projection": PROJECTION})
+            fig, ax = plt.subplots(1, 2, figsize=(8, 2.5), subplot_kw={"projection": PROJECTION})
             c = (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
             (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
             rmse_1deg = metrics.weighted_std(
@@ -236,15 +236,24 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             plt.close(fig)
             rmses[var.name] = (rmse_4deg, rmse_1deg)
         # combined bias plot
-        fig, ax = plt.subplots(len(biases), 2, figsize=(8, 3.2*len(biases)), subplot_kw={"projection": PROJECTION})
+        fig, ax = plt.subplots(len(biases), 2, figsize=(8, 2.5*len(biases)), subplot_kw={"projection": PROJECTION})
+        rmses = []
         for i, var_name in enumerate(biases):
             vmin, vmax = bias_limits[var_name]
             c = (biases[var_name][0]).plot(
-                ax=ax[i, 0], vmin=vmin, vmax=vmax, add_colorbar=False, transform=TRANSFORM
+                ax=ax[i, 0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
             )
             (biases[var_name][1]).plot(
-                ax=ax[i, 1], vmin=vmin, vmax=vmax, add_colorbar=False, transform=TRANSFORM
+                ax=ax[i, 1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
             )
+            rmse_4deg = metrics.weighted_std(
+                torch.as_tensor(biases[var_name][0].values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy()
+            rmse_1deg = metrics.weighted_std(
+                torch.as_tensor(biases[var_name][1].values),
+                weights=torch.as_tensor(area_4deg.values),
+            ).cpu().numpy()
             long_name = long_names[var_name]
             fig.colorbar(
                 c,
@@ -254,6 +263,8 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                 pad=0,
                 label=f"{long_name}\ntime-mean bias ({comparison.variables[i].units})"
             )
+            ax[i, 0].coastlines(color="gray")
+            ax[i, 1].coastlines(color="gray")
             ax[i, 0].set_title("")
             ax[i, 1].set_title("")
             ax[i, 1].set_ylabel("")
@@ -264,9 +275,20 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                 ax[i, 0].set_xlabel("")
                 ax[i, 1].set_xlabel("")
             ax[i, 0].set_ylabel("latitude")
-
-        ax[0, 0].set_title("4-degree ensemble mean")
-        ax[0, 1].set_title("1-degree ensemble mean")
+            if i == 0:
+                ax[i, 0].set_title(
+                    "4-degree ensemble mean\nRMSE: {:.2f} {}".format(
+                        rmse_4deg, comparison.variables[i].units
+                        )
+                    )
+                ax[i, 1].set_title(
+                    "1-degree ensemble mean\nRMSE: {:.2f} {}".format(
+                        rmse_1deg, comparison.variables[i].units
+                        )
+                    )
+            else:
+                ax[i, 0].set_title("RMSE: {:.2f} {}".format(rmse_4deg, comparison.variables[i].units))
+                ax[i, 1].set_title("RMSE: {:.2f} {}".format(rmse_1deg, comparison.variables[i].units))
         ax[-1, 0].set_xlabel("longitude")
         ax[-1, 1].set_xlabel("longitude")
         plt.tight_layout()
@@ -276,7 +298,6 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
 
 
 def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
-
     enso_coefficients = {}
     for comparison in config.comparisons:
         res_4deg = comparison.res_4deg
@@ -371,7 +392,7 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             r2_1deg = 1 - mse_1deg / var_1deg
             print(f"{var.long_name}: R2 4deg: {r2_4deg}, R2 1deg: {r2_1deg}")
 
-            fig, ax = plt.subplots(1, 2, figsize=(8, 3), subplot_kw={"projection": PROJECTION})
+            fig, ax = plt.subplots(1, 2, figsize=(8, 2.5), subplot_kw={"projection": PROJECTION})
             c = (err_4deg).plot(
                 ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
             )
@@ -405,6 +426,7 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
                 run.job_name, "annual_diagnostics.nc"
             )
             annual_means[run.job_name] = ds_enso
+
         for run in res_1deg.runs:
             ds_enso = dataset_cache.open_beaker_dataset(
                 run.job_name, "annual_diagnostics.nc"
@@ -415,45 +437,66 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
         OUT_PATH.mkdir()
     
     for comparison in config.comparisons:
+        res_4deg = comparison.res_4deg
+        res_1deg = comparison.res_1deg
         comparison_out_path = OUT_PATH / comparison.name
         if not comparison_out_path.exists():
             comparison_out_path.mkdir()
-        ds_4deg = xr.concat(
+        ds_mean_4deg = xr.concat(
             [annual_means[run.job_name] for run in comparison.res_4deg.runs],
             dim="run",
         ).mean(dim="run")
-        ds_1deg = xr.concat(
+        ds_mean_1deg = xr.concat(
             [annual_means[run.job_name] for run in comparison.res_1deg.runs],
             dim="run",
         ).mean(dim="run")
+        ds_ref_4deg = dataset_cache.open_beaker_dataset(
+            res_4deg.reference_run.job_name, "annual_diagnostics.nc"
+        )
+        ds_ref_1deg = dataset_cache.open_beaker_dataset(
+            res_1deg.reference_run.job_name, "annual_diagnostics.nc"
+        )
         for var in comparison.variables:
-            var_4deg = ds_4deg[var.name].sel(source="prediction") * var.scale
-            var_4deg_ref = ds_4deg[var.name].sel(source="target") * var.scale
-            var_1deg = ds_1deg[var.name].sel(source="prediction") * var.scale
-            var_1deg_ref = ds_1deg[var.name].sel(source="target") * var.scale
+            var_4deg_ref_0 = ds_ref_4deg[var.name].sel(source="prediction") * var.scale
+            var_4deg_ref_1 = ds_ref_4deg[var.name].sel(source="target") * var.scale
             fig, ax = plt.subplots(
-                2,
                 1,
-                figsize=(8, 6),
-                gridspec_kw={"height_ratios": [2, 1]},
+                1,
+                figsize=(8, 4),
             )
-            var_4deg.plot(ax=ax[0], label="4-degree ensemble mean")
-            var_1deg.plot(ax=ax[0], label="1-degree ensemble mean")
-            var_1deg_ref.plot(ax=ax[0], label="target data", color="gray")
-            ax[0].set_title("Annual mean series")
-            ax[0].legend()
-            ax[0].set_ylabel(f"mean {var.long_name} ({var.units})")
-            xmin, xmax = ds_4deg.year.min().item(), ds_4deg.year.max().item()
-            ax[0].set_xlim(xmin, xmax)
+            for i, run in enumerate(res_4deg.runs):
+                var_4deg_run = annual_means[run.job_name][var.name].sel(source="prediction") * var.scale
+                label = "4-degree ensemble member" if i == 0 else None
+                var_4deg_run.plot(ax=ax, alpha=0.5, label=label, color='#1f77b4', linestyle="--")
+            var_4deg = ds_mean_4deg[var.name].sel(source="prediction") * var.scale
+            var_4deg.plot(ax=ax, label="4-degree ensemble mean", color='#1f77b4')
+            
+            for i, run in enumerate(res_1deg.runs):
+                var_1deg_run = annual_means[run.job_name][var.name].sel(source="prediction") * var.scale
+                label = "1-degree ensemble member" if i == 0 else None
+                var_1deg_run.plot(ax=ax, alpha=0.5, label=label, color='#ff7f0e', linestyle="--")
+            var_1deg = ds_mean_1deg[var.name].sel(source="prediction") * var.scale
+            var_1deg.plot(ax=ax, label="1-degree ensemble mean", color='#ff7f0e')
+            # var_1deg_ref.plot(ax=ax[0], label="target data", color="gray")
+            for i, target_4deg in enumerate((var_4deg_ref_0, var_4deg_ref_1)):
+                label = "target member" if i == 0 else None
+                target_4deg.plot(ax=ax, label=label, color="gray", linestyle="--")
+            ax.set_title("Annual mean series")
+            ax.legend()
+            ax.set_ylabel(f"mean {var.long_name} ({var.units})")
+            xmin, xmax = ds_ref_4deg.year.min().item(), ds_ref_4deg.year.max().item()
+            ax.set_xlim(xmin, xmax)
+            var_4deg_ref = ds_ref_4deg[var.name].mean("source") * var.scale
+            var_1deg_ref = ds_ref_1deg[var.name].mean("source") * var.scale
             bias_4deg = var_4deg - var_4deg_ref
             bias_1deg = var_1deg - var_1deg_ref
-            (bias_4deg).plot(ax=ax[1], label="4-degree ensemble mean bias")
-            (bias_1deg).plot(ax=ax[1], label="1-degree ensemble mean bias")
-            ax[1].hlines(0, xmin, xmax, color="gray")
-            ax[1].set_title("Annual mean biases")
-            ax[1].legend()
-            ax[1].set_ylabel(f"mean bias ({var.units})")
-            ax[1].set_xlim(xmin, xmax)
+            # (bias_4deg).plot(ax=ax[1], label="4-degree ensemble mean bias")
+            # (bias_1deg).plot(ax=ax[1], label="1-degree ensemble mean bias")
+            # ax[1].hlines(0, xmin, xmax, color="gray")
+            # ax[1].set_title("Annual mean biases")
+            # ax[1].legend()
+            # ax[1].set_ylabel(f"mean bias ({var.units})")
+            # ax[1].set_xlim(xmin, xmax)
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_series.png")
             plt.close(fig)
@@ -484,39 +527,39 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_bias_vs_1yr_change.png")
             plt.close(fig)
 
-            # plot scatter of 1-year changes in var_4deg against var_1deg
-            fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+            # # plot scatter of 1-year changes in var_4deg against var_1deg
+            # fig, ax = plt.subplots(2, 1, figsize=(8, 6))
 
-            # Calculate the 1-year changes
-            var_4deg_1yr_change = var_4deg.diff("year")
-            var_1deg_1yr_change = var_1deg.diff("year")
+            # # Calculate the 1-year changes
+            # var_4deg_1yr_change = var_4deg.diff("year")
+            # var_1deg_1yr_change = var_1deg.diff("year")
 
-            # Plot the scatter for 4-degree data
-            ax[0].scatter(
-                var_4deg_ref_1yr_change.values.flatten(),
-                var_4deg_1yr_change.values.flatten(),
-                marker="x",
-            )
+            # # Plot the scatter for 4-degree data
+            # ax[0].scatter(
+            #     var_4deg_ref_1yr_change.values.flatten(),
+            #     var_4deg_1yr_change.values.flatten(),
+            #     marker="x",
+            # )
 
-            # Plot the scatter for 1-degree data
-            ax[1].scatter(
-                var_1deg_ref_1yr_change.values.flatten(),
-                var_1deg_1yr_change.values.flatten(),
-                marker="x",
-            )
+            # # Plot the scatter for 1-degree data
+            # ax[1].scatter(
+            #     var_1deg_ref_1yr_change.values.flatten(),
+            #     var_1deg_1yr_change.values.flatten(),
+            #     marker="x",
+            # )
 
-            # Set titles and labels
-            ax[0].set_title(f"4-degree ensemble mean {var.long_name} vs reference")
-            ax[1].set_title(f"1-degree ensemble mean {var.long_name} vs reference")
-            ax[0].set_xlabel("1-year change in 4-degree reference")
-            ax[1].set_xlabel("1-year change in 1-degree reference")
-            ax[0].set_ylabel("1-year change in 1-degree reference")
-            ax[1].set_ylabel("1-year change in 4-degree reference")
+            # # Set titles and labels
+            # ax[0].set_title(f"4-degree ensemble mean {var.long_name} vs reference")
+            # ax[1].set_title(f"1-degree ensemble mean {var.long_name} vs reference")
+            # ax[0].set_xlabel("1-year change in 4-degree reference")
+            # ax[1].set_xlabel("1-year change in 1-degree reference")
+            # ax[0].set_ylabel("1-year change in 1-degree reference")
+            # ax[1].set_ylabel("1-year change in 4-degree reference")
 
-            # Adjust layout and save the figure
-            plt.tight_layout()
-            fig.savefig(comparison_out_path / f"{var.name}-annual_1yr_change_scatter.png")
-            plt.close(fig)
+            # # Adjust layout and save the figure
+            # plt.tight_layout()
+            # fig.savefig(comparison_out_path / f"{var.name}-annual_1yr_change_scatter.png")
+            # plt.close(fig)
 
 
 

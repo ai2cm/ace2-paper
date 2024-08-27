@@ -95,14 +95,14 @@ AMIP_4DEG_768_CHANNEL_OVERLAY = {
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    # "shield-amip-1deg-ace2-training-rs0": {},
-    # "shield-amip-1deg-ace2-training-rs1": {},
-    # "shield-amip-1deg-ace2-training-rs2": {},
-    # "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    # "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    # "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
-    # "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
-    # "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-1deg-ace2-training-rs0": {},
+    "shield-amip-1deg-ace2-training-rs1": {},
+    "shield-amip-1deg-ace2-training-rs2": {},
+    "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
     "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
     "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
     "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
@@ -111,6 +111,7 @@ EXPERIMENT_OVERLAYS = {
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
+    base = base.copy()
     for k, v in new.items():
         if isinstance(v, dict):
             base[k] = merge_configs(base.get(k, {}), v)

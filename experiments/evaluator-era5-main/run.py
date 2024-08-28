@@ -108,7 +108,7 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         },
     },
-    "era5-co2-100day-2020-video-RC3": {
+    "era5-co2-100day-2020-video-RC3-wd": {
         "n_forward_steps": 400,
         "forward_steps_in_memory": 40,
         "aggregator": {"log_video": True, "log_histograms": True},
@@ -116,6 +116,19 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2020-08-20T00:00:00"]},
             "dataset": {"data_path": DATA_PATH},
             "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": True,
+            "save_monthly_files": False,
+            "names": [
+                "total_water_path",
+                "PRESsfc",
+                "air_temperature_3",
+                "TMP2m",
+                "UGRD10m",
+                "VGRD10m",
+                "PRATEsfc",
+            ],
         },
     },
 }

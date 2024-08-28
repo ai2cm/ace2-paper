@@ -1,0 +1,51 @@
+comparisons:
+  - name: "amip_82_year"
+    long_name: "AMIP 82-year"
+    variables:
+      - name: "TMP2m"
+        scale: 1
+        long_name: "2-meter temperature"
+        units: "K"
+      - name: "PRATEsfc"
+        scale: 86400
+        long_name: "surface precipitation rate"
+        units: "mm/day"
+    res_4deg:
+      reference_run:
+        job_name: "jeremym/shield-amip-4deg-reference-inference-82yr"
+      runs:
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC0"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC1"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC2"
+    res_1deg:
+      reference_run:
+        job_name: "brianhenn/shield-amip-1deg-reference-inference-82yr"
+      runs:
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC0"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC1"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC2"
+  - name: "amip_10_year"
+    long_name: "AMIP 10-year"
+    variables:
+      - name: "TMP2m"
+        scale: 1
+        long_name: "2-meter temperature"
+        units: "K"
+      - name: "PRATEsfc"
+        scale: 86400
+        long_name: "surface precipitation rate"
+        units: "mm/day"
+    res_4deg:
+      reference_run:
+        job_name: "jeremym/shield-amip-4deg-reference-inference-10yr"
+      runs:
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC0"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC1"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC2"
+    res_1deg:
+      reference_run:
+        job_name: "brianhenn/shield-amip-1deg-reference-inference-10yr"
+      runs:
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC0"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC1"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC2"

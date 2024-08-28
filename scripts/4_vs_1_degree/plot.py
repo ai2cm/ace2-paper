@@ -13,6 +13,7 @@ import logging
 from fme.core import metrics
 import matplotlib.pyplot as plt
 from cartopy import crs as ccrs
+import matplotlib as mpl
 
 TRANSFORM = ccrs.PlateCarree()
 PROJECTION = ccrs.Robinson(central_longitude=180)
@@ -532,7 +533,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument('config', type=str)
+    parser.add_argument('--dpi', type=int, default=300)
     args = parser.parse_args()
+    mpl.rcParams['figure.dpi'] = args.dpi
     with open(args.config, 'r') as f:
         config = yaml.safe_load(f)
     print(config)

@@ -1,5 +1,5 @@
-# manually pip install more recent beaker-py, since conda-forge channel
-# is missing latest versions.
+ENVIRONMENT_NAME=ace2-paper
+
 create_environment:
-	conda env create -f environment.yaml
-	conda run -n ace2-paper pip install beaker-py==1.30
+	conda create --yes -n $(ENVIRONMENT_NAME) -c conda-forge python=3.10 pip tempest-extremes
+	conda run --no-capture-output -n $(ENVIRONMENT_NAME) pip install -r requirements.txt

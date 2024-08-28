@@ -1,0 +1,14 @@
+beaker-py
+cartopy>=0.22.0
+fsspec
+gcsfs
+h5netcdf
+ipywidgets
+jupyterlab
+matplotlib
+netcdf4
+numpy<2
+scipy
+wandb
+xarray
+zarr

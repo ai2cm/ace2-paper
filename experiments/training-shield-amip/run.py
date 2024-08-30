@@ -62,13 +62,34 @@ AMIP_4DEG_OVERLAY = {
             "monthly_reference_data": "/refdata-4deg/monthly_mean_data.nc",
         }
     },
-    "normalization": {
-        "global_means_path": "/statsdata-4deg/centering.nc",
-        "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        }
     },
-    "residual_normalization:": {
-        "global_means_path": "/statsdata-4deg/centering.nc",
-        "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+}
+
+AMIP_4DEG_768_CHANNEL_OVERLAY = {
+    **AMIP_4DEG_OVERLAY,
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        },
+        "builder": {
+            "config": {
+                "embed_dim": 768
+            }
+        }
     }
 }
 
@@ -96,14 +117,18 @@ EXPERIMENT_OVERLAYS = {
             }
         }
     },
-    # "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
-    # "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
-    # "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
 }
 
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
+    base = base.copy()
     for k, v in new.items():
         if isinstance(v, dict):
             base[k] = merge_configs(base.get(k, {}), v)

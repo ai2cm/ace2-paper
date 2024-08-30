@@ -18,7 +18,8 @@ ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
     "10yr": "k5kh8cm7",
     "30yr": "ennqyul0",
     "15day": "6x44o2h0",
-    "100day": "drnzyfn1",
+    "100day": "3ey9f2cg",
+    "10yr-segmented": "5wsnbpl5",
 }
 
 # 'dataset comparison' run of ERA5 data against itself

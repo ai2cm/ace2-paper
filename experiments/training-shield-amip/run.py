@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "jeremym/fme-c9e16059"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -19,6 +19,80 @@ STATS_DATASET_4DEG_NAME = "andrep/2024-07-24-vertically-resolved-c96-4deg-shield
 REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
 REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
 
+AMIP_4DEG_OVERLAY = {
+    "train_loader": {
+        "dataset": [
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001",
+                "subset": {"stop_time": "1995-12-31"},
+            },
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002",
+                "subset": {"stop_time": "1995-12-31"},
+            },
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001",
+                "subset": {"start_time": "2011-01-01"},
+            },
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002",
+                "subset": {"start_time": "2011-01-01"},
+            },
+        ]
+    },
+    "validation_loader": {
+        "dataset": [
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001",
+                "subset": {"start_time": "1996-01-01", "stop_time": "2000-12-31"},
+            },
+            {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002",
+                "subset": {"start_time": "1996-01-01", "stop_time": "2000-12-31"},
+            },
+        ]
+    },
+    "inference": {
+        "loader": {
+            "dataset": {
+                "data_path": "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002",
+            },
+        },
+        "aggregator": {
+            "monthly_reference_data": "/refdata-4deg/monthly_mean_data.nc",
+        }
+    },
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        }
+    },
+}
+
+AMIP_4DEG_768_CHANNEL_OVERLAY = {
+    **AMIP_4DEG_OVERLAY,
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        },
+        "builder": {
+            "config": {
+                "embed_dim": 768
+            }
+        }
+    }
+}
+
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs0": {},
@@ -26,11 +100,18 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs2": {},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
 }
 
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
+    base = base.copy()
     for k, v in new.items():
         if isinstance(v, dict):
             base[k] = merge_configs(base.get(k, {}), v)

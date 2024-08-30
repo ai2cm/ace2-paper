@@ -10,8 +10,10 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-7fc6b9f8"
-TRAINED_MODEL_DATASET_ID = "01J5NADA3E9PPAAT63X010B3HB"
+IMAGE_NAME = "brianhenn/fme-55db6175"
+TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt"
+REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
+ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
@@ -19,119 +21,92 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 
 # experiments defined by overlays which will overwrite the keys of the base config
-DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 EXPERIMENT_OVERLAYS = {
-    "era5-co2-10yr-RS3": {
+    "shield-amip-1deg-ace2-inference-10yr-IC0": {
+        "n_forward_steps": 14600,
+    },
+    "shield-amip-1deg-ace2-inference-10yr-IC1": {
         "n_forward_steps": 14600,
         "loader": {
-            "start_indices": {"times": ["2001-01-01T00:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
-        },
-        "data_writer": {
-            "save_prediction_files": True,
-            "names": ["PRATEsfc"],
+            "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "era5-co2-10yr-daily-output-RS3": {
+    "shield-amip-1deg-ace2-inference-10yr-IC2": {
         "n_forward_steps": 14600,
         "loader": {
-            "start_indices": {"times": ["2001-01-01T00:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
-        },
-        "data_writer": {
-            "save_prediction_files": True,
-            "names": ["eastward_wind_0"],
-            "time_coarsen": {"coarsen_factor": 4},
+            "start_indices": {"times": ["2001-01-03T00:00:00"]},
         },
     },
-    "era5-co2-30yr-daily-output-RS3": {
-        "n_forward_steps": 43800,
+    "shield-amip-1deg-ace2-inference-82yr-IC0": {
+        "n_forward_steps": 119732,
         "loader": {
-            "start_indices": {"times": ["1991-01-01T00:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
-        },
-        "data_writer": {
-            "save_prediction_files": True,
-            "names": ["eastward_wind_0"],
-            "time_coarsen": {"coarsen_factor": 4},
+            "start_indices": {"times": ["1940-01-01T00:00:00"]},
         },
     },
-    "era5-co2-81yr-RS3-IC0": {
-        "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
-    },
-    "era5-co2-81yr-RS3-IC1": {
-        "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+    "shield-amip-1deg-ace2-inference-82yr-IC1": {
+        "n_forward_steps": 119732,
         "loader": {
-            "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
+            "start_indices": {"times": ["1940-01-02T00:00:00"]},
         },
     },
-    "era5-co2-81yr-RS3-IC2": {
-        "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+    "shield-amip-1deg-ace2-inference-82yr-IC2": {
+        "n_forward_steps": 119732,
         "loader": {
-            "start_indices": {"times": ["1940-01-03T12:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
-        },
-        "data_writer": {
-            "save_prediction_files": False,
-            "save_monthly_files": True,
-            "names": ["total_water_path", "air_temperature_7", "eastward_wind_0"],
+            "start_indices": {"times": ["1940-01-03T00:00:00"]},
         },
     },
-    "era5-truth-81yr": {
-        "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+    "shield-amip-1deg-reference-inference-10yr": {
+        "n_forward_steps": 14600,
         "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-82yr": {
+        "n_forward_steps": 119732,
+        "loader": {"start_indices": {"times": ["1940-01-01T00:00:00"]}},
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    'era5-vs-shield-amip-IC2-80yr': {
+        "n_forward_steps": 116800,
+        "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
+        "prediction_loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
             "num_data_workers": 8,
         },
+        "aggregator": {"monthly_reference_data": None}
     },
-    "era5-co2-15day-2020-RC3": {
-        "n_forward_steps": 60,
-        "forward_steps_in_memory": 1,
+    'era5-vs-shield-amip-IC1-80yr': {
+        "n_forward_steps": 116800,
         "loader": {
-            "start_indices": {
-                "first": 116881,
-                "interval": 26,
-                "n_initial_conditions": 50,
-            },
-            "dataset": {"data_path": DATA_PATH},
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
-    },
-    "era5-co2-100day-2020-video-RC3-wd": {
-        "n_forward_steps": 400,
-        "forward_steps_in_memory": 40,
-        "aggregator": {"log_video": True, "log_histograms": True},
-        "loader": {
-            "start_indices": {"times": ["2020-08-20T00:00:00"]},
-            "dataset": {"data_path": DATA_PATH},
-            "num_data_workers": 8,
-        },
-        "data_writer": {
-            "save_prediction_files": True,
-            "save_monthly_files": False,
-            "names": [
-                "total_water_path",
-                "PRESsfc",
-                "air_temperature_3",
-                "TMP2m",
-                "UGRD10m",
-                "VGRD10m",
-                "PRATEsfc",
-            ],
-        },
-    },
+        "aggregator": {"monthly_reference_data": None}
+    }
 }
+
+
+def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
+    """Merge nested configurations."""
+    base_copy = base.copy() # don't modify the original base
+    for k, v in new.items():
+        if isinstance(v, dict):
+            base_copy[k] = merge_configs(base_copy.get(k, {}), v)
+        else:
+            base_copy[k] = v
+    return base_copy
 
 
 def write_config_dataset(config: Dict[str, Any]):
@@ -153,9 +128,11 @@ def get_experiment_spec(
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
     config_dataset = write_config_dataset(config)
     env_vars = [
-        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key"),
+        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
         beaker.EnvVar(name="WANDB_JOB_TYPE", value="inference"),
         beaker.EnvVar(name="WANDB_NAME", value=name),
+        beaker.EnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-inference"),
+        beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983")
     ]
     datasets = [
         beaker.DataMount(
@@ -174,7 +151,7 @@ def get_experiment_spec(
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do inference with ACE2 model trained on ERA5.",
+        description="Do inference with ACE2 model trained on SHiELD-AMIP.",
         tasks=[
             beaker.TaskSpec(
                 name=name,
@@ -205,7 +182,7 @@ if __name__ == "__main__":
 
     print("Validating that configs have correct types.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
+        config = merge_configs(base_config, overlay)
         print(f"Validating config for experiment {name}.")
         print(f"Config that is being validated:\n{config}")
         dacite.from_dict(
@@ -213,11 +190,11 @@ if __name__ == "__main__":
         )
     print("All configs are valid. Starting experiment submission.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
+        config = merge_configs(base_config, overlay)
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
-            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
+            experiment = client.experiment.create(name, spec)
             print(
                 f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
             )

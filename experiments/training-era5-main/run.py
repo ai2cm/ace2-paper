@@ -10,26 +10,39 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-e48a3777"
+IMAGE_NAME = "oliverwm/fme-d8961d26"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
-STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019"
+STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019-v2"
 
+ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
+SHIELD_DATA_PATH = "/climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "era5-ace2-rw3": {},
-    "era5-ace2-rw3-sched": {
-        "max_epochs": 100,
-        "optimization": {
-            "enable_automatic_mixed_precision": False,
-            "lr": 0.0001,
-            "optimizer_type": "FusedAdam",
-            "kwargs": {"weight_decay": 0.01},
-            "scheduler": {"type": "CosineAnnealingLR"},
-        },
-    },
+    "era5-ace2-co2-rs0": {},
+    "era5-ace2-co2-rs1": {},
+    "era5-ace2-co2-rs2": {},
+    "era5-ace2-co2-rs3": {},
+    # "era5-ace2-rw4-shield-data": {   # need SHiELD data with CO2 before can launch this
+    #    "max_epochs": 75,
+    #    "train_loader": {
+    #        "batch_size": 16,
+    #        "num_data_workers": 32,
+    #        "dataset": [
+    #            {"data_path": ERA5_DATA_PATH, "subset": {"stop_time": "1995-12-31"}},
+    #            {
+    #                "data_path": ERA5_DATA_PATH,
+    #                "subset": {"start_time": "2011-01-01", "stop_time": "2019-12-31"},
+    #            },
+    #            {"data_path": ERA5_DATA_PATH, "subset": {"start_time": "2021-01-01"}},
+    #            {"data_path": SHIELD_DATA_PATH, "subset": {"stop_time": "1995-12-31"}},
+    #            {"data_path": SHIELD_DATA_PATH, "subset": {"start_time": "2011-01-01"}},
+    #        ],
+    #        "strict_ensemble": False,
+    #    },
+    # },
 }
 
 
@@ -67,7 +80,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do 10-year inference with ACE2 model trained on ERA5.",
+        description="Train ACE2 model on ERA5.",
         tasks=[
             beaker.TaskSpec(
                 name=name,
@@ -109,5 +122,14 @@ if __name__ == "__main__":
         config = {**base_config, **overlay}
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
-        experiment = client.experiment.create(name, spec, workspace="ai2/ace")
-        print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        try:
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
+            msg = f"Experiment {name} created. https://beaker.org/ex/{experiment.id}"
+            print(msg)
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )

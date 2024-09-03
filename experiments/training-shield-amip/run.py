@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c7a51eff"
+IMAGE_NAME = "brianhenn/fme-c8336903"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -62,13 +62,34 @@ AMIP_4DEG_OVERLAY = {
             "monthly_reference_data": "/refdata-4deg/monthly_mean_data.nc",
         }
     },
-    "normalization": {
-        "global_means_path": "/statsdata-4deg/centering.nc",
-        "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        }
     },
-    "residual_normalization:": {
-        "global_means_path": "/statsdata-4deg/centering.nc",
-        "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+}
+
+AMIP_4DEG_768_CHANNEL_OVERLAY = {
+    **AMIP_4DEG_OVERLAY,
+    "stepper": {
+        "normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-full-field.nc",
+        },
+        "residual_normalization": {
+            "global_means_path": "/statsdata-4deg/centering.nc",
+            "global_stds_path": "/statsdata-4deg/scaling-residual.nc",
+        },
+        "builder": {
+            "config": {
+                "embed_dim": 768
+            }
+        }
     }
 }
 
@@ -77,16 +98,37 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs0": {},
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
+    "shield-amip-1deg-ace2-training-rs3": {},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs0": {
+        "stepper": {
+            "corrector": {
+                "moisture_budget_correction": None,
+                "conserve_dry_air": False,
+            }
+        }
+    },
+    "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs1": {
+        "stepper": {
+            "corrector": {
+                "moisture_budget_correction": None,
+                "conserve_dry_air": False,
+            }
+        }
+    },
     "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
     "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
     "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
 }
 
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
+    base = base.copy()
     for k, v in new.items():
         if isinstance(v, dict):
             base[k] = merge_configs(base.get(k, {}), v)
@@ -157,7 +199,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="high", preemptible=True),
+                context=beaker.TaskContext(priority="urgent", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,
@@ -184,5 +226,13 @@ if __name__ == "__main__":
         config = merge_configs(base_config, overlay)
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
-        experiment = client.experiment.create(name, spec, workspace="ai2/ace")
-        print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        try:
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
+            print(f"Experiment created. See https://beaker.org/ex/{experiment.id}")
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )

@@ -10,8 +10,8 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-c9e16059"
-TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt"
+IMAGE_NAME = "brianhenn/fme-7fc6b9f8"
+TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
@@ -203,6 +203,33 @@ RANDOM_SEED_OVERLAYS = {
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC2": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-RS3-IC0": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-RS3-IC1": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-02T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-RS3-IC2": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
         {
             "n_forward_steps": 118341,
             "loader": {

@@ -71,7 +71,14 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
-        }
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "surface_temperature",
+                "ocean_fraction",
+            ],
+        },
     },
     'shield-amip-IC1-vs-era5-10yr': {
         "n_forward_steps": 14600,

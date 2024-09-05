@@ -12,9 +12,11 @@ ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs3"]
 
 # inference job wandb IDs using best checkpoint from above
 ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
-    "81yr-IC0": "ffyjif5r",
-    "81yr-IC1": "rsv9yjp1",
-    "81yr-IC2": "k8hnc4sz",
+    "81yr": {
+        "IC0": "ffyjif5r",
+        "IC1": "rsv9yjp1",
+        "IC2": "k8hnc4sz",
+    },
     "10yr": "k5kh8cm7",
     "30yr": "ennqyul0",
     "15day": "6x44o2h0",
@@ -30,7 +32,7 @@ SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = {
     "IC1": "s2mcmjro",
     "IC2": "mo9kma4p",
 }
-SHiELD_AMIP_1DEG_BEST_INFERENCE_82YR_WANDB_RUN_IDS = {
+SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS = {
     "IC0": "bpbrb1nr",
     "IC1": "bcq9qmiw",
     "IC2": "gl7ng3hr", 
@@ -38,19 +40,20 @@ SHiELD_AMIP_1DEG_BEST_INFERENCE_82YR_WANDB_RUN_IDS = {
 
 # 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002 
 SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID = "x6fnlmfi"
-SHiELD_AMIP_1DEG_REFERENCE_82YR_WANDB_RUN_ID = "bb1icrnr"
+SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID = "bb1icrnr"
 
 # 'dataset comparison' runs of SHiELD-AMIP ICs against ERA5
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS = {
     "IC0": "vium678t",
     "IC1": "yde9orc7",
 }
-SHiELD_AMIP_ERA5_1DEG_COMPARISON_82YR_WANDB_RUN_IDS = {
+SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS = {
     "IC0": "hwhy4ce9",
     "IC1": "jm2or9pv",
 }
 
-CLIMSST_DEG_WANDB_RUN_IDS = {
+# climSST ACE baseline
+CLIMSST_DEG_81YR_WANDB_RUN_IDS = {
     "IC0": "g87nkb9w",
     "IC1": "vbf7sq8n",
     "IC2": "s474gx2h"
@@ -64,11 +67,11 @@ INFERENCE_COMPARISON_1DEG = {
         "SHiELD-AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
         "SHiELD-AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
     },
-    "82yr": {
-        "ERA5-ACEv2": ERA5_BEST_INFERENCE_WANDB_RUN_IDS["80yr"],
-        "SHiELD-AMIP-ACEv2": SHiELD_AMIP_1DEG_BEST_INFERENCE_82YR_WANDB_RUN_IDS,
-        "SHiELD-AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_82YR_WANDB_RUN_ID,
-        "SHiELD-AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_82YR_WANDB_RUN_IDS,
+    "81yr": {
+        "ERA5-ACEv2": ERA5_BEST_INFERENCE_WANDB_RUN_IDS["81yr"],
+        "SHiELD-AMIP-ACEv2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
+        "SHiELD-AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
+        "SHiELD-AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
     }
 }
 

@@ -17,13 +17,12 @@ FORCING_VARIABLES = [
     "global_mean_co2",
     "HGTsfc"
 ]
-VERTICAL_COORDINATE_VARIABLES = [f"ak_{i}" for i in range(9)] + [f"bk_{i}" for i in range(9)]
 DEFAULT_URL_ERA5 = "gs://vcm-ml-intermediate/2024-06-20-era5-1deg-8layer-1940-2022.zarr"
 
 def main(input_url, start_time, end_time, output_url):
     ds = xr.open_zarr(input_url)
     ds = ds.sel(time=slice(start_time, end_time))
-    ds = ds[FORCING_VARIABLES + VERTICAL_COORDINATE_VARIABLES]
+    ds = ds[FORCING_VARIABLES]
 
     # want a 4-year interval so that runs which repeat this dataset still have
     # a leap day once every 4 years
@@ -31,11 +30,6 @@ def main(input_url, start_time, end_time, output_url):
     output_end_time = "2004-12-31"
 
     clim_ds = xr.Dataset()
-
-    # insert vertical coordinate variables, since these are currently required to
-    # be in the forcing dataset. See https://github.com/ai2cm/full-model/issues/1150.
-    for name in VERTICAL_COORDINATE_VARIABLES:
-        clim_ds[name] = ds[name]
 
     # special handling for some variables
     clim_ds["DSWRFtoa"] = ds["DSWRFtoa"].sel(time=slice(output_start_time, output_end_time))

@@ -21,7 +21,7 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 # experiments defined by overlays which will overwrite the keys of the base config
 DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 EXPERIMENT_OVERLAYS = {
-    "era5-co2-10yr-RS3": {
+    "era5-co2-10yr-RS3-IC0": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
@@ -32,6 +32,24 @@ EXPERIMENT_OVERLAYS = {
             "save_prediction_files": True,
             "names": ["PRATEsfc"],
         },
+    },
+    "era5-co2-10yr-RS3-IC1": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {"save_prediction_files": False},
+    },
+    "era5-co2-10yr-RS3-IC2": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {"save_prediction_files": False},
     },
     "era5-co2-10yr-daily-output-RS3": {
         "n_forward_steps": 14600,

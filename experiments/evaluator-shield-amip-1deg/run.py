@@ -10,8 +10,8 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-7fc6b9f8"
-TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
+IMAGE_NAME = "brianhenn/fme-cbe4ec3b"
+TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
@@ -23,37 +23,102 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-inference-10yr-IC0": {
+    "shield-amip-1deg-ace2-inference-10yr-historicalCO2-IC0": {
         "n_forward_steps": 14600,
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC1": {
+    "shield-amip-1deg-ace2-inference-10yr-historicalCO2-IC1": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC2": {
+    "shield-amip-1deg-ace2-inference-10yr-historicalCO2-IC2": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC0": {
+    "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC0": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC1": {
+    "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC2": {
+    "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-10yr-fixedCO2-IC0": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003798,
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-inference-10yr-fixedCO2-IC1": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003798,
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-inference-10yr-fixedCO2-IC2": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003798,
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC0": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003459,
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC1": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-02T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003459,
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC2": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003459,
+                },
+            },
         },
     },
     "shield-amip-1deg-reference-inference-10yr": {

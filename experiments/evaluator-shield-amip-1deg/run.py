@@ -38,6 +38,45 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
         },
     },
+    "shield-amip-1deg-ace2-inference-30yr-historicalCO2-IC0": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-01T00:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-30yr-historicalCO2-IC1": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-02T00:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-30yr-historicalCO2-IC2": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-03T00:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
+    },
     "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC0": {
         "n_forward_steps": 118341,
         "loader": {
@@ -87,6 +126,60 @@ EXPERIMENT_OVERLAYS = {
                 },
             },
         },
+    },
+"shield-amip-1deg-ace2-inference-30yr-fixedCO2-IC0": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-01T00:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003790,
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-30yr-fixedCO2-IC1": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-02T00:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003790,
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-30yr-fixedCO2-IC2": {
+        "n_forward_steps": 43828,
+        "loader": {
+            "start_indices": {"times": ["1990-01-03T00:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "global_mean_co2": 0.0003790,
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC0": {
         "n_forward_steps": 118341,

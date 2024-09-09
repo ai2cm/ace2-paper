@@ -99,6 +99,44 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
     "shield-amip-1deg-ace2-training-rs3": {},
+    "shield-amip-1deg-ace2-training-full-inline-rs0": {
+        "inference": {
+            "n_forward_steps": 14608,
+            "loader": {
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T12:00:00",
+                        "1950-01-01T12:00:00",
+                        "1960-01-01T12:00:00",
+                        "1970-01-01T12:00:00",
+                        "1980-01-01T12:00:00",
+                        "1990-01-01T12:00:00",
+                        "2000-01-01T12:00:00",
+                        "2010-01-01T12:00:00",
+                    ],
+                },
+            },
+        },
+    },
+    "shield-amip-1deg-ace2-training-full-inline-rs1": {
+        "inference": {
+            "n_forward_steps": 14608,
+            "loader": {
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T12:00:00",
+                        "1950-01-01T12:00:00",
+                        "1960-01-01T12:00:00",
+                        "1970-01-01T12:00:00",
+                        "1980-01-01T12:00:00",
+                        "1990-01-01T12:00:00",
+                        "2000-01-01T12:00:00",
+                        "2010-01-01T12:00:00",
+                    ],
+                },
+            },
+        },
+    },
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs0": {

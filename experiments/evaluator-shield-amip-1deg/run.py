@@ -82,18 +82,42 @@ EXPERIMENT_OVERLAYS = {
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-historicalCO2-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-10yr-fixedCO2-IC0": {
         "n_forward_steps": 14600,
@@ -191,6 +215,14 @@ EXPERIMENT_OVERLAYS = {
                 },
             },
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC1": {
         "n_forward_steps": 118341,
@@ -202,6 +234,14 @@ EXPERIMENT_OVERLAYS = {
                 },
             },
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC2": {
         "n_forward_steps": 118341,
@@ -213,6 +253,14 @@ EXPERIMENT_OVERLAYS = {
                 },
             },
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-reference-inference-10yr": {
         "n_forward_steps": 14600,
@@ -233,6 +281,8 @@ EXPERIMENT_OVERLAYS = {
         "data_writer": {
             "save_monthly_files": True,
             "names": [
+                "TMP2m",
+                "SHTFLsfc",
                 "surface_temperature",
                 "ocean_fraction",
             ],

@@ -1,4 +1,5 @@
 beaker-py
+Bottleneck
 cartopy>=0.22.0
 fme@git+https://github.com/ai2cm/ace.git@06d145df7bca712f3957d2eaabc20e9b87a4d207#subdirectory=fme
 fsspec
@@ -7,7 +8,7 @@ h5netcdf
 ipywidgets
 jupyterlab
 matplotlib
-netcdf4
+netCDF4
 numpy<2
 scipy
 wandb

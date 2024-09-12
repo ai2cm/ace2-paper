@@ -6,3 +6,4 @@ run_era5:
 	jupyter nbconvert --execute --to notebook --inplace era5_monthly_variability_80yr.ipynb
 	jupyter nbconvert --execute --to notebook --inplace era5_tropical_cyclones.ipynb
 	jupyter nbconvert --execute --to notebook --inplace era5_weather_skill.ipynb
+	jupyter nbconvert --execute --to notebook --inplace era5_tropical_variability.ipynb

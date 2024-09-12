@@ -21,6 +21,7 @@ ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
     "100day": "3ey9f2cg",
     "10yr-segmented": "5wsnbpl5",
     "10yr-climSST": "c5e2dt6g",
+    "10yr-with-precip": "78bu4fkz",
 }
 
 # 'dataset comparison' run of ERA5 data against itself

@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-7fc6b9f8"
+IMAGE_NAME = "brianhenn/fme-aec6a6f7"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
@@ -36,6 +36,132 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr0-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1940-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr0-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1940-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr0-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1940-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr1-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1960-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr1-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1960-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr1-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1960-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr2-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1980-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr2-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1980-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr2-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1980-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr3-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["2000-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr3-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["2000-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr3-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["2000-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr4-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1950-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr4-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1950-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr4-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1950-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr5-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1970-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr5-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1970-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr5-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1970-01-03T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr6-IC0": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1990-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr6-IC1": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1990-01-02T00:00:00"]},
+        },
+    },
+    "shield-amip-1deg-ace2-inference-20yr6-IC2": {
+        "n_forward_steps": 29220,
+        "loader": {
+            "start_indices": {"times": ["1990-01-03T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-81yr-IC0": {

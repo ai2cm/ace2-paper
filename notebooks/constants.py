@@ -71,13 +71,13 @@ CLIMSST_DEG_81YR_WANDB_RUN_IDS = {
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {
-        "ACE2-ERA5": {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('10yr')},
+        "ACE2-ERA5": {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('10yr-IC')},
         "ACE2-AMIP": SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
         "AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
         "AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
     },
     "81yr": {
-        "ACE2-ERA5":  {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('81yr')},
+        "ACE2-ERA5":  {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('81yr-IC')},
         "ACE2-AMIP": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
         "AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,

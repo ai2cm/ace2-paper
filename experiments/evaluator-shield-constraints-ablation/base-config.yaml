@@ -1,0 +1,19 @@
+checkpoint_path: /ckpt.tar
+experiment_dir: /output
+forward_steps_in_memory: 40
+loader:
+  dataset:
+    data_path: "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+  num_data_workers: 8
+  start_indices:
+    times:
+    - '2001-01-01T00:00:00'
+aggregator:
+  log_zonal_mean_images: false
+  log_histograms: true
+  monthly_reference_data: "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-monthly/monthly_mean_data.nc"
+data_writer:
+  save_monthly_files: false
+  save_prediction_files: false
+logging:
+  project: ace

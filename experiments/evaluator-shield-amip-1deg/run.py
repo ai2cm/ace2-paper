@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-7fc6b9f8"
+IMAGE_NAME = "brianhenn/fme-b65a8117"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
@@ -23,16 +23,16 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-inference-10yr-IC0": {
+    "shield-amip-1deg-ace2-inference-10yr-IC0-ensofix": {
         "n_forward_steps": 14600,
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC1": {
+    "shield-amip-1deg-ace2-inference-10yr-IC1-ensofix": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC2": {
+    "shield-amip-1deg-ace2-inference-10yr-IC2-ensofix": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
@@ -56,7 +56,7 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
     },
-    "shield-amip-1deg-reference-inference-10yr": {
+    "shield-amip-1deg-reference-inference-10yr-ensofix": {
         "n_forward_steps": 14600,
         "prediction_loader": {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
@@ -80,7 +80,7 @@ EXPERIMENT_OVERLAYS = {
             ],
         },
     },
-    'shield-amip-IC1-vs-era5-10yr': {
+    'shield-amip-IC1-vs-era5-10yr-ensofix': {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
@@ -93,7 +93,7 @@ EXPERIMENT_OVERLAYS = {
         },
         "aggregator": {"monthly_reference_data": None}
     },
-    'shield-amip-IC2-vs-era5-10yr': {
+    'shield-amip-IC2-vs-era5-10yr-ensofix': {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},

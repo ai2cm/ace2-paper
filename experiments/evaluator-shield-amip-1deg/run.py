@@ -244,7 +244,7 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace-climsst-inference-81yr-IC0": (
+    "shield-amip-1deg-ace-climsst-inference-81yr-IC0-ensofix": (
         "01HYE144GQ6EGSAYFBPQV31PB7",
         {
             "n_forward_steps": 118341,
@@ -253,7 +253,7 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace-climsst-inference-81yr-IC1": (
+    "shield-amip-1deg-ace-climsst-inference-81yr-IC1-ensofix": (
         "01HYE144GQ6EGSAYFBPQV31PB7",
         {
             "n_forward_steps": 118341,
@@ -262,12 +262,39 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace-climsst-inference-81yr-IC2": (
+    "shield-amip-1deg-ace-climsst-inference-81yr-IC2-ensofix": (
         "01HYE144GQ6EGSAYFBPQV31PB7",
         {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC0-ensofix": (
+        "01HYE144GQ6EGSAYFBPQV31PB7",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC1-ensofix": (
+        "01HYE144GQ6EGSAYFBPQV31PB7",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC2-ensofix": (
+        "01HYE144GQ6EGSAYFBPQV31PB7",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
             },
         },
     ),
@@ -314,10 +341,15 @@ def get_experiment_spec(
             source=beaker.DataSource(beaker=config_dataset.id),
             mount_path=DATASET_CONFIG_MOUNTPATH,
         ),
+        # beaker.DataMount(
+        #     mount_path="/ckpt.tar",
+        #     source=beaker.DataSource(beaker=trained_model_dataset_id),
+        #     sub_path=f"training_checkpoints/{CHECKPOINT_NAME}",
+        # ),
         beaker.DataMount(
             mount_path="/ckpt.tar",
             source=beaker.DataSource(beaker=trained_model_dataset_id),
-            sub_path=f"training_checkpoints/{CHECKPOINT_NAME}",
+            sub_path="ace_ckpt.tar",
         ),
         beaker.DataMount(
             mount_path="/climate-default",

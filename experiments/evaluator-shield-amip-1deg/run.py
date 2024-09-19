@@ -41,7 +41,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr0-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1940-01-02T00:00:00"]},
+            "start_indices": {"times": ["1940-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr0-IC1": {
@@ -59,7 +59,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr1-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1960-01-02T00:00:00"]},
+            "start_indices": {"times": ["1960-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr1-IC1": {
@@ -77,7 +77,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr2-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1980-01-02T00:00:00"]},
+            "start_indices": {"times": ["1980-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr2-IC1": {
@@ -95,7 +95,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr3-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["2000-01-02T00:00:00"]},
+            "start_indices": {"times": ["2000-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr3-IC1": {
@@ -113,7 +113,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr4-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1950-01-02T00:00:00"]},
+            "start_indices": {"times": ["1950-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr4-IC1": {
@@ -131,7 +131,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr5-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1970-01-02T00:00:00"]},
+            "start_indices": {"times": ["1970-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr5-IC1": {
@@ -149,7 +149,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-inference-20yr6-IC0": {
         "n_forward_steps": 29220,
         "loader": {
-            "start_indices": {"times": ["1990-01-02T00:00:00"]},
+            "start_indices": {"times": ["1990-01-01T00:00:00"]},
         },
     },
     "shield-amip-1deg-ace2-inference-20yr6-IC1": {

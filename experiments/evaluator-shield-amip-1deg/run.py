@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-7fc6b9f8"
+IMAGE_NAME = "brianhenn/fme-f3337723"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
@@ -244,8 +244,35 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC0": (
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC1": (
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace-climsst-inference-10yr-IC2": (
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
     "shield-amip-1deg-ace-climsst-inference-81yr-IC0": (
-        "01HYE144GQ6EGSAYFBPQV31PB7",
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
         {
             "n_forward_steps": 118341,
             "loader": {
@@ -254,7 +281,7 @@ RANDOM_SEED_OVERLAYS = {
         },
     ),
     "shield-amip-1deg-ace-climsst-inference-81yr-IC1": (
-        "01HYE144GQ6EGSAYFBPQV31PB7",
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
         {
             "n_forward_steps": 118341,
             "loader": {
@@ -263,7 +290,7 @@ RANDOM_SEED_OVERLAYS = {
         },
     ),
     "shield-amip-1deg-ace-climsst-inference-81yr-IC2": (
-        "01HYE144GQ6EGSAYFBPQV31PB7",
+        "01J84DANC9P6W7H3YHHJ7J8EFV",
         {
             "n_forward_steps": 118341,
             "loader": {

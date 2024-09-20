@@ -31,56 +31,57 @@ ERA5_DATA_RUN_WANDB_ID = "y8njbnnb"
 
 # inference job wandb IDs using best checkpoint
 SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = {
-    "IC0": "d2k7tktu",
-    "IC1": "0x688143",
-    "IC2": "45lvgsco",
+    "IC0": "a88aanz5",
+    "IC1": "nj0ucjh6",
+    "IC2": "de4mczvq",
 }
 SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS = {
-    "IC0": "y1idhz3h",
-    "IC1": "u3k998c1",
-    "IC2": "offrnz4t", 
+    "IC0": "awvfqq9f",
+    "IC1": "onovz8yp",
+    "IC2": "qnsm54zm", 
 }
-# # RS 0 (not best inference checkpoint)
-# SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS = {
-#     "IC0": "bmr19e6r",
-#     "IC1": "8qnczyfw",
-#     "IC2": "4pggm8f3", 
-# }
 
 # 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002 
-SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID = "x6fnlmfi"
-SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID = "4viixc3w"
+SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID = "muswh21i"
+SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID = "ce2hgxs8"
 
 # 'dataset comparison' runs of SHiELD-AMIP ICs against ERA5
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS = {
-    "IC0": "vium678t",
-    "IC1": "yde9orc7",
+    "IC0": "2nw8gi5i",
+    "IC1": "j83sbri7",
 }
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS = {
-    "IC0": "9pmn0j7q",
-    "IC1": "nuagmyop",
+    "IC0": "klnr8wwa",
+    "IC1": "8t90aafd",
 }
 
 # climSST ACE baseline
+CLIMSST_DEG_10YR_WANDB_RUN_IDS = {
+    "IC0": "b76h3n7y",
+    "IC1": "jlhmg5fp",
+    "IC2": "9wyaoyt9"
+}
 CLIMSST_DEG_81YR_WANDB_RUN_IDS = {
-    "IC0": "g87nkb9w",
-    "IC1": "vbf7sq8n",
-    "IC2": "s474gx2h"
+    "IC0": "lg7a92g5",
+    "IC1": "oydw8d94",
+    "IC2": "saj7n8gd"
 }
 
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {
         "ACE2-ERA5": {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('10yr-IC')},
-        "ACE2-AMIP": SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
-        "AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
-        "AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
+        "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
+        "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
+        "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
+        "ACE-climSST": CLIMSST_DEG_10YR_WANDB_RUN_IDS,
     },
     "81yr": {
         "ACE2-ERA5":  {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('81yr-IC')},
-        "ACE2-AMIP": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
-        "AMIP-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
-        "AMIP-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
+        "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
+        "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
+        "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
+        "ACE-climSST": CLIMSST_DEG_81YR_WANDB_RUN_IDS,
     }
 }
 

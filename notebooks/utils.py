@@ -40,8 +40,8 @@ def get_scalar_metrics(run: wandb.apis.public.runs.Run, metric_names: List[str])
     Note: Assumes metrics occurs once in run history,
     and each metric occurs at the same step.
     """
-    history = run.scan_history(keys=metric_names)
     metrics = {}
+    history = run.scan_history(keys=metric_names)
     for key in metric_names:
         metrics[key] = [row for row in history][0][key]
     return metrics
@@ -58,9 +58,9 @@ def get_beaker_dataset_variables(
     return an xarray dataset of those variables.
     """
     beaker_result_id = wandb_to_beaker_result(wandb_project, wandb_id, wandb_entity)
-    time_mean_diags = beaker_to_xarray(beaker_result_id, ds_name)
-    return time_mean_diags[varnames]
-    return xr.open_dataset(io.BytesIO(file), engine="h5netcdf").load()
+    diags = beaker_to_xarray(beaker_result_id, ds_name)
+    valid_varnames = [name for name in varnames if name in diags.data_vars]
+    return diags[valid_varnames]
 
 
 def wandb_to_xarray(

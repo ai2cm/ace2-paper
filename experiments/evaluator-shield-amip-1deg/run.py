@@ -14,6 +14,10 @@ IMAGE_NAME = "brianhenn/fme-f3337723"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+C24_4DEG_IC0_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c24-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
+C24_4DEG_IC1_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c24-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+C96_4DEG_IC0_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
+C96_4DEG_IC1_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
@@ -127,6 +131,58 @@ EXPERIMENT_OVERLAYS = {
         },
         "prediction_loader": {
             "dataset": {"data_path": TARGET_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-c96-vs-c24-4deg-10yr-IC0': {
+        "n_forward_steps": 14600,
+        "loader": {
+            "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": C96_4DEG_IC0_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-c96-vs-c24-4deg-10yr-IC1': {
+        "n_forward_steps": 14600,
+        "loader": {
+            "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": C96_4DEG_IC1_DATASET_PATH},
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-c96-vs-c24-4deg-81yr-IC0': {
+        "n_forward_steps": 118341,
+        "loader": {
+            "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": C96_4DEG_IC0_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "num_data_workers": 8,
+        },
+        "aggregator": {"monthly_reference_data": None}
+    },
+    'shield-amip-c96-vs-c24-4deg-81yr-IC1': {
+        "n_forward_steps": 118341,
+        "loader": {
+            "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": C96_4DEG_IC1_DATASET_PATH},
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },

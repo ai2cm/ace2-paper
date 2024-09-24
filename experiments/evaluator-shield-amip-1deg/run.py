@@ -192,6 +192,30 @@ EXPERIMENT_OVERLAYS = {
 
 # non-best inference checkpoint runs
 RANDOM_SEED_OVERLAYS = {
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC0": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC1": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC2": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC0": (
         "01J4R87G93A5TNTFMRMVKB88CW",
         {
@@ -216,6 +240,30 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC0": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC1": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC2": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
             },
         },
     ),
@@ -246,6 +294,30 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC0": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC1": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC2": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC0": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
         {
@@ -270,6 +342,30 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC0": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC1": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC2": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
             },
         },
     ),

@@ -29,7 +29,7 @@ ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
 # 'dataset comparison' run of ERA5 data against itself
 ERA5_DATA_RUN_WANDB_ID = "y8njbnnb"
 
-# inference job wandb IDs using best checkpoint
+# SHiELD evaluation wandb IDs using best checkpoint
 SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = {
     "IC0": "a88aanz5",
     "IC1": "nj0ucjh6",
@@ -74,20 +74,42 @@ CLIMSST_DEG_81YR_WANDB_RUN_IDS = {
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {
-        "ACE2-ERA5": {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('10yr-IC')},
+        "ACE2-ERA5": {
+            k: v
+            for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items()
+            if k.startswith('10yr-IC')
+        },
         "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
         "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
         "ACE-climSST": CLIMSST_DEG_10YR_WANDB_RUN_IDS,
     },
     "81yr": {
-        "ACE2-ERA5":  {k: v for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items() if k.startswith('81yr-IC')},
+        "ACE2-ERA5":  {
+            k: v
+            for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items()
+            if k.startswith('81yr-IC')
+        },
         "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
         "ACE-climSST": CLIMSST_DEG_81YR_WANDB_RUN_IDS,
     }
 }
+
+# inference runs for physical constraints ablation
+CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
+    "No constraints-IC0": "dtq1ckuv",
+    "No constraints-IC1": "6di90zwa",
+    "No constraints-IC2": "kuv55mog",
+    "Dry air-IC0": "w8z4goal",
+    "Dry air-IC1": "yrbxabpf",
+    "Dry air-IC2": "30ezr5an",
+    "Dry air + moisture-IC0": "p4r9r3pi",
+    "Dry air + moisture-IC1": "1xzj4pg1",
+    "Dry air + moisture-IC2": "5lrii540",
+}
+
 
 # physical constants
 SECONDS_PER_DAY = 86_400

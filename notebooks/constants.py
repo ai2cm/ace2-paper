@@ -26,3 +26,17 @@ ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
 
 # 'dataset comparison' run of ERA5 data against itself
 ERA5_DATA_RUN_WANDB_ID = "y8njbnnb"
+
+
+# inference runs for physical constraints ablation
+CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
+    "No constraints-IC0": "dtq1ckuv",
+    "No constraints-IC1": "6di90zwa",
+    "No constraints-IC2": "kuv55mog",
+    "Dry air-IC0": "w8z4goal",
+    "Dry air-IC1": "yrbxabpf",
+    "Dry air-IC2": "30ezr5an",
+    "Dry air + moisture-IC0": "p4r9r3pi",
+    "Dry air + moisture-IC1": "1xzj4pg1",
+    "Dry air + moisture-IC2": "5lrii540",
+}

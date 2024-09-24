@@ -79,11 +79,19 @@ EXPERIMENT_OVERLAYS = {
     },
     "era5-co2-81yr-RS3-IC0-ni": {
         "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+            "log_global_mean_time_series": False,
+            "log_global_mean_norm_time_series": False,
+        },
     },
     "era5-co2-81yr-RS3-IC1-ni": {
         "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+            "log_global_mean_time_series": False,
+            "log_global_mean_norm_time_series": False,
+        },
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
             "dataset": {"data_path": DATA_PATH},
@@ -92,7 +100,11 @@ EXPERIMENT_OVERLAYS = {
     },
     "era5-co2-81yr-RS3-IC2-ni": {
         "n_forward_steps": 118341,
-        "aggregator": {"log_zonal_mean_images": False},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+            "log_global_mean_time_series": False,
+            "log_global_mean_norm_time_series": False,
+        },
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
             "dataset": {"data_path": DATA_PATH},
@@ -109,6 +121,19 @@ EXPERIMENT_OVERLAYS = {
         "aggregator": {"log_zonal_mean_images": False},
         "prediction_loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+    },
+    "era5-truth-10yr-ni": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "dataset": {"data_path": DATA_PATH},
             "num_data_workers": 8,
         },

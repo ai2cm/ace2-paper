@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-7fc6b9f8"
+IMAGE_NAME = "brianhenn/fme-f3337723"
 WORKSPACE = "ai2/ace"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
@@ -25,14 +25,14 @@ TRAINED_MODEL_DATASET_IDS = {
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-{constraint}-10yr-IC0": {"n_forward_steps": 14600},
-    "shield-amip-{constraint}-10yr-IC1": {
+    "shield-amip-{constraint}-10yr-IC0-ni": {"n_forward_steps": 14600},
+    "shield-amip-{constraint}-10yr-IC1-ni": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-{constraint}-10yr-IC2": {
+    "shield-amip-{constraint}-10yr-IC2-ni": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},

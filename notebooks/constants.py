@@ -16,6 +16,9 @@ ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
     "81yr-IC1": "0wet2ot4",
     "81yr-IC2": "g7tqggai",
     "10yr": "cmjkmtnw",
+    "10yr-IC0": "tq6ljtf0",  # this is same as "10yr" run above, just used different data writer outputs
+    "10yr-IC1": "m6qu89d2",
+    "10yr-IC2": "h4oj4oc2",
     "30yr": "w37x2qud",
     "15day": "me15actr",
     "100day": "oghlard3",

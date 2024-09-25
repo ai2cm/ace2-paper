@@ -12,6 +12,7 @@ netCDF4
 nc-time-axis
 numpy<2
 scipy
+seaborn
 wandb
 xarray
 zarr

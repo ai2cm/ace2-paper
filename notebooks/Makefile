@@ -7,3 +7,8 @@ run_era5:
 	jupyter nbconvert --execute --to notebook --inplace era5_tropical_cyclones.ipynb
 	jupyter nbconvert --execute --to notebook --inplace era5_weather_skill.ipynb
 	jupyter nbconvert --execute --to notebook --inplace era5_tropical_variability.ipynb
+
+run_constraints:
+	echo "Running constraints notebooks"
+	jupyter nbconvert --execute --to notebook --inplace shield_physical_constraints_ablation.ipynb
+	jupyter nbconvert --execute --to notebook --inplace era5_budget_closure.ipynb

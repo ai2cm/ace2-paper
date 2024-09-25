@@ -12,23 +12,24 @@ ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs3"]
 
 # inference job wandb IDs using best checkpoint from above
 ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
-    "81yr-IC0": "ffyjif5r",
-    "81yr-IC1": "rsv9yjp1",
-    "81yr-IC2": "k8hnc4sz",
-    "10yr": "k5kh8cm7",
-    "30yr": "ennqyul0",
-    "15day": "6x44o2h0",
-    "100day": "3ey9f2cg",
-    "10yr-segmented": "5wsnbpl5",
-    "10yr-climSST": "c5e2dt6g",
-    "10yr-with-precip": "78bu4fkz",
+    "81yr-IC0": "1zj3396n",
+    "81yr-IC1": "0wet2ot4",
+    "81yr-IC2": "g7tqggai",
+    "10yr": "cmjkmtnw",
+    "30yr": "w37x2qud",
+    "15day": "me15actr",
+    "100day": "oghlard3",
+    "10yr-segmented": "5wsnbpl5",  # TODO: rerun with recent image
+    "10yr-climSST": "c5e2dt6g",  # TODO: rerun with recent image
+    "10yr-with-precip": "tq6ljtf0",
 }
 
 # 'dataset comparison' run of ERA5 data against itself
-ERA5_DATA_RUN_WANDB_ID = "y8njbnnb"
+ERA5_DATA_RUN_WANDB_ID = "gxri8ksf"
 
 
 # inference runs for physical constraints ablation
+# TODO: rerun these experiments with latest image
 CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
     "No constraints-IC0": "dtq1ckuv",
     "No constraints-IC1": "6di90zwa",

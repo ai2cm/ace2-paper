@@ -9,6 +9,7 @@ ipywidgets
 jupyterlab
 matplotlib
 netCDF4
+nc-time-axis
 numpy<2
 scipy
 wandb

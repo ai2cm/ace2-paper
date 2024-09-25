@@ -32,15 +32,14 @@ ERA5_DATA_RUN_WANDB_ID = "gxri8ksf"
 
 
 # inference runs for physical constraints ablation
-# TODO: rerun these experiments with latest image
 CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
-    "No constraints-IC0": "dtq1ckuv",
-    "No constraints-IC1": "6di90zwa",
-    "No constraints-IC2": "kuv55mog",
-    "Dry air-IC0": "w8z4goal",
-    "Dry air-IC1": "yrbxabpf",
-    "Dry air-IC2": "30ezr5an",
-    "Dry air + moisture-IC0": "p4r9r3pi",
-    "Dry air + moisture-IC1": "1xzj4pg1",
-    "Dry air + moisture-IC2": "5lrii540",
+    "No constraints-IC0": "urr9bmrm",
+    "No constraints-IC1": "nngxzfk3",
+    "No constraints-IC2": "nr62yfwd",
+    "Dry air-IC0": "ydtpd9x2",
+    "Dry air-IC1": "09dhvite",
+    "Dry air-IC2": "tk1qe8xq",
+    "Dry air + moisture-IC0": "ejv18tb1",
+    "Dry air + moisture-IC1": "m2na9qzb",
+    "Dry air + moisture-IC2": "vndqpyhf",
 }

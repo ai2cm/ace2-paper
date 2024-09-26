@@ -2,9 +2,13 @@ import beaker
 import wandb
 import xarray as xr
 import io
+import os
 import datetime
 import numpy as np
+from matplotlib import pyplot as plt
 from typing import Optional, Sequence, List
+
+FIGURE_DIR = './figures'
 
 
 def wandb_to_beaker_experiment(project: str, id: str, entity: str = "ai2cm") -> str:
@@ -41,9 +45,11 @@ def get_scalar_metrics(run: wandb.apis.public.runs.Run, metric_names: List[str])
     and each metric occurs at the same step.
     """
     metrics = {}
-    history = run.scan_history(keys=metric_names)
+    summary = run.summary
     for key in metric_names:
-        metrics[key] = [row for row in history][0][key]
+        metric = summary.get(key)
+        if metric is not None:
+            metrics[key] = metric
     return metrics
 
 
@@ -95,3 +101,23 @@ def wandb_to_xarray(
         ds['lead_time'].attrs["units"] = "days since init"
         del ds["_step"]
     return ds
+
+
+def savefig(
+    fig: plt.Figure,
+    name: str,
+    figure_dir: str=FIGURE_DIR,
+    bbox_inches: str='tight',
+    transparent: bool=True,
+    **savefig_kwargs
+):
+    """
+    """
+    savefig_kwargs.update(
+        {
+            "bbox_inches": bbox_inches,
+            "transparent": transparent,
+        }
+    )
+    full_path = os.path.join(figure_dir, name)
+    fig.savefig(full_path, **savefig_kwargs)

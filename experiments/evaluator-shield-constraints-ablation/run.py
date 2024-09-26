@@ -24,6 +24,18 @@ TRAINED_MODEL_DATASET_IDS = {
 }
 
 # experiments defined by overlays which will overwrite the keys of the base config
+def get_name(constraint, ic_number):
+    return f"shield-amip-{constraint}-10yr-IC{ic_number}-ni"
+
+
+def get_overlay(day):
+    return {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": [f"2001-01-{day:02}T00:00:00"]}
+        },
+    }
+
 EXPERIMENT_OVERLAYS = {
     "shield-amip-{constraint}-10yr-IC0-ni": {"n_forward_steps": 14600},
     "shield-amip-{constraint}-10yr-IC1-ni": {
@@ -123,19 +135,15 @@ if __name__ == "__main__":
     with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
         base_config = yaml.safe_load(f)
 
-    print("Validating that configs have correct types.")
-    for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = merge_configs(base_config, overlay)
-        print(f"Validating config for experiment {name}.")
-        print(f"Config that is being validated:\n{config}")
-        dacite.from_dict(
-            fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
-        )
-    print("All configs are valid. Starting experiment submission.")
     for constraint, model_id in TRAINED_MODEL_DATASET_IDS.items():
-        for name_template, overlay in EXPERIMENT_OVERLAYS.items():
-            name = name_template.format(constraint=constraint)
+        for ic_number, day in enumerate(range(1, 11)):
+            name = get_name(constraint, ic_number)
+            overlay = get_overlay(day)
             config = merge_configs(base_config, overlay)
+            print(f"Validating config for experiment {name}.")
+            dacite.from_dict(
+                fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
+            )
             print(f"Creating experiment {name}.")
             spec = get_experiment_spec(name, config, trained_model_dataset_id=model_id)
             try:

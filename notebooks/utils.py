@@ -108,6 +108,7 @@ def savefig(
     name: str,
     figure_dir: str=FIGURE_DIR,
     bbox_inches: str='tight',
+    dpi: int=300,
     transparent: bool=True,
     **savefig_kwargs
 ):
@@ -117,6 +118,7 @@ def savefig(
         {
             "bbox_inches": bbox_inches,
             "transparent": transparent,
+            "dpi": dpi,
         }
     )
     full_path = os.path.join(figure_dir, name)

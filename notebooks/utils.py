@@ -9,6 +9,8 @@ from matplotlib import pyplot as plt
 from typing import Optional, Sequence, List
 
 FIGURE_DIR = './figures'
+DPI = 300
+FONTSIZE = 8
 
 
 def wandb_to_beaker_experiment(project: str, id: str, entity: str = "ai2cm") -> str:
@@ -108,7 +110,7 @@ def savefig(
     name: str,
     figure_dir: str=FIGURE_DIR,
     bbox_inches: str='tight',
-    dpi: int=300,
+    dpi: int=DPI,
     transparent: bool=True,
     **savefig_kwargs
 ):

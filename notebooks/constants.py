@@ -8,7 +8,7 @@ ERA5_TRAINING_RUN_WANDB_IDS = {
     "rs2": "593xn6l8",
     "rs3": "380pn4sr",
 }
-ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs3"]
+ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs2"]
 
 # inference job wandb IDs using best checkpoint from above
 ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {

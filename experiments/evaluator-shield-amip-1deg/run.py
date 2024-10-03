@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-f3337723"
+IMAGE_NAME = "brianhenn/fme-926fd6e7"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"

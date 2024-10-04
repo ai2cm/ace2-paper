@@ -22,7 +22,10 @@ def beaker_experiment_to_wandb(beaker_experiment: str) -> Optional[Tuple[str, st
     """
     client = beaker.Beaker.from_env()
     for page in client.experiment.logs(beaker_experiment, quiet=True):
-        page_str = page.decode("utf-8")
+        try:
+            page_str = page.decode("utf-8")
+        except UnicodeDecodeError:
+            return None
         lines = page_str.split("\n")
         for line in lines:
             if "View run at https://wandb.ai" in line and "runs/" in line:

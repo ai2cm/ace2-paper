@@ -1,4 +1,6 @@
-"""This script is used to get the wandb ids of the runs that we want to analyze."""
+"""This script is used to get the wandb ids of the runs that we want to analyze.
+
+Ensure your beaker default workspace is set to ai2cm/ace before running."""
 
 import beaker
 import yaml
@@ -8,7 +10,9 @@ import utils
 # ../experiments/evaluator-era5-main/run.py
 # ../experiments/evaluator-era5-main/run-segmented.py
 # ../experiments/evaluator-era5-main/run-rs-comparison.py
+# ../experiments/evaluator-era5-main/run-weather-forecast.py
 # ../experiments/evaluator-shield-amip-1deg/run.py
+# ../experiments/evaluator-shield-constraints-ablation/run.py
 
 beaker_experiment_names = [
     "era5-co2-10yr-RS2-IC0-ni",
@@ -29,6 +33,7 @@ beaker_experiment_names = [
     "era5-co2-60yr-rs1-ni",
     "era5-co2-60yr-rs2-ni",
     "era5-co2-60yr-rs3-ni",
+    "era5-co2-15day-2020-RS2-pf",
     "shield-amip-1deg-ace2-inference-10yr-IC0",
     "shield-amip-1deg-ace2-inference-10yr-IC1",
     "shield-amip-1deg-ace2-inference-10yr-IC2",
@@ -78,13 +83,27 @@ beaker_experiment_names = [
     "shield-amip-1deg-ace-climsst-inference-81yr-IC0",
     "shield-amip-1deg-ace-climsst-inference-81yr-IC1",
     "shield-amip-1deg-ace-climsst-inference-81yr-IC2",
+    "shield-amip-no-constraints-10yr-IC0-rerun",
+    "shield-amip-no-constraints-10yr-IC1-rerun",
+    "shield-amip-no-constraints-10yr-IC2-rerun",
+    "shield-amip-dry-air-10yr-IC0-rerun",
+    "shield-amip-dry-air-10yr-IC1-rerun",
+    "shield-amip-dry-air-10yr-IC2-rerun",
+    "shield-amip-dry-air-and-moisture-10yr-IC0-rerun",
+    "shield-amip-dry-air-and-moisture-10yr-IC1-rerun",
+    "shield-amip-dry-air-and-moisture-10yr-IC2-rerun",
 ]
 
 # assuming all runs are using same wandb entity and project
 wandb_ids = {}
 for name in beaker_experiment_names:
-    entity, project, id_ = utils.beaker_experiment_to_wandb(name)
-    if entity is not None:
+    print(f"Getting wandb id for {name}")
+    output = utils.beaker_experiment_to_wandb(name)
+    if output is None:
+        print(f"WARNING: Could not get wandb id for {name}. Using None.")
+        id_ = None
+    else:
+        entity, project, id_ = output
         assert entity == "ai2cm"
         assert project == "ace"
     wandb_ids[name] = id_

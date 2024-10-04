@@ -25,7 +25,7 @@ def get_runs_subset(all_runs, name_key):
     
 # SHiELD evaluation wandb IDs using best checkpoint, RS2
 ERA5_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(
-    wandb_ids, "era5-co2-81yr-RS2-IC"
+    wandb_ids, "era5-co2-10yr-RS2-IC"
 )
 ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "era5-co2-81yr-RS2-IC"

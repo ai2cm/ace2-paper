@@ -6,7 +6,7 @@ import os
 import datetime
 import numpy as np
 from matplotlib import pyplot as plt
-from typing import Optional, Sequence, List
+from typing import Optional, Sequence, List, Tuple
 
 FIGURE_DIR = './figures'
 DPI = 300
@@ -18,6 +18,26 @@ def wandb_to_beaker_experiment(project: str, id: str, entity: str = "ai2cm") -> 
     api = wandb.Api()
     run = api.run(f"{entity}/{project}/{id}")
     return run.config["environment"]["BEAKER_EXPERIMENT_ID"]
+
+
+def beaker_experiment_to_wandb(beaker_experiment: str) -> Optional[Tuple[str, str, str]]:
+    """Given a beaker experiment ID or name, return corresponding wandb entity, project, and run ID.
+    
+    Warning: this function is not reliable, since the necessary line could be split between
+    pages. Will return None if can't get the ID.
+    """
+    client = beaker.Beaker.from_env()
+    for page in client.experiment.logs(beaker_experiment, quiet=True):
+        page_str = page.decode("utf-8")
+        lines = page_str.split("\n")
+        for line in lines:
+            if "View run at https://wandb.ai" in line and "runs/" in line:
+                elements = line.split("/")
+                id_ = elements[-1]
+                project = elements[-3]
+                entity = elements[-4]
+                return entity, project, id_
+    return None
 
 
 def wandb_to_beaker_result(project: str, id: str, entity: str = "ai2cm") -> str:

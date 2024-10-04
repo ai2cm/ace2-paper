@@ -6,6 +6,7 @@ era5-co2-10yr-RS2-clim-forcing-ni: wtibozyk
 era5-co2-10yr-RS2-segmented-ni: t6g1zlzc
 era5-co2-10yr-daily-output-RS2-ni: 8d3574tr
 era5-co2-15day-2020-RS2-ni: ovlrax39
+era5-co2-15day-2020-RS2-pf: w8wze1gw
 era5-co2-30yr-daily-output-RS2-ni: m30uwihh
 era5-co2-60yr-rs0-ni: z8rm24sl
 era5-co2-60yr-rs1-ni: 1slxcmd9
@@ -62,3 +63,12 @@ shield-amip-c96-vs-c24-4deg-10yr-IC0: v4b9zocm
 shield-amip-c96-vs-c24-4deg-10yr-IC1: if11u3hw
 shield-amip-c96-vs-c24-4deg-81yr-IC0: zabdcv9c
 shield-amip-c96-vs-c24-4deg-81yr-IC1: feagjtbz
+shield-amip-dry-air-10yr-IC0-rerun: 3ikd0etg
+shield-amip-dry-air-10yr-IC1-rerun: zjzoc73y
+shield-amip-dry-air-10yr-IC2-rerun: 8i7ciw40
+shield-amip-dry-air-and-moisture-10yr-IC0-rerun: szlmu135
+shield-amip-dry-air-and-moisture-10yr-IC1-rerun: ldf3nmgy
+shield-amip-dry-air-and-moisture-10yr-IC2-rerun: 0eyayfhx
+shield-amip-no-constraints-10yr-IC0-rerun: mcurpdgm
+shield-amip-no-constraints-10yr-IC1-rerun: s3evvb7d
+shield-amip-no-constraints-10yr-IC2-rerun: nog4nrb4

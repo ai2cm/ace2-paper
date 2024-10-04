@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "brianhenn/fme-f3337723"
+IMAGE_NAME = "oliverwm/fme-926fd6e7"
 WORKSPACE = "ai2/ace"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
@@ -19,20 +19,20 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 TRAINED_MODEL_DATASET_IDS = {
     "no-constraints": "01J61CG7N6XD6YWH2WSTP84JYG",  # https://wandb.ai/ai2cm/ace/runs/ohxkr4ya
-    "dry-air": "01J55ADYEAN7DFDA7JXME3651N",  # https://wandb.ai/ai2cm/ace/runs/jjqtzkxy
-    "dry-air-and-moisture": "01J5RT4KGSSX4KWBXQEBTTY5PT",  # https://wandb.ai/ai2cm/ace/runs/men5bnw6
+    "dry-air": "01J5658PYCEDP60678ERMRPCVJ",  # https://wandb.ai/ai2cm/ace/runs/lu30xajn
+    "dry-air-and-moisture": "01J52JFYZ78DAH1DTGW3YEVRYQ",  # https://wandb.ai/ai2cm/ace/runs/qf8e8qy4
 }
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-{constraint}-10yr-IC0-ni": {"n_forward_steps": 14600},
-    "shield-amip-{constraint}-10yr-IC1-ni": {
+    "shield-amip-{constraint}-10yr-IC0-rerun": {"n_forward_steps": 14600},
+    "shield-amip-{constraint}-10yr-IC1-rerun": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-{constraint}-10yr-IC2-ni": {
+    "shield-amip-{constraint}-10yr-IC2-rerun": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},

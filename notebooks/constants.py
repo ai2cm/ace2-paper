@@ -1,5 +1,9 @@
+import yaml
+
 WANDB_ENTITY = "ai2cm"
 WANDB_PROJECT = "ace"
+
+WANDB_ID_FILE = './wandb_ids.yaml'
 
 # training job wandb IDs
 ERA5_TRAINING_RUN_WANDB_IDS = {
@@ -10,127 +14,95 @@ ERA5_TRAINING_RUN_WANDB_IDS = {
 }
 ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs2"]
 
-# inference job wandb IDs using best checkpoint from above
-ERA5_BEST_INFERENCE_WANDB_RUN_IDS = {
-    "81yr-IC0": "1zj3396n",
-    "81yr-IC1": "0wet2ot4",
-    "81yr-IC2": "g7tqggai",
-    "10yr": "cmjkmtnw",
-    "10yr-IC0": "tq6ljtf0",  # this is same as "10yr" run above, just used different data writer outputs
-    "10yr-IC1": "m6qu89d2",
-    "10yr-IC2": "h4oj4oc2",
-    "30yr": "w37x2qud",
-    "15day": "me15actr",
-    "100day": "oghlard3",
-    "10yr-segmented": "5wsnbpl5",  # TODO: rerun with recent image
-    "10yr-climSST": "c5e2dt6g",  # TODO: rerun with recent image
-    "10yr-with-precip": "tq6ljtf0",
-}
+with open(WANDB_ID_FILE, 'r') as f:
+    wandb_ids = yaml.safe_load(f)
+    
+# this is brittle but works with current set of names
+def get_runs_subset(all_runs, name_key):
+    return {
+        f"IC{k.split(name_key)[1][:1]}": v for k, v in all_runs.items() if k.startswith(name_key)
+    }
+    
+# SHiELD evaluation wandb IDs using best checkpoint, RS2
+ERA5_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "era5-co2-81yr-RS2-IC"
+)
+ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "era5-co2-81yr-RS2-IC"
+)
 
-# 'dataset comparison' run of ERA5 data against itself
-ERA5_DATA_RUN_WANDB_ID = "gxri8ksf"
-
-# SHiELD evaluation wandb IDs using best checkpoint, RS3
-SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = {
-    "IC0": "a88aanz5",
-    "IC1": "nj0ucjh6",
-    "IC2": "de4mczvq",
-}
-SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS = {
-    "IC0": "awvfqq9f",
-    "IC1": "onovz8yp",
-    "IC2": "qnsm54zm", 
-}
+# SHiELD evaluation wandb IDs using best checkpoint, RS2
+SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-10yr-IC"
+)
+SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-IC"
+)
 
 # SHiELD evaluation wandb IDs using other RS checkpoints
-SHiELD_AMIP_1DEG_RS0_10YR_WANDB_RUN_IDS = {
-    "IC0": "cwwcu5kv",
-    "IC1": "bermtwic",
-    "IC2": "s8e6xsbk",
-}
-SHiELD_AMIP_1DEG_RS0_81YR_WANDB_RUN_IDS = {
-    "IC0": "f266tolj",
-    "IC1": "5mq7btcy",
-    "IC2": "snkmw3d9", 
-}
-SHiELD_AMIP_1DEG_RS1_10YR_WANDB_RUN_IDS = {
-    "IC0": "fig0aqhc",
-    "IC1": "449ydn8p",
-    "IC2": "dsv1xhpl",
-}
-SHiELD_AMIP_1DEG_RS1_81YR_WANDB_RUN_IDS = {
-    "IC0": "qlm1etey",
-    "IC1": "3bfxv1i9",
-    "IC2": "n3u43uoa", 
-}
-SHiELD_AMIP_1DEG_RS2_10YR_WANDB_RUN_IDS = {
-    "IC0": "mfdzt2o4",
-    "IC1": "1ufjnbqp",
-    "IC2": "rtnixrkw",
-}
-SHiELD_AMIP_1DEG_RS2_81YR_WANDB_RUN_IDS = {
-    "IC0": "q41rz6p2",
-    "IC1": "wreqe5gq",
-    "IC2": "r2cpu2bp", 
-}
-
+SHiELD_AMIP_1DEG_RS0_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-10yr-RS0-IC"
+)
+SHiELD_AMIP_1DEG_RS0_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-RS0-IC"
+)
+SHiELD_AMIP_1DEG_RS1_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-10yr-RS1-IC"
+)
+SHiELD_AMIP_1DEG_RS1_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-RS1-IC"
+)
+SHiELD_AMIP_1DEG_RS3_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-10yr-RS3-IC"
+)
+SHiELD_AMIP_1DEG_RS3_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-RS3-IC"
+)
 
 # 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002 
 SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID = {
-    "IC0": "muswh21i"
+    "IC0": wandb_ids["shield-amip-1deg-reference-inference-10yr"],
 }
 SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID = {
-    "IC0": "ce2hgxs8"
+    "IC0": wandb_ids["shield-amip-1deg-reference-inference-81yr"],
 }
 
 # 'dataset comparison' runs of SHiELD-AMIP ICs against ERA5
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS = {
-    "IC0": "2nw8gi5i",
-    "IC1": "j83sbri7",
+    "IC0": wandb_ids["shield-amip-IC1-vs-era5-10yr"],
+    "IC1": wandb_ids["shield-amip-IC2-vs-era5-10yr"],
 }
 SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS = {
-    "IC0": "klnr8wwa",
-    "IC1": "8t90aafd",
+    "IC0": wandb_ids["shield-amip-IC1-vs-era5-81yr"],
+    "IC1": wandb_ids["shield-amip-IC2-vs-era5-81yr"],
 }
 
 # climSST ACE baseline
-CLIMSST_DEG_10YR_WANDB_RUN_IDS = {
-    "IC0": "b76h3n7y",
-    "IC1": "jlhmg5fp",
-    "IC2": "9wyaoyt9"
-}
-CLIMSST_DEG_81YR_WANDB_RUN_IDS = {
-    "IC0": "lg7a92g5",
-    "IC1": "oydw8d94",
-    "IC2": "saj7n8gd"
-}
+CLIMSST_DEG_10YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace-climsst-inference-10yr-IC"
+)
+CLIMSST_DEG_81YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace-climsst-inference-81yr-IC"
+)
 
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {
-        "ACE2-ERA5": {
-            k: v
-            for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items()
-            if k.startswith('10yr-IC')
-        },
+        "ACE2-ERA5": ERA5_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
         "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS0": SHiELD_AMIP_1DEG_RS0_10YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS1": SHiELD_AMIP_1DEG_RS1_10YR_WANDB_RUN_IDS,
-        "ACE2-SHiELD-RS2": SHiELD_AMIP_1DEG_RS2_10YR_WANDB_RUN_IDS,
+        "ACE2-SHiELD-RS2": SHiELD_AMIP_1DEG_RS3_10YR_WANDB_RUN_IDS,
         "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
         "ACE-climSST": CLIMSST_DEG_10YR_WANDB_RUN_IDS,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
     },
     "81yr": {
-        "ACE2-ERA5":  {
-            k: v
-            for k, v in ERA5_BEST_INFERENCE_WANDB_RUN_IDS.items()
-            if k.startswith('81yr-IC')
-        },
+        "ACE2-ERA5":  ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS0": SHiELD_AMIP_1DEG_RS0_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS1": SHiELD_AMIP_1DEG_RS1_81YR_WANDB_RUN_IDS,
-        "ACE2-SHiELD-RS2": SHiELD_AMIP_1DEG_RS2_81YR_WANDB_RUN_IDS,
+        "ACE2-SHiELD-RS3": SHiELD_AMIP_1DEG_RS3_81YR_WANDB_RUN_IDS,
         "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
         "ACE-climSST": CLIMSST_DEG_81YR_WANDB_RUN_IDS,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
@@ -150,7 +122,6 @@ CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
     "Dry air + moisture-IC1": "m2na9qzb",
     "Dry air + moisture-IC2": "vndqpyhf",
 }
-
 
 # physical constants
 SECONDS_PER_DAY = 86_400

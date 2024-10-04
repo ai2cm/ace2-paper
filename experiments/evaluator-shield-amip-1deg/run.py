@@ -281,6 +281,76 @@ EXPERIMENT_OVERLAYS = {
 
 # non-best inference checkpoint runs
 RANDOM_SEED_OVERLAYS = {
+    "shield-amip-1deg-ace2-inference-5yr-val-RS0": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1996-01-01T00:00:00",
+                    "1996-02-01T00:00:00",
+                    "1996-03-01T00:00:00",
+                    "1996-04-01T00:00:00",
+                    "1996-05-01T00:00:00",
+                    "1996-06-01T00:00:00",
+                    "1996-07-01T00:00:00",
+                    "1996-08-01T00:00:00",
+                    "1996-09-01T00:00:00",
+                    "1996-10-01T00:00:00",
+                    "1996-11-01T00:00:00",
+                    "1996-12-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC0": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC1": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS0-IC2": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-RS0": (
+        "01J4R87G93A5TNTFMRMVKB88CW",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
+        },
+    ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC0": (
         "01J4R87G93A5TNTFMRMVKB88CW",
         {
@@ -330,6 +400,76 @@ RANDOM_SEED_OVERLAYS = {
                     "global_mean_co2",
                 ],
             }
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-5yr-val-RS1": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1996-01-01T00:00:00",
+                    "1996-02-01T00:00:00",
+                    "1996-03-01T00:00:00",
+                    "1996-04-01T00:00:00",
+                    "1996-05-01T00:00:00",
+                    "1996-06-01T00:00:00",
+                    "1996-07-01T00:00:00",
+                    "1996-08-01T00:00:00",
+                    "1996-09-01T00:00:00",
+                    "1996-10-01T00:00:00",
+                    "1996-11-01T00:00:00",
+                    "1996-12-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC0": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC1": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS1-IC2": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-RS1": (
+        "01J4R89AD8YQ0ZBPWRESYEB8TN",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS1-IC0": (
@@ -383,6 +523,76 @@ RANDOM_SEED_OVERLAYS = {
             }
         },
     ),
+    "shield-amip-1deg-ace2-inference-5yr-val-RS2": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1996-01-01T00:00:00",
+                    "1996-02-01T00:00:00",
+                    "1996-03-01T00:00:00",
+                    "1996-04-01T00:00:00",
+                    "1996-05-01T00:00:00",
+                    "1996-06-01T00:00:00",
+                    "1996-07-01T00:00:00",
+                    "1996-08-01T00:00:00",
+                    "1996-09-01T00:00:00",
+                    "1996-10-01T00:00:00",
+                    "1996-11-01T00:00:00",
+                    "1996-12-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC0": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC1": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS2-IC2": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-RS2": (
+        "01J52JFYZ78DAH1DTGW3YEVRYQ",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
+        },
+    ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC0": (
         "01J52JFYZ78DAH1DTGW3YEVRYQ",
         {
@@ -432,6 +642,76 @@ RANDOM_SEED_OVERLAYS = {
                     "global_mean_co2",
                 ],
             }
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-5yr-val-RS3": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1996-01-01T00:00:00",
+                    "1996-02-01T00:00:00",
+                    "1996-03-01T00:00:00",
+                    "1996-04-01T00:00:00",
+                    "1996-05-01T00:00:00",
+                    "1996-06-01T00:00:00",
+                    "1996-07-01T00:00:00",
+                    "1996-08-01T00:00:00",
+                    "1996-09-01T00:00:00",
+                    "1996-10-01T00:00:00",
+                    "1996-11-01T00:00:00",
+                    "1996-12-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC0": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC1": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-10yr-RS3-IC2": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 14600,
+            "loader": {
+                "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-RS3": (
+        "01J5Y2WQ5ZV3WZXBMZP32BG81N",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS3-IC0": (
@@ -536,6 +816,98 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-no-mois-cons-RS0": (
+        "01J55ADYEAN7DFDA7JXME3651N",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-no-mois-cons-RS1": (
+        "01J5658PYCEDP60678ERMRPCVJ",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-no-mois-dryair-cons-RS0": (
+        "01J61CG4AANRZ35D2PWMF6AH2T",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
+            },
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-60yr-no-mois-dryair-cons-RS1": (
+        "01J61CG7N6XD6YWH2WSTP84JYG",
+        {
+            "n_forward_steps": 7300,
+            "forward_steps_in_memory": 5,
+            "loader": {
+                "start_indices": {"times": [
+                    "1940-01-01T00:00:00",
+                    "1945-01-01T00:00:00",
+                    "1950-01-01T00:00:00",
+                    "1955-01-01T00:00:00",
+                    "1960-01-01T00:00:00",
+                    "1965-01-01T00:00:00",
+                    "1970-01-01T00:00:00",
+                    "1975-01-01T00:00:00",
+                    "1980-01-01T00:00:00",
+                    "1985-01-01T00:00:00",
+                    "1990-01-01T00:00:00",
+                    "1995-01-01T00:00:00",
+                ]},
             },
         },
     ),

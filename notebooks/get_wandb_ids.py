@@ -1,4 +1,6 @@
-"""This script is used to get the wandb ids of the runs that we want to analyze."""
+"""This script is used to get the wandb ids of the runs that we want to analyze.
+
+Ensure your beaker default workspace is set to ai2cm/ace before running."""
 
 import beaker
 import yaml

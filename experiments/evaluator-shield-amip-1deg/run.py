@@ -771,11 +771,16 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-01T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
             },
             "data_writer": {
                 "save_monthly_files": True,
                 "names": [
-                    "TMP2m",
+                    "T2m",
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
@@ -788,11 +793,16 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-02T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
             },
             "data_writer": {
                 "save_monthly_files": True,
                 "names": [
-                    "TMP2m",
+                    "T2m",
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
@@ -805,11 +815,16 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 118341,
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
             },
             "data_writer": {
                 "save_monthly_files": True,
                 "names": [
-                    "TMP2m",
+                    "T2m",
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],

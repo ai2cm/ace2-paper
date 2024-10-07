@@ -47,18 +47,105 @@ EXPERIMENT_OVERLAYS = {
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-ace2-inference-81yr-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC0": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.00030729,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC1": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-02T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.00030729,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
+    },
+    "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC2": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-03T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.00030729,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "SHTFLsfc",
+                "global_mean_co2",
+            ],
+        }
     },
     "shield-amip-1deg-reference-inference-10yr": {
         "n_forward_steps": 14600,
@@ -79,6 +166,8 @@ EXPERIMENT_OVERLAYS = {
         "data_writer": {
             "save_monthly_files": True,
             "names": [
+                "TMP2m",
+                "SHTFLsfc",
                 "surface_temperature",
                 "ocean_fraction",
             ],
@@ -269,6 +358,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC1": (
@@ -278,6 +375,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC2": (
@@ -287,6 +392,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS1": (
@@ -366,6 +479,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS1-IC1": (
@@ -375,6 +496,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS1-IC2": (
@@ -384,6 +513,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS2": (
@@ -463,6 +600,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC1": (
@@ -472,6 +617,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC2": (
@@ -481,6 +634,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS3": (
@@ -560,6 +721,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-01T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS3-IC1": (
@@ -569,6 +738,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-02T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS3-IC2": (
@@ -578,6 +755,14 @@ RANDOM_SEED_OVERLAYS = {
             "loader": {
                 "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "TMP2m",
+                    "SHTFLsfc",
+                    "global_mean_co2",
+                ],
+            }
         },
     ),
     "shield-amip-1deg-ace-climsst-inference-10yr-IC0": (

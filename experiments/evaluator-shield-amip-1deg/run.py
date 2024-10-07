@@ -51,7 +51,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -65,7 +65,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -79,7 +79,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -100,7 +100,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -121,7 +121,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -142,7 +142,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "global_mean_co2",
             ],
         }
@@ -167,7 +167,7 @@ EXPERIMENT_OVERLAYS = {
             "save_monthly_files": True,
             "names": [
                 "TMP2m",
-                "SHTFLsfc",
+                "air_temperature_0",
                 "surface_temperature",
                 "ocean_fraction",
             ],
@@ -362,7 +362,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -379,7 +379,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -396,7 +396,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -483,7 +483,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -500,7 +500,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -517,7 +517,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -604,7 +604,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -621,7 +621,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -638,7 +638,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -725,7 +725,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -742,7 +742,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -759,7 +759,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -781,7 +781,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "T2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -803,7 +803,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "T2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }
@@ -825,7 +825,7 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "T2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }

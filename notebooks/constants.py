@@ -124,19 +124,5 @@ CO2_SENSITIVITY_ACE2_SHiELD_1DEG = {
     "no-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS,
 }
 
-# inference runs for physical constraints ablation
-# TODO: redo this evaluator runs and regenerate the plots
-CONSTRAINT_ABLATION_INFERENCE_WANDB_RUN_IDS = {
-    "No constraints-IC0": "urr9bmrm",
-    "No constraints-IC1": "nngxzfk3",
-    "No constraints-IC2": "nr62yfwd",
-    "Dry air-IC0": "ydtpd9x2",
-    "Dry air-IC1": "09dhvite",
-    "Dry air-IC2": "tk1qe8xq",
-    "Dry air + moisture-IC0": "ejv18tb1",
-    "Dry air + moisture-IC1": "m2na9qzb",
-    "Dry air + moisture-IC2": "vndqpyhf",
-}
-
 # physical constants
 SECONDS_PER_DAY = 86_400

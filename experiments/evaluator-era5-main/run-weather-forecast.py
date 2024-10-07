@@ -1,5 +1,5 @@
-# requires beaker-py, install with
-# pip install -U beaker-py
+"""Run weather forecast skill experiment. Because this requires using the persistence-forcing
+feature which is not merged to main, have to do it in a separate script."""
 
 import beaker
 import uuid
@@ -10,46 +10,42 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-926fd6e7"
-WORKSPACE = "ai2/ace"
+IMAGE_NAME = "oliverwm/fme-e3c56b43"
+TRAINED_MODEL_DATASET_ID = "01J4MT10JPQ8MFA41F2AXGFYJ9"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 
-TRAINED_MODEL_DATASET_IDS = {
-    "no-constraints": "01J61CG7N6XD6YWH2WSTP84JYG",  # https://wandb.ai/ai2cm/ace/runs/ohxkr4ya
-    "dry-air": "01J5658PYCEDP60678ERMRPCVJ",  # https://wandb.ai/ai2cm/ace/runs/lu30xajn
-    "dry-air-and-moisture": "01J52JFYZ78DAH1DTGW3YEVRYQ",  # https://wandb.ai/ai2cm/ace/runs/qf8e8qy4
-}
 
 # experiments defined by overlays which will overwrite the keys of the base config
+DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-{constraint}-10yr-IC0-rerun": {"n_forward_steps": 14600},
-    "shield-amip-{constraint}-10yr-IC1-rerun": {
-        "n_forward_steps": 14600,
+    "era5-co2-15day-2020-RS2-pf": {
+        "n_forward_steps": 60,
+        "forward_steps_in_memory": 1,
         "loader": {
-            "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            "start_indices": {
+                "first": 116880,
+                "interval": 30,
+                "n_initial_conditions": 48,
+            },
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
         },
-    },
-    "shield-amip-{constraint}-10yr-IC2-rerun": {
-        "n_forward_steps": 14600,
-        "loader": {
-            "start_indices": {"times": ["2001-01-03T00:00:00"]},
+        "persistence_forcing_names": [
+            "land_fraction",
+            "ocean_fraction",
+            "sea_ice_fraction",
+            "global_mean_co2",
+            "surface_temperature",
+        ],
+        "data_writer": {
+            "save_prediction_files": True,
+            "names": ["TMP2m", "TMP850", "h500", "VGRD10m"],
         },
     },
 }
-
-
-def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
-    """Merge nested configurations."""
-    base_copy = base.copy()  # don't modify the original base
-    for k, v in new.items():
-        if isinstance(v, dict):
-            base_copy[k] = merge_configs(base_copy.get(k, {}), v)
-        else:
-            base_copy[k] = v
-    return base_copy
 
 
 def write_config_dataset(config: Dict[str, Any]):
@@ -65,17 +61,15 @@ def write_config_dataset(config: Dict[str, Any]):
 def get_experiment_spec(
     name: str,
     config: Dict[str, Any],
-    trained_model_dataset_id: str,
     image_name=IMAGE_NAME,
+    trained_model_dataset_id=TRAINED_MODEL_DATASET_ID,
 ):
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
     config_dataset = write_config_dataset(config)
     env_vars = [
-        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
+        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key"),
         beaker.EnvVar(name="WANDB_JOB_TYPE", value="inference"),
         beaker.EnvVar(name="WANDB_NAME", value=name),
-        beaker.EnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-inference"),
-        beaker.EnvVar(name="WANDB_USERNAME", value="oliverwm"),
     ]
     datasets = [
         beaker.DataMount(
@@ -94,7 +88,7 @@ def get_experiment_spec(
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="Do inference with ACE2 model trained on SHiELD-AMIP.",
+        description="Do inference with ACE2 model trained on ERA5.",
         tasks=[
             beaker.TaskSpec(
                 name=name,
@@ -125,28 +119,26 @@ if __name__ == "__main__":
 
     print("Validating that configs have correct types.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = merge_configs(base_config, overlay)
+        config = {**base_config, **overlay}
         print(f"Validating config for experiment {name}.")
         print(f"Config that is being validated:\n{config}")
         dacite.from_dict(
             fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
         )
     print("All configs are valid. Starting experiment submission.")
-    for constraint, model_id in TRAINED_MODEL_DATASET_IDS.items():
-        for name_template, overlay in EXPERIMENT_OVERLAYS.items():
-            name = name_template.format(constraint=constraint)
-            config = merge_configs(base_config, overlay)
-            print(f"Creating experiment {name}.")
-            spec = get_experiment_spec(name, config, trained_model_dataset_id=model_id)
-            try:
-                experiment = client.experiment.create(name, spec, workspace=WORKSPACE)
-                print(
-                    f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
-                )
-            except beaker.exceptions.ExperimentConflict:
-                print(
-                    f"Failed to create experiment {name} because it already exists. "
-                    "Skipping experiment creation. If you want to submit this experiment, "
-                    "delete the existing experiment with the same name, or rename the new "
-                    "experiment."
-                )
+    for name, overlay in EXPERIMENT_OVERLAYS.items():
+        config = {**base_config, **overlay}
+        print(f"Creating experiment {name}.")
+        spec = get_experiment_spec(name, config)
+        try:
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
+            print(
+                f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
+            )
+        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Failed to create experiment {name} because it already exists. "
+                "Skipping experiment creation. If you want to submit this experiment, "
+                "delete the existing experiment with the same name, or rename the new "
+                "experiment."
+            )

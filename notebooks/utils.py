@@ -2,9 +2,15 @@ import beaker
 import wandb
 import xarray as xr
 import io
+import os
 import datetime
 import numpy as np
-from typing import Optional, Sequence, Tuple
+from matplotlib import pyplot as plt
+from typing import Optional, Sequence, List, Tuple
+
+FIGURE_DIR = './figures'
+DPI = 300
+FONTSIZE = 8
 
 
 def wandb_to_beaker_experiment(project: str, id: str, entity: str = "ai2cm") -> str:
@@ -52,7 +58,40 @@ def beaker_to_xarray(dataset_id: str, path: str) -> xr.Dataset:
     """
     client = beaker.Beaker.from_env()
     file = client.dataset.get_file(dataset_id, path)
-    return xr.open_dataset(io.BytesIO(file), engine="h5netcdf").load()
+    return xr.open_dataset(io.BytesIO(file), engine='h5netcdf').load()
+
+
+def get_scalar_metrics(run: wandb.apis.public.runs.Run, metric_names: List[str]):
+    """
+    Given a wandb run ID and list of scalar metric names, 
+    return a dict of those metric values.
+    
+    Note: Assumes metrics occurs once in run history,
+    and each metric occurs at the same step.
+    """
+    metrics = {}
+    summary = run.summary
+    for key in metric_names:
+        metric = summary.get(key)
+        if metric is not None:
+            metrics[key] = metric
+    return metrics
+
+
+def get_beaker_dataset_variables(
+    wandb_id: str, 
+    ds_name: str,
+    varnames: List[str],
+    wandb_project: str="ace",
+    wandb_entity: str="ai2cm",
+):
+    """Given a wandb run ID, a results dataset name, and variable names,
+    return an xarray dataset of those variables.
+    """
+    beaker_result_id = wandb_to_beaker_result(wandb_project, wandb_id, wandb_entity)
+    diags = beaker_to_xarray(beaker_result_id, ds_name)
+    valid_varnames = [name for name in varnames if name in diags.data_vars]
+    return diags[valid_varnames]
 
 
 def wandb_to_xarray(
@@ -87,3 +126,25 @@ def wandb_to_xarray(
         ds['lead_time'].attrs["units"] = "days since init"
         del ds["_step"]
     return ds
+
+
+def savefig(
+    fig: plt.Figure,
+    name: str,
+    figure_dir: str=FIGURE_DIR,
+    bbox_inches: str='tight',
+    dpi: int=DPI,
+    transparent: bool=True,
+    **savefig_kwargs
+):
+    """
+    """
+    savefig_kwargs.update(
+        {
+            "bbox_inches": bbox_inches,
+            "transparent": transparent,
+            "dpi": dpi,
+        }
+    )
+    full_path = os.path.join(figure_dir, name)
+    fig.savefig(full_path, **savefig_kwargs)

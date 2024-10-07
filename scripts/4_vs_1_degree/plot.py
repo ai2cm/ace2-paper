@@ -483,7 +483,6 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
                 label = "target member" if i == 0 else None
                 target_4deg.plot(ax=ax, label=label, color="gray", linestyle="--")
             ax.set_title("Annual mean series")
-            ax.legend()
             ax.set_ylabel(f"mean {var.long_name} ({var.units})")
             xmin, xmax = ds_ref_4deg.year.min().item(), ds_ref_4deg.year.max().item()
             ax.set_xlim(xmin, xmax)
@@ -498,6 +497,9 @@ def plot_annual_means(config: Config, dataset_cache: DatasetCache):
             # ax[1].legend()
             # ax[1].set_ylabel(f"mean bias ({var.units})")
             # ax[1].set_xlim(xmin, xmax)
+            ax.axvspan(1996, 2001, color="gray", alpha=0.5, label="validation period")
+            ax.axvspan(2001, 2011, color="green", alpha=0.3, label="testing period")
+            ax.legend()
             plt.tight_layout()
             fig.savefig(comparison_out_path / f"{var.name}-annual_mean_series.png")
             plt.close(fig)
@@ -542,6 +544,6 @@ if __name__ == '__main__':
     config = dacite.from_dict(Config, config, config=dacite.Config(strict=True))
     dataset_cache = DatasetCache(Beaker.from_env())
 
+    plot_annual_means(config, dataset_cache)
     plot_time_means(config, dataset_cache)
     plot_enso_coefficients(config, dataset_cache)
-    plot_annual_means(config, dataset_cache)

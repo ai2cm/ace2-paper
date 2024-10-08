@@ -759,7 +759,73 @@ RANDOM_SEED_OVERLAYS = {
                 "save_monthly_files": True,
                 "names": [
                     "TMP2m",
-                    "SHTFLsfc",
+                    "air_temperature_0",
+                    "global_mean_co2",
+                ],
+            }
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC0": (
+        "brianhenn/shield-amip-1deg-ace2-train-noCO2-RS1-best-inference-ckpt",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-01T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
+            },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "T2m",
+                    "air_temperature_0",
+                    "global_mean_co2",
+                ],
+            }
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC1": (
+        "brianhenn/shield-amip-1deg-ace2-train-noCO2-RS1-best-inference-ckpt",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-02T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
+            },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "T2m",
+                    "air_temperature_0",
+                    "global_mean_co2",
+                ],
+            }
+        },
+    ),
+    "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC2": (
+        "brianhenn/shield-amip-1deg-ace2-train-noCO2-RS1-best-inference-ckpt",
+        {
+            "n_forward_steps": 118341,
+            "loader": {
+                "start_indices": {"times": ["1940-01-03T12:00:00"]},
+                "dataset": {
+                    "renamed_variables": {
+                        "TMP2m": "T2m",
+                    }
+                },
+            },
+            "data_writer": {
+                "save_monthly_files": True,
+                "names": [
+                    "T2m",
+                    "air_temperature_0",
                     "global_mean_co2",
                 ],
             }

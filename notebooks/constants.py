@@ -85,6 +85,14 @@ CLIMSST_DEG_81YR_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "shield-amip-1deg-ace-climsst-inference-81yr-IC"
 )
 
+# ACE2-SHiELD CO2 sensitivity runs
+SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC"
+)
+SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC"
+)
+
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
     "10yr": {
@@ -107,6 +115,14 @@ INFERENCE_COMPARISON_1DEG = {
         "ACE-climSST": CLIMSST_DEG_81YR_WANDB_RUN_IDS,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
     }
+}
+
+# CO2 sensitivity 
+CO2_SENSITIVITY_ACE2_SHiELD_1DEG = {
+    "historical-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
+    "fixed-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS,
+    "no-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS,
+    "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
 }
 
 # physical constants

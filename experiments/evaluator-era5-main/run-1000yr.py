@@ -30,7 +30,7 @@ EXPERIMENT_OVERLAYS = {
                 "n_repeats": 300,
             }
         },
-        "data_writer": {"save_monthly_files": False},
+        "data_writer": {"save_monthly_files": False, "save_prediction_files": False},
         "n_forward_steps": 365 * 4 * 100,
         "aggregator": {"log_global_mean_time_series": False},
     },

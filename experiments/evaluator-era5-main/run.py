@@ -174,6 +174,19 @@ EXPERIMENT_OVERLAYS = {
             ],
         },
     },
+    "era5-co2-1995-5yr-RS2-for-video": {
+        "n_forward_steps": 7300,
+        "loader": {
+            "start_indices": {"times": ["1995-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": True,
+            "time_coarsen": {"coarsen_factor": 4},
+            "names": ["PRATEsfc", "ULWRFtoa"],
+        },
+    },
 }
 
 

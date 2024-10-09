@@ -11,9 +11,9 @@ import fme
 import dacite
 
 IMAGE_NAME = "brianhenn/fme-926fd6e7"
-TRAINED_MODEL_DATASET_ID = "01J47JCKPPND0K6GXNP2049NNA"
+TRAINED_MODEL_DATASET_ID = "01J4WEM48F3J6Z1CT2ARZ89F4T"
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
-TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
@@ -22,47 +22,47 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-inference-10yr-IC0": {
+    "shield-amip-4deg-ace2-inference-10yr-IC0": {
         "n_forward_steps": 14600,
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC1": {
+    "shield-amip-4deg-ace2-inference-10yr-IC1": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-10yr-IC2": {
+    "shield-amip-4deg-ace2-inference-10yr-IC2": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC0": {
+    "shield-amip-4deg-ace2-inference-81yr-IC0": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC1": {
+    "shield-amip-4deg-ace2-inference-81yr-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
         },
     },
-    "shield-amip-1deg-ace2-inference-81yr-IC2": {
+    "shield-amip-4deg-ace2-inference-81yr-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
     },
-    "shield-amip-1deg-reference-inference-10yr": {
+    "shield-amip-4deg-reference-inference-10yr": {
         "n_forward_steps": 14600,
         "prediction_loader": {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
         }
     },
-    "shield-amip-1deg-reference-inference-81yr": {
+    "shield-amip-4deg-reference-inference-81yr": {
         "n_forward_steps": 118341,
         "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
         "prediction_loader": {
@@ -74,8 +74,8 @@ EXPERIMENT_OVERLAYS = {
 
 # non-best inference checkpoint runs
 RANDOM_SEED_OVERLAYS = {
-    "shield-amip-1deg-ace2-inference-60yr-RS0": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt",
+    "shield-amip-4deg-ace2-inference-60yr-RS1": (
+        "01J4705XPN5F2WVNBZQZA7RR1E",
         {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
@@ -97,35 +97,8 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-81yr-RS0-IC0": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS0-IC1": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS0-IC2": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS0-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-03T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-60yr-RS1": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt",
+    "shield-amip-4deg-ace2-inference-60yr-RS2": (
+        "01J47JCKPPND0K6GXNP2049NNA",
         {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
@@ -147,35 +120,8 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-81yr-RS1-IC0": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS1-IC1": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS1-IC2": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS1-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-03T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-60yr-RS2": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt",
+    "shield-amip-4deg-ace2-inference-60yr-RS3": (
+        "01J47JD9S55Q2HY9WK8YQX414F",
         {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
@@ -197,35 +143,8 @@ RANDOM_SEED_OVERLAYS = {
             },
         },
     ),
-    "shield-amip-1deg-ace2-inference-81yr-RS2-IC0": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS2-IC1": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS2-IC2": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-03T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-60yr-RS3": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt",
+    "shield-amip-4deg-ace2-inference-60yr-RS4": (
+        "01J4WEM48F3J6Z1CT2ARZ89F4T",
         {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
@@ -244,33 +163,6 @@ RANDOM_SEED_OVERLAYS = {
                     "1990-01-01T00:00:00",
                     "1995-01-01T00:00:00",
                 ]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS3-IC0": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS3-IC1": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            },
-        },
-    ),
-    "shield-amip-1deg-ace2-inference-81yr-RS3-IC2": (
-        "brianhenn/shield-amip-1deg-ace2-train-RS3-best-inference-ckpt",
-        {
-            "n_forward_steps": 118341,
-            "loader": {
-                "start_indices": {"times": ["1940-01-03T12:00:00"]},
             },
         },
     ),
@@ -372,7 +264,7 @@ if __name__ == "__main__":
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
-            experiment = client.experiment.create(name, spec)
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
             print(
                 f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
             )
@@ -398,7 +290,7 @@ if __name__ == "__main__":
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config, trained_model_dataset_id=checkpoint)
         try:
-            experiment = client.experiment.create(name, spec)
+            experiment = client.experiment.create(name, spec, workspace="ai2/ace")
             print(
                 f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
             )

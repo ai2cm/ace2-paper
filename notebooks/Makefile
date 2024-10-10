@@ -5,6 +5,7 @@ run_climate_skill:
 	jupyter nbconvert --execute --to notebook --inplace climate_skill_1deg_zonal_time_mean.ipynb
 	jupyter nbconvert --execute --to notebook --inplace climate_skill_1deg_time_mean_RMSE.ipynb
 	jupyter nbconvert --execute --to notebook --inplace climate_skill_1deg_enso_correlation.ipynb
+	jupyter nbconvert --execute --to notebook --inplace climate_skill_1deg_co2_sensitivity.ipynb.ipynb
 
 # assumed that the ace2-paper conda environment is active
 run_era5:

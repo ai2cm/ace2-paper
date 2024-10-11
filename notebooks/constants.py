@@ -12,15 +12,12 @@ ERA5_TRAINING_RUN_WANDB_IDS = {
     "rs2": "593xn6l8",
     "rs3": "380pn4sr",
 }
-ERA5_BEST_RUN_WANDB_ID = ERA5_TRAINING_RUN_WANDB_IDS["rs2"]
 SHiELD_TRAINING_RUN_WANDB_IDS = {
     "rs0": "hfa38ef6",
     "rs1": "wjgsqy7x",
     "rs2": "qf8e8qy4",
     "rs3": "men5bnw6",
 }
-SHiELD_BEST_RUN_WANDB_ID = SHiELD_TRAINING_RUN_WANDB_IDS
-["rs2"]
 
 with open(WANDB_ID_FILE, 'r') as f:
     wandb_ids = yaml.safe_load(f)

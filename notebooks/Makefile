@@ -19,3 +19,7 @@ run_constraints:
 	echo "Running constraints notebooks"
 	jupyter nbconvert --execute --to notebook --inplace shield_physical_constraints_ablation.ipynb
 	jupyter nbconvert --execute --to notebook --inplace era5_budget_closure.ipynb
+    
+run_supplementary:
+	echo "Running supplementary notebooks"
+	jupyter nbconvert --execute --to notebook --inplace supplementary_val_inference_seed_epoch_variability.ipynb

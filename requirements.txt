@@ -2,7 +2,7 @@ beaker-py
 Bottleneck
 cartopy>=0.22.0
 dask
-fme
+fme==2024.9.0
 fsspec
 gcsfs
 h5netcdf

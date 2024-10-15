@@ -2,7 +2,7 @@ beaker-py
 Bottleneck
 cartopy>=0.22.0
 dask
-fme@git+https://github.com/ai2cm/ace.git@06d145df7bca712f3957d2eaabc20e9b87a4d207#subdirectory=fme
+fme==2024.9.0
 fsspec
 gcsfs
 h5netcdf

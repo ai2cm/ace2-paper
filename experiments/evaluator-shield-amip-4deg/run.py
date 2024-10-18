@@ -22,16 +22,16 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-4deg-ace2-inference-10yr-IC0": {
+    "shield-amip-4deg-ace2-inference-10yr-RS4-IC0": {
         "n_forward_steps": 14600,
     },
-    "shield-amip-4deg-ace2-inference-10yr-IC1": {
+    "shield-amip-4deg-ace2-inference-10yr-RS4-IC1": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-02T00:00:00"]},
         },
     },
-    "shield-amip-4deg-ace2-inference-10yr-IC2": {
+    "shield-amip-4deg-ace2-inference-10yr-RS4-IC2": {
         "n_forward_steps": 14600,
         "loader": {
             "start_indices": {"times": ["2001-01-03T00:00:00"]},

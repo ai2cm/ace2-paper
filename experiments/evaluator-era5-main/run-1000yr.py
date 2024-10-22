@@ -1,5 +1,4 @@
-# do 10-year segmented into year-long segments to enable saving all the outputs
-# necessary for tropical cyclone analysis.
+# do 1000-year segmented into 100-year-long segments
 
 import beaker
 import uuid

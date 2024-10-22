@@ -61,13 +61,16 @@ def beaker_to_xarray(dataset_id: str, path: str) -> xr.Dataset:
     return xr.open_dataset(io.BytesIO(file), engine='h5netcdf').load()
 
 
-def get_scalar_metrics(run: wandb.apis.public.runs.Run, metric_names: List[str]):
+def get_wandb_scalar_metrics(
+    run: wandb.apis.public.runs.Run,
+    metric_names: List[str]
+):
     """
-    Given a wandb run ID and list of scalar metric names, 
-    return a dict of those metric values.
+    Given a wandb run and list of scalar metric names, return a dict of those
+    metric values.
     
-    Note: Assumes metrics occurs once in run history,
-    and each metric occurs at the same step.
+    Note: Assumes scalar metrics occur once in run history, so that they can be
+    reliably accessed by the wandb run `summary`.
     """
     metrics = {}
     summary = run.summary

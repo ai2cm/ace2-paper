@@ -10,7 +10,7 @@ import os
 import fme
 import dacite
 
-IMAGE_NAME = "oliverwm/fme-b17b2938"
+IMAGE_NAME = "oliverwm/fme-ff878fce"
 TRAINED_MODEL_DATASET_ID = "01J4MT10JPQ8MFA41F2AXGFYJ9"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "segmented-config.yaml"
@@ -21,7 +21,7 @@ CLIM_FORCING_DATASET = "2024-09-04-era5-1deg-8layer-forcing-clim-1991-2020.zarr"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "era5-co2-1000yr": {
+    "era5-co2-1000yr-redo": {
         "forcing_loader": {
             "dataset": {
                 "data_path": "/climate-default",
@@ -30,7 +30,11 @@ EXPERIMENT_OVERLAYS = {
                 "n_repeats": 300,
             }
         },
-        "data_writer": {"save_monthly_files": False, "save_prediction_files": False},
+        "data_writer": {
+            "save_monthly_files": True,
+            "save_prediction_files": False, 
+            "names": ["total_water_path"],
+        },
         "n_forward_steps": 365 * 4 * 100,
         "aggregator": {"log_global_mean_time_series": False},
     },

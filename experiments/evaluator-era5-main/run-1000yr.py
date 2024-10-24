@@ -37,6 +37,23 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 365 * 4 * 100,
         "aggregator": {"log_global_mean_time_series": False},
     },
+    "era5-co2-10yr-climSST-precip-only": {
+        "forcing_loader": {
+            "dataset": {
+                "data_path": "/climate-default",
+                "file_pattern": CLIM_FORCING_DATASET,
+                "engine": "zarr",
+                "n_repeats": 3,
+            }
+        },
+        "data_writer": {
+            "save_monthly_files": False,
+            "save_prediction_files": True, 
+            "names": ["PRATEsfc"],
+        },
+        "n_forward_steps": 365 * 4 * 1,
+        "aggregator": {"log_global_mean_time_series": False},
+    },
 }
 
 

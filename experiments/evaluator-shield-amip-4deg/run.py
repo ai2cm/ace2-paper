@@ -55,7 +55,7 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
         },
     },
-    "shield-amip-4deg-reference-inference-10yr": {
+    "shield-amip-4deg-reference-inference-10yr-2001": {
         "n_forward_steps": 14600,
         "prediction_loader": {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},

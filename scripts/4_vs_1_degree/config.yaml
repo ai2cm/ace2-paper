@@ -40,7 +40,7 @@ comparisons:
         units: "mm/day"
     res_4deg:
       reference_run:
-        job_name: "jeremym/shield-amip-4deg-reference-inference-10yr"
+        job_name: "jeremym/shield-amip-4deg-reference-inference-10yr-2001"
       runs:
         - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-RS4-IC0"
         - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-RS4-IC1"

@@ -1,6 +1,6 @@
 comparisons:
-  - name: "amip_82_year"
-    long_name: "AMIP 82-year"
+  - name: "amip_81_year"
+    long_name: "AMIP 81-year"
     variables:
       - name: "TMP2m"
         scale: 1
@@ -12,18 +12,21 @@ comparisons:
         units: "mm/day"
     res_4deg:
       reference_run:
-        job_name: "jeremym/shield-amip-4deg-reference-inference-82yr"
+        job_name: "jeremym/shield-amip-4deg-reference-inference-81yr"
       runs:
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC0"
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC1"
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-82yr-IC2"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-81yr-IC0"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-81yr-IC1"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-81yr-IC2"
     res_1deg:
       reference_run:
-        job_name: "brianhenn/shield-amip-1deg-reference-inference-82yr"
+        job_name: "brianhenn/shield-amip-1deg-reference-inference-81yr"
       runs:
-        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC0"
-        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC1"
-        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-82yr-IC2"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-81yr-IC0"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-81yr-IC1"
+        - job_name: "brianhenn/shield-amip-1deg-ace2-inference-81yr-IC2"
+    c24_reference_runs:
+      - "brianhenn/shield-amip-c96-vs-c24-4deg-81yr-IC0"
+      - "brianhenn/shield-amip-c96-vs-c24-4deg-81yr-IC1"
   - name: "amip_10_year"
     long_name: "AMIP 10-year"
     variables:
@@ -37,11 +40,11 @@ comparisons:
         units: "mm/day"
     res_4deg:
       reference_run:
-        job_name: "jeremym/shield-amip-4deg-reference-inference-10yr"
+        job_name: "jeremym/shield-amip-4deg-reference-inference-10yr-2001"
       runs:
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC0"
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC1"
-        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-IC2"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-RS4-IC0"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-RS4-IC1"
+        - job_name: "jeremym/shield-amip-4deg-ace2-inference-10yr-RS4-IC2"
     res_1deg:
       reference_run:
         job_name: "brianhenn/shield-amip-1deg-reference-inference-10yr"
@@ -49,3 +52,6 @@ comparisons:
         - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC0"
         - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC1"
         - job_name: "brianhenn/shield-amip-1deg-ace2-inference-10yr-IC2"
+    c24_reference_runs:
+      - "brianhenn/shield-amip-c96-vs-c24-4deg-10yr-IC0"
+      - "brianhenn/shield-amip-c96-vs-c24-4deg-10yr-IC1"

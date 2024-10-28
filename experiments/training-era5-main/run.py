@@ -17,7 +17,6 @@ DATASET_CONFIG_MOUNTPATH = "/configmount"
 STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019-v2"
 
 ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
-SHIELD_DATA_PATH = "/climate-default/2024-07-21-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/train/ic_0001"
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
@@ -25,24 +24,6 @@ EXPERIMENT_OVERLAYS = {
     "era5-ace2-co2-rs1": {},
     "era5-ace2-co2-rs2": {},
     "era5-ace2-co2-rs3": {},
-    # "era5-ace2-rw4-shield-data": {   # need SHiELD data with CO2 before can launch this
-    #    "max_epochs": 75,
-    #    "train_loader": {
-    #        "batch_size": 16,
-    #        "num_data_workers": 32,
-    #        "dataset": [
-    #            {"data_path": ERA5_DATA_PATH, "subset": {"stop_time": "1995-12-31"}},
-    #            {
-    #                "data_path": ERA5_DATA_PATH,
-    #                "subset": {"start_time": "2011-01-01", "stop_time": "2019-12-31"},
-    #            },
-    #            {"data_path": ERA5_DATA_PATH, "subset": {"start_time": "2021-01-01"}},
-    #            {"data_path": SHIELD_DATA_PATH, "subset": {"stop_time": "1995-12-31"}},
-    #            {"data_path": SHIELD_DATA_PATH, "subset": {"start_time": "2011-01-01"}},
-    #        ],
-    #        "strict_ensemble": False,
-    #    },
-    # },
 }
 
 

@@ -18,6 +18,11 @@ STATS_DATASET_1DEG_NAME = "andrep/2024-07-24-vertically-resolved-c96-1deg-shield
 STATS_DATASET_4DEG_NAME = "andrep/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset-stats"
 REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-1deg-shield-amip-monthly-reference"
 REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
+with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
+    base_config = yaml.safe_load(f)
+NO_CO2_IN_NAMES = base_config["stepper"]["in_names"].remove("global_mean_co2")
+del base_config
+
 
 AMIP_4DEG_OVERLAY = {
     "train_loader": {
@@ -99,6 +104,7 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-1deg-ace2-training-rs1": {},
     "shield-amip-1deg-ace2-training-rs2": {},
     "shield-amip-1deg-ace2-training-rs3": {},
+    "shield-amip-1deg-ace2-training-no-co2": {"stepper": {"in_names": NO_CO2_IN_NAMES}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
     "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs0": {

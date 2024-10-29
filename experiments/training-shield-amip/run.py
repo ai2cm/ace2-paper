@@ -20,7 +20,8 @@ REFERENCE_DATASET_1DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-1deg
 REFERENCE_DATASET_4DEG_NAME = "brianhenn/2024-07-24-vertically-resolved-c96-4deg-shield-amip-monthly-reference"
 with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
     base_config = yaml.safe_load(f)
-NO_CO2_IN_NAMES = base_config["stepper"]["in_names"].remove("global_mean_co2")
+NO_CO2_IN_NAMES = base_config["stepper"]["in_names"]
+NO_CO2_IN_NAMES.remove("global_mean_co2")
 del base_config
 
 
@@ -205,7 +206,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="urgent", preemptible=True),
+                context=beaker.TaskContext(priority="high", preemptible=True),
                 constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
                 env_vars=env_vars,
                 datasets=datasets,

@@ -34,6 +34,7 @@ beaker_experiment_names = [
     "era5-co2-60yr-rs2-ni",
     "era5-co2-60yr-rs3-ni",
     "era5-co2-15day-2020-RS2-pf",
+    "era5-co2-10yr-climSST-precip-only",
     "shield-amip-1deg-ace2-inference-10yr-IC0",
     "shield-amip-1deg-ace2-inference-10yr-IC1",
     "shield-amip-1deg-ace2-inference-10yr-IC2",

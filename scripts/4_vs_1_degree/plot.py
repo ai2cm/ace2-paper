@@ -211,8 +211,8 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
             vmax = -vmin
             bias_limits[var.name] = (vmin, vmax)
             fig, ax = plt.subplots(1, 2 + c24_columns, figsize=(8 + 4 * c24_columns, 2.5), subplot_kw={"projection": PROJECTION})
-            c = (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
-            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu", add_colorbar=False)
+            c = (err_1deg).plot(ax=ax[1], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu`_r`", add_colorbar=False)
+            (err_4deg).plot(ax=ax[0], vmin=vmin, vmax=vmax, transform=TRANSFORM, cmap="RdBu_r", add_colorbar=False)
             rmse_1deg = metrics.weighted_std(
                 torch.as_tensor(err_1deg.values),
                 weights=torch.as_tensor(area_4deg.values),
@@ -234,7 +234,7 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                     weights=torch.as_tensor(area_4deg.values),
                 ).cpu().numpy()
                 c = (err_c24).plot(
-                    ax=ax[2], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+                    ax=ax[2], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
                 )
                 ax[2].set_title("C24 ensemble mean\nRMSE: {:.2f}".format(err_c24_rmse))
             else:
@@ -275,10 +275,10 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
         for i, var_name in enumerate(biases):
             vmin, vmax = bias_limits[var_name]
             c = (biases[var_name][0]).plot(
-                ax=ax[i, 0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+                ax=ax[i, 0], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
             )
             (biases[var_name][1]).plot(
-                ax=ax[i, 1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+                ax=ax[i, 1], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
             )
             rmse_4deg = metrics.weighted_std(
                 torch.as_tensor(biases[var_name][0].values),
@@ -316,7 +316,7 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                     weights=torch.as_tensor(area_4deg.values),
                 ).cpu().numpy()
                 (biases[var_name][2]).plot(
-                    ax=ax[i, 2], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+                    ax=ax[i, 2], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
                 )
             if i == 0:
                 ax[i, 0].set_title(
@@ -373,14 +373,16 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
         comparison_out_path = OUT_PATH / comparison.name
         if not comparison_out_path.exists():
             comparison_out_path.mkdir()
-        ds_4deg = xr.concat(
+        ds_4deg_runs = xr.concat(
             [enso_coefficients[run.job_name] for run in comparison.res_4deg.runs],
             dim="run",
-        ).mean(dim="run")
-        ds_1deg = xr.concat(
+        )
+        # ds_4deg = ds_4deg_runs.mean(dim="run")
+        ds_1deg_runs = xr.concat(
             [enso_coefficients[run.job_name] for run in comparison.res_1deg.runs],
             dim="run",
-        ).mean(dim="run")
+        )
+        # ds_1deg = ds_1deg_runs.mean(dim="run")
 
         if len(comparison.c24_reference_runs) > 0:
             ds_c24: Optional[xr.Dataset] = xr.concat(
@@ -393,31 +395,32 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             c24_columns = 1
         else:
             c24_columns = 0
-        area_1deg = get_area(ds_1deg.lat, ds_1deg.lon)
-        area_4deg = get_area(ds_4deg.lat, ds_4deg.lon)
-        ds_1deg_coarse = (ds_1deg * area_1deg).coarsen(lat=4, lon=4).mean() / (area_1deg).coarsen(lat=4, lon=4).mean()
+        area_1deg = get_area(ds_1deg_runs.lat, ds_1deg_runs.lon)
+        area_4deg = get_area(ds_4deg_runs.lat, ds_4deg_runs.lon)
+        ds_1deg_coarse_runs = (ds_1deg_runs * area_1deg).coarsen(lat=4, lon=4).mean() / (area_1deg).coarsen(lat=4, lon=4).mean()
+        # ds_1deg_coarse = ds_1deg_coarse_runs.mean(dim="run")
         for var in comparison.variables:
-            data_4deg = ds_4deg[var.name].sel(source="prediction") * var.scale
-            data_4deg_ref = ds_4deg[var.name].sel(source="target") * var.scale
-            data_1deg = ds_1deg_coarse[var.name].sel(source="prediction") * var.scale
-            data_1deg_ref = ds_1deg_coarse[var.name].sel(source="target") * var.scale
+            data_4deg_runs = ds_4deg_runs[var.name].sel(source="prediction") * var.scale
+            data_4deg_ref = ds_4deg_runs[var.name].sel(source="target") * var.scale
+            data_1deg_runs = ds_1deg_coarse_runs[var.name].sel(source="prediction") * var.scale
+            data_1deg_ref = ds_1deg_coarse_runs[var.name].sel(source="target") * var.scale
             vmin = min(
-                data_4deg.min().item(),
-                data_4deg_ref.min().item(),
-                data_1deg.min().item(),
-                data_1deg_ref.min().item(),
+                data_4deg_runs.isel(run=0).min().item(),
+                data_4deg_ref.isel(run=0).min().item(),
+                data_1deg_runs.isel(run=0).min().item(),
+                data_1deg_ref.isel(run=0).min().item(),
             )
             vmax = max(
-                data_4deg.max().item(),
-                data_4deg_ref.max().item(),
-                data_1deg.max().item(),
-                data_1deg_ref.max().item(),
+                data_4deg_runs.isel(run=0).max().item(),
+                data_4deg_ref.isel(run=0).max().item(),
+                data_1deg_runs.isel(run=0).max().item(),
+                data_1deg_ref.isel(run=0).max().item(),
             )
             fig, ax = plt.subplots(2, 2, figsize=(10, 5), subplot_kw={"projection": PROJECTION})
-            data_4deg.plot(ax=ax[0, 0], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
-            data_4deg_ref.plot(ax=ax[0, 1], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
-            data_1deg.plot(ax=ax[1, 0], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
-            data_1deg_ref.plot(ax=ax[1, 1], vmin=vmin, vmax=vmax, cmap="RdBu", transform=TRANSFORM)
+            data_4deg_runs.isel(run=0).plot(ax=ax[0, 0], vmin=vmin, vmax=vmax, cmap="RdBu_r", transform=TRANSFORM)
+            data_4deg_ref.isel(run=0).plot(ax=ax[0, 1], vmin=vmin, vmax=vmax, cmap="RdBu_r", transform=TRANSFORM)
+            data_1deg_runs.isel(run=0).plot(ax=ax[1, 0], vmin=vmin, vmax=vmax, cmap="RdBu_r", transform=TRANSFORM)
+            data_1deg_ref.isel(run=0).plot(ax=ax[1, 1], vmin=vmin, vmax=vmax, cmap="RdBu_r", transform=TRANSFORM)
             ax[0, 0].set_title("4deg")
             ax[0, 1].set_title("4deg ref")
             ax[1, 0].set_title("1deg")
@@ -428,65 +431,90 @@ def plot_enso_coefficients(config: Config, dataset_cache: DatasetCache):
             fig.savefig(comparison_out_path / f"{var.name}-enso_coefficient_map.png")
             plt.close(fig)
 
-            err_4deg = data_4deg - data_4deg_ref
-            err_1deg = data_1deg - data_1deg_ref
-            vmin = min(err_4deg.min().item(), err_1deg.min().item())
-            vmax = max(err_4deg.max().item(), err_1deg.max().item())
+            err_4deg_runs = data_4deg_runs - data_4deg_ref
+            err_1deg_runs = data_1deg_runs - data_1deg_ref
+            vmin = min(err_4deg_runs.isel(run=0).min().item(), err_1deg_runs.isel(run=0).min().item())
+            vmax = max(err_4deg_runs.isel(run=0).max().item(), err_1deg_runs.isel(run=0).max().item())
             vmin = min(vmin, -vmax)
             vmax = -vmin
 
+            mse_4deg_runs = metrics.weighted_std(
+                torch.as_tensor(err_4deg_runs.values),
+                weights=torch.as_tensor(area_4deg.values),
+                dim=(-2, -1),
+            ).cpu().numpy() ** 2
+            mse_1deg_runs = metrics.weighted_std(
+                torch.as_tensor(err_1deg_runs.values),
+                weights=torch.as_tensor(area_4deg.values),
+                dim=(-2, -1),
+            ).cpu().numpy() ** 2
             # R2 = 1 - MSE / Var
-            mse_4deg = metrics.weighted_std(
-                torch.as_tensor(err_4deg.values),
-                weights=torch.as_tensor(area_4deg.values),
-            ).cpu().numpy() ** 2
-            mse_1deg = metrics.weighted_std(
-                torch.as_tensor(err_1deg.values),
-                weights=torch.as_tensor(area_4deg.values),
-            ).cpu().numpy() ** 2
-            var_4deg = metrics.weighted_std(
-                torch.as_tensor(data_4deg.values),
-                weights=torch.as_tensor(area_4deg.values),
-            ).cpu().numpy() ** 2
-            var_1deg = metrics.weighted_std(
-                torch.as_tensor(data_1deg.values),
-                weights=torch.as_tensor(area_4deg.values),
-            ).cpu().numpy() ** 2
-            r2_4deg = 1 - mse_4deg / var_4deg
-            r2_1deg = 1 - mse_1deg / var_1deg
-            print(f"{var.long_name}: R2 4deg: {r2_4deg}, R2 1deg: {r2_1deg}")
+            # mse_4deg = metrics.weighted_std(
+            #     torch.as_tensor(err_4deg.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            # ).cpu().numpy() ** 2
+            # mse_1deg = metrics.weighted_std(
+            #     torch.as_tensor(err_1deg.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            # ).cpu().numpy() ** 2
+            # import pdb; pdb.set_trace()
+            # var_4deg_runs = metrics.weighted_std(
+            #     torch.as_tensor(data_4deg_runs.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            #     dim=(-2, -1),
+            # ).cpu().numpy() ** 2
+            # var_4deg = var_4deg_runs.mean()
+            # var_1deg_runs = metrics.weighted_std(
+            #     torch.as_tensor(data_1deg_runs.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            #     dim=(-2, -1),
+            # ).cpu().numpy() ** 2
+            # var_1deg = var_1deg_runs.mean()
+
+
+            # var_4deg = metrics.weighted_std(
+            #     torch.as_tensor(data_4deg_mean.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            # ).cpu().numpy() ** 2
+            # var_1deg = metrics.weighted_std(
+            #     torch.as_tensor(data_1deg.values),
+            #     weights=torch.as_tensor(area_4deg.values),
+            # ).cpu().numpy() ** 2
+            # r2_4deg = 1 - mse_4deg / var_4deg
+            # r2_1deg = 1 - mse_1deg / var_1deg
+            # print(f"{var.long_name}: R2 4deg: {r2_4deg}, R2 1deg: {r2_1deg}")
 
             fig, ax = plt.subplots(1, 2 + c24_columns, figsize=(8 + 4 * c24_columns, 2.5), subplot_kw={"projection": PROJECTION})
-            c = (err_4deg).plot(
-                ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+            c = err_4deg_runs.isel(run=0).plot(
+                ax=ax[0], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
             )
-            (err_1deg).plot(
-                ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+            err_1deg_runs.isel(run=0).plot(
+                ax=ax[1], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
             )
             if ds_c24 is not None:
                 data_c24 = ds_c24[var.name].sel(source="prediction") * var.scale
                 data_c24_ref = ds_c24[var.name].sel(source="target") * var.scale
                 err_c24 = data_c24 - data_c24_ref
                 err_c24.plot(
-                    ax=ax[2], vmin=vmin, vmax=vmax, cmap="RdBu", add_colorbar=False, transform=TRANSFORM
+                    ax=ax[2], vmin=vmin, vmax=vmax, cmap="RdBu_r", add_colorbar=False, transform=TRANSFORM
                 )
                 mse_c24 = metrics.weighted_std(
                     torch.as_tensor(err_c24.values),
                     weights=torch.as_tensor(area_4deg.values),
                 ).cpu().numpy() ** 2
-                var_c24 = metrics.weighted_std(
-                    torch.as_tensor(data_c24.values),
-                    weights=torch.as_tensor(area_4deg.values),
-                ).cpu().numpy() ** 2
-                r2_c24 = 1 - mse_c24 / var_c24
-                print(f"{var.long_name}: R2 C24: {r2_c24}")
-                ax[2].set_title("C24 ensemble mean\nR2: {:.2f}".format(r2_c24))
+                # var_c24 = metrics.weighted_std(
+                #     torch.as_tensor(data_c24.values),
+                #     weights=torch.as_tensor(area_4deg.values),
+                # ).cpu().numpy() ** 2
+                # r2_c24 = 1 - mse_c24 / var_c24
+                # print(f"{var.long_name}: R2 C24: {r2_c24}")
+                ax[2].set_title("C24 ensemble mean\n{:.2f}".format(mse_c24))
             for iax in ax:
                 iax.coastlines(color="gray")
             cbar = fig.colorbar(c, ax=ax, orientation='vertical', fraction=0.05, pad=0)
             cbar.set_label(f"{var.long_name}\nENSO coefficient bias ({var.units})")
-            ax[0].set_title("4-degree ensemble mean\nR2: {:.2f}".format(r2_4deg))
-            ax[1].set_title("1-degree ensemble mean\nR2: {:.2f}".format(r2_1deg))
+            ax[0].set_title("4-degree ensemble mean\n{:.2f} ({:.2f}, {:.2f})".format(mse_4deg_runs[0], min(mse_4deg_runs), max(mse_4deg_runs)))
+            ax[1].set_title("1-degree ensemble mean\n{:.2f} ({:.2f}, {:.2f})".format(mse_1deg_runs[0], min(mse_1deg_runs), max(mse_1deg_runs)))
 
             plt.tight_layout()
             fig.subplots_adjust(right=0.83)
@@ -629,6 +657,6 @@ if __name__ == '__main__':
     config = dacite.from_dict(Config, config, config=dacite.Config(strict=True))
     dataset_cache = DatasetCache(Beaker.from_env())
 
-    plot_annual_means(config, dataset_cache)
     plot_enso_coefficients(config, dataset_cache)
+    plot_annual_means(config, dataset_cache)
     plot_time_means(config, dataset_cache)

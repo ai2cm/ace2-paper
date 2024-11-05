@@ -65,8 +65,15 @@ SHiELD_AMIP_1DEG_RS3_81YR_WANDB_RUN_IDS = get_runs_subset(
 )
 
 # 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002 
-SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID = {
-    "IC0": wandb_ids["shield-amip-1deg-reference-inference-10yr"],
+SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_IDS = {
+    "IC0": wandb_ids["shield-amip-1deg-reference-inference-10yr-1941"],
+    "IC1": wandb_ids["shield-amip-1deg-reference-inference-10yr-1951"],
+    "IC2": wandb_ids["shield-amip-1deg-reference-inference-10yr-1961"],
+    "IC3": wandb_ids["shield-amip-1deg-reference-inference-10yr-1971"],
+    "IC4": wandb_ids["shield-amip-1deg-reference-inference-10yr-1981"],
+    "IC5": wandb_ids["shield-amip-1deg-reference-inference-10yr-1991"],
+    "IC6": wandb_ids["shield-amip-1deg-reference-inference-10yr"],
+    "IC7": wandb_ids["shield-amip-1deg-reference-inference-10yr-2011"],
 }
 SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID = {
     "IC0": wandb_ids["shield-amip-1deg-reference-inference-81yr"],
@@ -106,7 +113,7 @@ INFERENCE_COMPARISON_1DEG = {
         "ACE2-SHiELD-RS0": SHiELD_AMIP_1DEG_RS0_10YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS1": SHiELD_AMIP_1DEG_RS1_10YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS3": SHiELD_AMIP_1DEG_RS3_10YR_WANDB_RUN_IDS,
-        "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_ID,
+        "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_IDS,
         "ACE-climSST": CLIMSST_DEG_10YR_WANDB_RUN_IDS,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
     },

@@ -35,6 +35,9 @@ ERA5_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(
 ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "era5-co2-81yr-RS2-IC"
 )
+ERA5_BEST_INFERENCE_1YR_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "era5-co2-1yr-2020-RS2-IC"
+)
 
 # SHiELD evaluation wandb IDs using best checkpoint, RS2
 SHiELD_AMIP_1DEG_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(

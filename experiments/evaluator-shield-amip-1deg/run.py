@@ -155,6 +155,83 @@ EXPERIMENT_OVERLAYS = {
             "num_data_workers": 8,
         }
     },
+    "shield-amip-1deg-reference-inference-10yr-1941": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1941-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1941-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-1951": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1951-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1951-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-1961": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1961-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1961-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-1971": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1971-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1971-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-1981": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1981-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1981-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-1991": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["1991-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["1991-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
+    "shield-amip-1deg-reference-inference-10yr-2011": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2011-01-01T00:00:00"]},
+        },
+        "prediction_loader": {
+            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "start_indices": {"times": ["2011-01-01T00:00:00"]},
+            "num_data_workers": 8,
+        }
+    },
     "shield-amip-1deg-reference-inference-81yr": {
         "n_forward_steps": 118341,
         "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
@@ -1046,7 +1123,7 @@ def get_experiment_spec(
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=1, shared_memory="50GiB"),
                 context=beaker.TaskContext(priority="high", preemptible=True),
-                constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
+                constraints=beaker.Constraints(cluster=["ai2/saturn-cirrascale"]),
                 env_vars=env_vars,
                 datasets=datasets,
             )

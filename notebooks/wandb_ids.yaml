@@ -8,6 +8,9 @@ era5-co2-10yr-climSST-precip-only: 52x41b6h
 era5-co2-10yr-daily-output-RS2-ni: 8d3574tr
 era5-co2-15day-2020-RS2-ni: ovlrax39
 era5-co2-15day-2020-RS2-pf: w8wze1gw
+era5-co2-1yr-2020-RS2-IC0: omi2swjk
+era5-co2-1yr-2020-RS2-IC1: va3k0l0a
+era5-co2-1yr-2020-RS2-IC2: 0sgklprg
 era5-co2-30yr-daily-output-RS2-ni: m30uwihh
 era5-co2-60yr-rs0-ni: z8rm24sl
 era5-co2-60yr-rs1-ni: 1slxcmd9
@@ -61,6 +64,13 @@ shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC0: g8b7zpn8
 shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC1: ug2hezxh
 shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC2: aggkrmve
 shield-amip-1deg-reference-inference-10yr: obrut0te
+shield-amip-1deg-reference-inference-10yr-1941: hjjwuoqn
+shield-amip-1deg-reference-inference-10yr-1951: k80onwqa
+shield-amip-1deg-reference-inference-10yr-1961: h3fxj6q2
+shield-amip-1deg-reference-inference-10yr-1971: k0m8lsd1
+shield-amip-1deg-reference-inference-10yr-1981: tf7dki18
+shield-amip-1deg-reference-inference-10yr-1991: ba0dva1a
+shield-amip-1deg-reference-inference-10yr-2011: patqkr2o
 shield-amip-1deg-reference-inference-81yr: h1uetr5e
 shield-amip-IC1-vs-era5-10yr: dv9okzw1
 shield-amip-IC1-vs-era5-81yr: nagprckr

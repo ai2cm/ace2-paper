@@ -1,5 +1,5 @@
 comparisons:
-  - name: "amip_81_year"
+  - name: "amip-4deg-81yr"
     long_name: "AMIP 81-year"
     variables:
       - name: "TMP2m"
@@ -27,7 +27,7 @@ comparisons:
     c24_reference_runs:
       - "brianhenn/shield-amip-c96-vs-c24-4deg-81yr-IC0"
       - "brianhenn/shield-amip-c96-vs-c24-4deg-81yr-IC1"
-  - name: "amip_10_year"
+  - name: "amip-4deg-10yr"
     long_name: "AMIP 10-year"
     variables:
       - name: "TMP2m"

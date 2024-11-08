@@ -187,6 +187,42 @@ EXPERIMENT_OVERLAYS = {
             "names": ["PRATEsfc", "ULWRFtoa"],
         },
     },
+    "era5-co2-1yr-2020-RS2-IC0": {
+        "n_forward_steps": 1460,
+        "loader": {
+            "start_indices": {"times": ["2020-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "names": ["PRATEsfc"],
+        },
+    },
+    "era5-co2-1yr-2020-RS2-IC1": {
+        "n_forward_steps": 1460,
+        "loader": {
+            "start_indices": {"times": ["2020-01-02T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "names": ["PRATEsfc"],
+        },
+    },
+    "era5-co2-1yr-2020-RS2-IC2": {
+        "n_forward_steps": 1460,
+        "loader": {
+            "start_indices": {"times": ["2020-01-03T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "names": ["PRATEsfc"],
+        },
+    },
 }
 
 

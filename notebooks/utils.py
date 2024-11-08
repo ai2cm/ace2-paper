@@ -131,6 +131,23 @@ def wandb_to_xarray(
     return ds
 
 
+def get_color_scheme(
+    n_colors_base: int,
+    i_color_repeat: Optional[int]=None,
+    n_repeats: Optional[int]=None,
+    cmap_name: str='viridis_r',
+    cmap_start: float=0.0,
+    cmap_end: float=1.0
+):
+    '''Return a color scheme array, with a particular color repeated if desired'''
+    base_color_scheme = plt.get_cmap(cmap_name)(np.linspace(cmap_start, cmap_end, n_colors_base))
+    if i_color_repeat is not None:
+        repeated_color = np.tile(base_color_scheme[i_color_repeat][None, :], (n_repeats - 1, 1))
+        return np.insert(base_color_scheme, i_color_repeat, repeated_color, axis=0)
+    else:
+        return base_color_scheme
+
+
 def savefig(
     fig: plt.Figure,
     name: str,

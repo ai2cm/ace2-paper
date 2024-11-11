@@ -101,36 +101,90 @@ AMIP_4DEG_768_CHANNEL_OVERLAY = {
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "shield-amip-1deg-ace2-training-rs0": {},
-    "shield-amip-1deg-ace2-training-rs1": {},
-    "shield-amip-1deg-ace2-training-rs2": {},
-    "shield-amip-1deg-ace2-training-rs3": {},
-    "shield-amip-1deg-ace2-training-no-co2": {"stepper": {"in_names": NO_CO2_IN_NAMES}},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
-    "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs0": {
-        "stepper": {
-            "corrector": {
-                "moisture_budget_correction": None,
-                "conserve_dry_air": False,
-            }
+    # "shield-amip-1deg-ace2-training-rs0": {},
+    # "shield-amip-1deg-ace2-training-rs1": {},
+    # "shield-amip-1deg-ace2-training-rs2": {},
+    # "shield-amip-1deg-ace2-training-rs3": {},
+    # "shield-amip-1deg-ace2-training-no-co2": {"stepper": {"in_names": NO_CO2_IN_NAMES}},
+    # "shield-amip-1deg-ace2-training-no-mois-cons-rs0": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    # "shield-amip-1deg-ace2-training-no-mois-cons-rs1": {"stepper": {"corrector": {"moisture_budget_correction": None}}},
+    # "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs0": {
+    #     "stepper": {
+    #         "corrector": {
+    #             "moisture_budget_correction": None,
+    #             "conserve_dry_air": False,
+    #         }
+    #     }
+    # },
+    # "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs1": {
+    #     "stepper": {
+    #         "corrector": {
+    #             "moisture_budget_correction": None,
+    #             "conserve_dry_air": False,
+    #         }
+    #     }
+    # },
+    # "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
+    # "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
+    # "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
+    # "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    # "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    # "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-1deg-data-size-1mem-training-rs0": {
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"stop_time": "1995-12-31"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2011-01-01"}},
+            ]
         }
     },
-    "shield-amip-1deg-ace2-training-no-mois-dryair-cons-rs1": {
-        "stepper": {
-            "corrector": {
-                "moisture_budget_correction": None,
-                "conserve_dry_air": False,
-            }
+    "shield-amip-1deg-data-size-8yr-4yr-training-rs0": {
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"stop_time": "1944-01-01"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2016-01-01"}},
+            ]
         }
     },
-    "shield-amip-4deg-ace2-training-rs0": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-rs1": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-rs2": AMIP_4DEG_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
-    "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
+    "shield-amip-1deg-data-size-8yr-1yr-training-rs0": {
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1940-01-01T00:00:00", "stop_time": "1941-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1950-01-01T00:00:00", "stop_time": "1951-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1960-01-01T00:00:00", "stop_time": "1961-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1970-01-01T00:00:00", "stop_time": "1971-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1980-01-01T00:00:00", "stop_time": "1981-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1990-01-01T00:00:00", "stop_time": "1991-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2016-01-01T00:00:00", "stop_time": "2017-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2019-01-01T00:00:00", "stop_time": "2020-01-01T12:00:00"}},
+            ]
+        }
+    },
+    "shield-amip-1deg-data-size-8yr-1yr-128C-training-rs0": {
+        "stepper": {
+            "builder": {
+                "config": {
+                    "embed_dim": 128
+                }
+            }
+        },
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1940-01-01T00:00:00", "stop_time": "1941-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1950-01-01T00:00:00", "stop_time": "1951-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1960-01-01T00:00:00", "stop_time": "1961-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1970-01-01T00:00:00", "stop_time": "1971-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1980-01-01T00:00:00", "stop_time": "1981-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1990-01-01T00:00:00", "stop_time": "1991-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2016-01-01T00:00:00", "stop_time": "2017-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2019-01-01T00:00:00", "stop_time": "2020-01-01T12:00:00"}},
+            ]
+        }
+    },
 }
+
+WANDB_RUN_GROUP = "shield-amip-data-size-training"
+JOB_DESCRIPTION = "SHiELD AMIP data size training"
 
 
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
@@ -160,7 +214,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
         beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
         beaker.EnvVar(name="WANDB_JOB_TYPE", value="training"),
         beaker.EnvVar(name="WANDB_NAME", value=name),
-        beaker.EnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-training"),
+        beaker.EnvVar(name="WANDB_RUN_GROUP", value=WANDB_RUN_GROUP),
         beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983")
     ]
     datasets = [
@@ -191,7 +245,7 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
     ]
     spec = beaker.ExperimentSpec(
         budget="ai2/climate",
-        description="SHiELD AMIP ACE2 training",
+        description=JOB_DESCRIPTION,
         tasks=[
             beaker.TaskSpec(
                 name=name,
@@ -206,8 +260,8 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 ],
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
-                context=beaker.TaskContext(priority="urgent", preemptible=True),
-                constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
+                context=beaker.TaskContext(priority="high", preemptible=True),
+                constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2", "ai2/saturn-cirrascale"]),
                 env_vars=env_vars,
                 datasets=datasets,
             )

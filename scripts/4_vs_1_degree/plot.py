@@ -340,11 +340,13 @@ def plot_time_means(config: Config, dataset_cache: DatasetCache):
                         )
                     )
                 if ds_c24 is not None:
+                    ax[i, 2].coastlines(color="gray")
                     ax[i, 2].set_title("C24 IC0\nRMSE: {:.2f} ({})".format(rmses_c24[0], ", ".join("{:.2f}".format(rmse) for rmse in rmses_c24[1:])))
             else:
                 ax[i, 0].set_title("RMSE: {:.2f} ({})".format(rmses_4deg[0], ", ".join("{:.2f}".format(rmse) for rmse in rmses_4deg[1:])))
                 ax[i, 1].set_title("RMSE: {:.2f} ({})".format(rmses_1deg[0], ", ".join("{:.2f}".format(rmse) for rmse in rmses_1deg[1:])))
                 if ds_c24 is not None:
+                    ax[i, 2].coastlines(color="gray")
                     ax[i, 2].set_title("RMSE: {:.2f} ({})".format(rmses_c24[0], ", ".join("{:.2f}".format(rmse) for rmse in rmses_c24[1:])))
         ax[-1, 0].set_xlabel("longitude")
         ax[-1, 1].set_xlabel("longitude")

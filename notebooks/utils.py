@@ -62,7 +62,7 @@ def beaker_to_xarray(dataset_id: str, path: str) -> xr.Dataset:
 
 
 def get_wandb_scalar_metrics(
-    run: wandb.apis.public.runs.Run,
+    run,
     metric_names: List[str]
 ):
     """

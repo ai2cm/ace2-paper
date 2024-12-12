@@ -130,7 +130,8 @@ EXPERIMENT_OVERLAYS = {
     # "shield-amip-4deg-ace2-training-768C-rs0": AMIP_4DEG_768_CHANNEL_OVERLAY,
     # "shield-amip-4deg-ace2-training-768C-rs1": AMIP_4DEG_768_CHANNEL_OVERLAY,
     # "shield-amip-4deg-ace2-training-768C-rs2": AMIP_4DEG_768_CHANNEL_OVERLAY,
-    "shield-amip-1deg-data-size-1mem-training-rs0": {
+    "shield-amip-1deg-data-size-1mem-120e-training-rs0": {
+        "max_epochs": 120,
         "train_loader": {
             "dataset": [
                 {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"stop_time": "1995-12-31"}},
@@ -146,7 +147,48 @@ EXPERIMENT_OVERLAYS = {
             ]
         }
     },
-    "shield-amip-1deg-data-size-8yr-1yr-training-rs0": {
+    "shield-amip-1deg-data-size-8yr-1yr-900e-training-rs0": {
+        "max_epochs": 900,
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1940-01-01T00:00:00", "stop_time": "1941-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1950-01-01T00:00:00", "stop_time": "1951-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1960-01-01T00:00:00", "stop_time": "1961-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1970-01-01T00:00:00", "stop_time": "1971-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1980-01-01T00:00:00", "stop_time": "1981-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1990-01-01T00:00:00", "stop_time": "1991-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2016-01-01T00:00:00", "stop_time": "2017-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2019-01-01T00:00:00", "stop_time": "2020-01-01T12:00:00"}},
+            ]
+        }
+    },
+    "shield-amip-1deg-data-size-8yr-1yr-300e-training-rs1": {
+        "max_epochs": 300,
+        "inference": {
+            "epochs": {
+                "step": 10,
+            }
+        },
+        "train_loader": {
+            "dataset": [
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1940-01-01T00:00:00", "stop_time": "1941-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1950-01-01T00:00:00", "stop_time": "1951-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1960-01-01T00:00:00", "stop_time": "1961-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1970-01-01T00:00:00", "stop_time": "1971-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1980-01-01T00:00:00", "stop_time": "1981-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1990-01-01T00:00:00", "stop_time": "1991-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2016-01-01T00:00:00", "stop_time": "2017-01-01T12:00:00"}},
+                {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "2019-01-01T00:00:00", "stop_time": "2020-01-01T12:00:00"}},
+            ]
+        }
+    },
+    "shield-amip-1deg-data-size-8yr-1yr-300e-training-rs2": {
+        "max_epochs": 300,
+        "inference": {
+            "epochs": {
+                "step": 10,
+            }
+        },
         "train_loader": {
             "dataset": [
                 {"data_path": "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001", "subset": {"start_time": "1940-01-01T00:00:00", "stop_time": "1941-01-01T12:00:00"}},

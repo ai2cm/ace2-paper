@@ -6,6 +6,7 @@ fme==2024.9.0
 fsspec
 gcsfs
 h5netcdf
+ipykernel
 ipywidgets
 jupyterlab
 matplotlib

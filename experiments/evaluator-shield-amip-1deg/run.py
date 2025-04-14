@@ -1,17 +1,20 @@
 # requires beaker-py, install with
 # pip install -U beaker-py
 
-import beaker
-import uuid
-from typing import Dict, Any
-import tempfile
-import yaml
 import os
-import fme
+import tempfile
+import uuid
+from typing import Any, Dict
+
+import beaker
 import dacite
+import fme
+import yaml
 
 IMAGE_NAME = "brianhenn/fme-926fd6e7"
-TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
+TRAINED_MODEL_DATASET_ID = (
+    "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
+)
 REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 C24_4DEG_IC0_DATASET_PATH = "/climate-default/2024-11-11-vertically-resolved-c24-4deg-shield-amip-tuned-cdmbgwd-ensemble-dataset/netcdf/ic_0001"
@@ -54,7 +57,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-ace2-inference-81yr-IC1": {
         "n_forward_steps": 118341,
@@ -68,7 +71,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-ace2-inference-81yr-IC2": {
         "n_forward_steps": 118341,
@@ -82,7 +85,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC0": {
         "n_forward_steps": 118341,
@@ -103,7 +106,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC1": {
         "n_forward_steps": 118341,
@@ -124,7 +127,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-ace2-inference-81yr-fixedCO2-IC2": {
         "n_forward_steps": 118341,
@@ -145,7 +148,7 @@ EXPERIMENT_OVERLAYS = {
                 "air_temperature_0",
                 "global_mean_co2",
             ],
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr": {
         "n_forward_steps": 14600,
@@ -153,7 +156,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1941": {
         "n_forward_steps": 14600,
@@ -164,7 +167,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1941-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1951": {
         "n_forward_steps": 14600,
@@ -175,7 +178,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1951-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1961": {
         "n_forward_steps": 14600,
@@ -186,7 +189,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1961-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1971": {
         "n_forward_steps": 14600,
@@ -197,7 +200,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1971-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1981": {
         "n_forward_steps": 14600,
@@ -208,7 +211,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1981-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-1991": {
         "n_forward_steps": 14600,
@@ -219,7 +222,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["1991-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-10yr-2011": {
         "n_forward_steps": 14600,
@@ -230,7 +233,7 @@ EXPERIMENT_OVERLAYS = {
             "dataset": {"data_path": REFERENCE_DATASET_PATH},
             "start_indices": {"times": ["2011-01-01T00:00:00"]},
             "num_data_workers": 8,
-        }
+        },
     },
     "shield-amip-1deg-reference-inference-81yr": {
         "n_forward_steps": 118341,
@@ -250,7 +253,7 @@ EXPERIMENT_OVERLAYS = {
             ],
         },
     },
-    'shield-amip-IC1-vs-era5-10yr': {
+    "shield-amip-IC1-vs-era5-10yr": {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
@@ -261,9 +264,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-IC2-vs-era5-10yr': {
+    "shield-amip-IC2-vs-era5-10yr": {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
@@ -274,9 +277,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-IC1-vs-era5-81yr': {
+    "shield-amip-IC1-vs-era5-81yr": {
         "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
@@ -287,9 +290,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-IC2-vs-era5-81yr': {
+    "shield-amip-IC2-vs-era5-81yr": {
         "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": ERA5_DATASET_PATH},
@@ -300,9 +303,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-c96-vs-c24-4deg-10yr-IC0': {
+    "shield-amip-c96-vs-c24-4deg-10yr-IC0": {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
@@ -313,9 +316,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-c96-vs-c24-4deg-10yr-IC1': {
+    "shield-amip-c96-vs-c24-4deg-10yr-IC1": {
         "n_forward_steps": 14600,
         "loader": {
             "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
@@ -326,9 +329,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-c96-vs-c24-4deg-81yr-IC0': {
+    "shield-amip-c96-vs-c24-4deg-81yr-IC0": {
         "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
@@ -339,9 +342,9 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
     },
-    'shield-amip-c96-vs-c24-4deg-81yr-IC1': {
+    "shield-amip-c96-vs-c24-4deg-81yr-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
@@ -352,7 +355,44 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
-        "aggregator": {"monthly_reference_data": None}
+        "aggregator": {"monthly_reference_data": None},
+    },
+    "shield-amip-1deg-ace2-inference-10yr-IC0-monthly": {
+        "n_forward_steps": 14600,
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
+    "shield-amip-1deg-ace2-inference-10yr-IC1-monthly": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-02T00:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
+    "shield-amip-1deg-ace2-inference-10yr-IC2-monthly": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-03T00:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
+    "shield-amip-1deg-ace2-inference-81yr-IC0-monthly": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
     },
 }
 
@@ -364,20 +404,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1996-01-01T00:00:00",
-                    "1996-02-01T00:00:00",
-                    "1996-03-01T00:00:00",
-                    "1996-04-01T00:00:00",
-                    "1996-05-01T00:00:00",
-                    "1996-06-01T00:00:00",
-                    "1996-07-01T00:00:00",
-                    "1996-08-01T00:00:00",
-                    "1996-09-01T00:00:00",
-                    "1996-10-01T00:00:00",
-                    "1996-11-01T00:00:00",
-                    "1996-12-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1996-01-01T00:00:00",
+                        "1996-02-01T00:00:00",
+                        "1996-03-01T00:00:00",
+                        "1996-04-01T00:00:00",
+                        "1996-05-01T00:00:00",
+                        "1996-06-01T00:00:00",
+                        "1996-07-01T00:00:00",
+                        "1996-08-01T00:00:00",
+                        "1996-09-01T00:00:00",
+                        "1996-10-01T00:00:00",
+                        "1996-11-01T00:00:00",
+                        "1996-12-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -411,20 +453,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -442,7 +486,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC1": (
@@ -459,7 +503,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS0-IC2": (
@@ -476,7 +520,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS1": (
@@ -485,20 +529,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1996-01-01T00:00:00",
-                    "1996-02-01T00:00:00",
-                    "1996-03-01T00:00:00",
-                    "1996-04-01T00:00:00",
-                    "1996-05-01T00:00:00",
-                    "1996-06-01T00:00:00",
-                    "1996-07-01T00:00:00",
-                    "1996-08-01T00:00:00",
-                    "1996-09-01T00:00:00",
-                    "1996-10-01T00:00:00",
-                    "1996-11-01T00:00:00",
-                    "1996-12-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1996-01-01T00:00:00",
+                        "1996-02-01T00:00:00",
+                        "1996-03-01T00:00:00",
+                        "1996-04-01T00:00:00",
+                        "1996-05-01T00:00:00",
+                        "1996-06-01T00:00:00",
+                        "1996-07-01T00:00:00",
+                        "1996-08-01T00:00:00",
+                        "1996-09-01T00:00:00",
+                        "1996-10-01T00:00:00",
+                        "1996-11-01T00:00:00",
+                        "1996-12-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -532,20 +578,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -563,7 +611,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS1-IC1": (
@@ -580,7 +628,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS1-IC2": (
@@ -597,7 +645,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS2": (
@@ -606,20 +654,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1996-01-01T00:00:00",
-                    "1996-02-01T00:00:00",
-                    "1996-03-01T00:00:00",
-                    "1996-04-01T00:00:00",
-                    "1996-05-01T00:00:00",
-                    "1996-06-01T00:00:00",
-                    "1996-07-01T00:00:00",
-                    "1996-08-01T00:00:00",
-                    "1996-09-01T00:00:00",
-                    "1996-10-01T00:00:00",
-                    "1996-11-01T00:00:00",
-                    "1996-12-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1996-01-01T00:00:00",
+                        "1996-02-01T00:00:00",
+                        "1996-03-01T00:00:00",
+                        "1996-04-01T00:00:00",
+                        "1996-05-01T00:00:00",
+                        "1996-06-01T00:00:00",
+                        "1996-07-01T00:00:00",
+                        "1996-08-01T00:00:00",
+                        "1996-09-01T00:00:00",
+                        "1996-10-01T00:00:00",
+                        "1996-11-01T00:00:00",
+                        "1996-12-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -653,20 +703,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -684,7 +736,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC1": (
@@ -701,7 +753,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS2-IC2": (
@@ -718,7 +770,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-5yr-val-RS3": (
@@ -727,20 +779,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1996-01-01T00:00:00",
-                    "1996-02-01T00:00:00",
-                    "1996-03-01T00:00:00",
-                    "1996-04-01T00:00:00",
-                    "1996-05-01T00:00:00",
-                    "1996-06-01T00:00:00",
-                    "1996-07-01T00:00:00",
-                    "1996-08-01T00:00:00",
-                    "1996-09-01T00:00:00",
-                    "1996-10-01T00:00:00",
-                    "1996-11-01T00:00:00",
-                    "1996-12-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1996-01-01T00:00:00",
+                        "1996-02-01T00:00:00",
+                        "1996-03-01T00:00:00",
+                        "1996-04-01T00:00:00",
+                        "1996-05-01T00:00:00",
+                        "1996-06-01T00:00:00",
+                        "1996-07-01T00:00:00",
+                        "1996-08-01T00:00:00",
+                        "1996-09-01T00:00:00",
+                        "1996-10-01T00:00:00",
+                        "1996-11-01T00:00:00",
+                        "1996-12-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -774,20 +828,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -805,7 +861,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS3-IC1": (
@@ -822,7 +878,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-RS3-IC2": (
@@ -839,7 +895,7 @@ RANDOM_SEED_OVERLAYS = {
                     "SHTFLsfc",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC0": (
@@ -861,7 +917,7 @@ RANDOM_SEED_OVERLAYS = {
                     "air_temperature_0",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC1": (
@@ -883,7 +939,7 @@ RANDOM_SEED_OVERLAYS = {
                     "air_temperature_0",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC2": (
@@ -905,7 +961,7 @@ RANDOM_SEED_OVERLAYS = {
                     "air_temperature_0",
                     "global_mean_co2",
                 ],
-            }
+            },
         },
     ),
     "shield-amip-1deg-ace-climsst-inference-10yr-IC0": (
@@ -968,20 +1024,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -991,20 +1049,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -1014,20 +1074,22 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
@@ -1037,28 +1099,31 @@ RANDOM_SEED_OVERLAYS = {
             "n_forward_steps": 7300,
             "forward_steps_in_memory": 5,
             "loader": {
-                "start_indices": {"times": [
-                    "1940-01-01T00:00:00",
-                    "1945-01-01T00:00:00",
-                    "1950-01-01T00:00:00",
-                    "1955-01-01T00:00:00",
-                    "1960-01-01T00:00:00",
-                    "1965-01-01T00:00:00",
-                    "1970-01-01T00:00:00",
-                    "1975-01-01T00:00:00",
-                    "1980-01-01T00:00:00",
-                    "1985-01-01T00:00:00",
-                    "1990-01-01T00:00:00",
-                    "1995-01-01T00:00:00",
-                ]},
+                "start_indices": {
+                    "times": [
+                        "1940-01-01T00:00:00",
+                        "1945-01-01T00:00:00",
+                        "1950-01-01T00:00:00",
+                        "1955-01-01T00:00:00",
+                        "1960-01-01T00:00:00",
+                        "1965-01-01T00:00:00",
+                        "1970-01-01T00:00:00",
+                        "1975-01-01T00:00:00",
+                        "1980-01-01T00:00:00",
+                        "1985-01-01T00:00:00",
+                        "1990-01-01T00:00:00",
+                        "1995-01-01T00:00:00",
+                    ]
+                },
             },
         },
     ),
 }
 
+
 def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     """Merge nested configurations."""
-    base_copy = base.copy() # don't modify the original base
+    base_copy = base.copy()  # don't modify the original base
     for k, v in new.items():
         if isinstance(v, dict):
             base_copy[k] = merge_configs(base_copy.get(k, {}), v)
@@ -1090,7 +1155,7 @@ def get_experiment_spec(
         beaker.EnvVar(name="WANDB_JOB_TYPE", value="inference"),
         beaker.EnvVar(name="WANDB_NAME", value=name),
         beaker.EnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-inference"),
-        beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983")
+        beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983"),
     ]
     datasets = [
         beaker.DataMount(
@@ -1170,7 +1235,9 @@ if __name__ == "__main__":
         print(f"Config that is being validated:\n{config}")
         try:
             dacite.from_dict(
-                fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
+                fme.ace.InferenceEvaluatorConfig,
+                config,
+                config=dacite.Config(strict=True),
             )
         except:
             print(f"Error in config for experiment {name}.")

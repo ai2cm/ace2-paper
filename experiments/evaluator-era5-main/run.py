@@ -263,6 +263,19 @@ EXPERIMENT_OVERLAYS = {
             "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
         },
     },
+    "era5-co2-81yr-RS2-IC0-monthly-output": {
+        "n_forward_steps": 118341,
+        "aggregator": {
+            "log_zonal_mean_images": False,
+            "log_global_mean_time_series": False,
+            "log_global_mean_norm_time_series": False,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
 }
 
 

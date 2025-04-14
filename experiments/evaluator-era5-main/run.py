@@ -1,14 +1,15 @@
 # requires beaker-py, install with
 # pip install -U beaker-py
 
-import beaker
-import uuid
-from typing import Dict, Any
-import tempfile
-import yaml
 import os
-import fme
+import tempfile
+import uuid
+from typing import Any, Dict
+
+import beaker
 import dacite
+import fme
+import yaml
 
 IMAGE_NAME = "oliverwm/fme-926fd6e7"
 TRAINED_MODEL_DATASET_ID = "01J4MT10JPQ8MFA41F2AXGFYJ9"
@@ -221,6 +222,45 @@ EXPERIMENT_OVERLAYS = {
         "data_writer": {
             "save_prediction_files": False,
             "names": ["PRATEsfc"],
+        },
+    },
+    "era5-co2-10yr-RS2-IC0-monthly-output": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-01T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 4,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
+    "era5-co2-10yr-RS2-IC1-monthly-output": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-02T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
+        },
+    },
+    "era5-co2-10yr-RS2-IC2-monthly-output": {
+        "n_forward_steps": 14600,
+        "loader": {
+            "start_indices": {"times": ["2001-01-03T00:00:00"]},
+            "dataset": {"data_path": DATA_PATH},
+            "num_data_workers": 8,
+        },
+        "data_writer": {
+            "save_prediction_files": False,
+            "save_monthly_files": True,
+            "names": ["PRATEsfc", "h500", "TMP2m", "northward_wind_3"],
         },
     },
 }

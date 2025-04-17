@@ -2,9 +2,8 @@
 
 Ensure your beaker default workspace is set to ai2cm/ace before running."""
 
-import beaker
-import yaml
 import utils
+import yaml
 
 # the beaker experiment names are taken from these scripts
 # ../experiments/evaluator-era5-main/run.py
@@ -38,6 +37,10 @@ beaker_experiment_names = [
     "era5-co2-1yr-2020-RS2-IC0",
     "era5-co2-1yr-2020-RS2-IC1",
     "era5-co2-1yr-2020-RS2-IC2",
+    "era5-co2-10yr-RS2-IC0-monthly-output",
+    "era5-co2-10yr-RS2-IC1-monthly-output",
+    "era5-co2-10yr-RS2-IC2-monthly-output",
+    "era5-co2-81yr-RS2-IC0-monthly-output",
     "shield-amip-1deg-ace2-inference-10yr-IC0",
     "shield-amip-1deg-ace2-inference-10yr-IC1",
     "shield-amip-1deg-ace2-inference-10yr-IC2",
@@ -106,6 +109,10 @@ beaker_experiment_names = [
     "shield-amip-dry-air-and-moisture-10yr-IC0-rerun",
     "shield-amip-dry-air-and-moisture-10yr-IC1-rerun",
     "shield-amip-dry-air-and-moisture-10yr-IC2-rerun",
+    "shield-amip-1deg-ace2-inference-10yr-IC0-monthly",
+    "shield-amip-1deg-ace2-inference-10yr-IC1-monthly",
+    "shield-amip-1deg-ace2-inference-10yr-IC2-monthly",
+    "shield-amip-1deg-ace2-inference-81yr-IC0-monthly",
 ]
 
 # assuming all runs are using same wandb entity and project

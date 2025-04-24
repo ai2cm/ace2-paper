@@ -7,8 +7,6 @@ from typing import Dict, Any
 import tempfile
 import yaml
 import os
-import fme
-import dacite
 
 IMAGE_NAME = "brianhenn/fme-926fd6e7"
 TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
@@ -20,6 +18,7 @@ DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 PERTURBATIONS = {
+    "0p0": 0.0,
     "0p5": 0.5,
     "1p0": 1.0,
     "2p0": 2.0,

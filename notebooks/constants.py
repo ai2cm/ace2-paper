@@ -3,7 +3,7 @@ import yaml
 WANDB_ENTITY = "ai2cm"
 WANDB_PROJECT = "ace"
 
-WANDB_ID_FILE = './wandb_ids.yaml'
+WANDB_ID_FILE = "./wandb_ids.yaml"
 
 # training job wandb IDs
 ERA5_TRAINING_RUN_WANDB_IDS = {
@@ -19,15 +19,19 @@ SHiELD_TRAINING_RUN_WANDB_IDS = {
     "rs3": "men5bnw6",
 }
 
-with open(WANDB_ID_FILE, 'r') as f:
+with open(WANDB_ID_FILE, "r") as f:
     wandb_ids = yaml.safe_load(f)
-    
+
+
 # this is brittle but works with current set of names
 def get_runs_subset(all_runs, name_key):
     return {
-        f"IC{k.split(name_key)[1][:1]}": v for k, v in all_runs.items() if k.startswith(name_key)
+        f"IC{k.split(name_key)[1][:1]}": v
+        for k, v in all_runs.items()
+        if k.startswith(name_key)
     }
-    
+
+
 # SHiELD evaluation wandb IDs using best checkpoint, RS2
 ERA5_BEST_INFERENCE_10YR_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "era5-co2-10yr-RS2-IC"
@@ -67,7 +71,7 @@ SHiELD_AMIP_1DEG_RS3_81YR_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "shield-amip-1deg-ace2-inference-81yr-RS3-IC"
 )
 
-# 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002 
+# 'dataset comparison' runs of SHiELD-AMIP IC0001 against IC0002
 SHiELD_AMIP_1DEG_REFERENCE_10YR_WANDB_RUN_IDS = {
     "IC0": wandb_ids["shield-amip-1deg-reference-inference-10yr-1941"],
     "IC1": wandb_ids["shield-amip-1deg-reference-inference-10yr-1951"],
@@ -121,7 +125,7 @@ INFERENCE_COMPARISON_1DEG = {
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_10YR_WANDB_RUN_IDS,
     },
     "81yr": {
-        "ACE2-ERA5":  ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
+        "ACE2-ERA5": ERA5_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS0": SHiELD_AMIP_1DEG_RS0_81YR_WANDB_RUN_IDS,
         "ACE2-SHiELD-RS1": SHiELD_AMIP_1DEG_RS1_81YR_WANDB_RUN_IDS,
@@ -129,15 +133,38 @@ INFERENCE_COMPARISON_1DEG = {
         "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
         "ACE-climSST": CLIMSST_DEG_81YR_WANDB_RUN_IDS,
         "SHiELD-vs.-ERA5": SHiELD_AMIP_ERA5_1DEG_COMPARISON_81YR_WANDB_RUN_IDS,
-    }
+    },
 }
 
-# CO2 sensitivity 
+# CO2 sensitivity
 CO2_SENSITIVITY_ACE2_SHiELD_1DEG = {
     "historical-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
     "fixed-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS,
     "no-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS,
     "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
+}
+
+ENSO_DEEP_DIVE = {
+    "10yr": {
+        "ACE2-ERA5": {
+            "IC0": wandb_ids["era5-co2-10yr-RS2-IC0-monthly-output"],
+            "IC1": wandb_ids["era5-co2-10yr-RS2-IC1-monthly-output"],
+            "IC2": wandb_ids["era5-co2-10yr-RS2-IC2-monthly-output"],
+        },
+        "ACE2-SHiELD": {
+            "IC0": wandb_ids["shield-amip-1deg-ace2-inference-10yr-IC0-monthly"],
+            "IC1": wandb_ids["shield-amip-1deg-ace2-inference-10yr-IC1-monthly"],
+            "IC2": wandb_ids["shield-amip-1deg-ace2-inference-10yr-IC2-monthly"],
+        },
+    },
+    "81yr": {
+        "ACE2-ERA5": {
+            "IC0": wandb_ids["era5-co2-81yr-RS2-IC0-monthly-output"],
+        },
+        "ACE2-SHiELD": {
+            "IC0": wandb_ids["shield-amip-1deg-ace2-inference-81yr-IC0-monthly"],
+        },
+    },
 }
 
 # physical constants

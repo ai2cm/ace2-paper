@@ -30,7 +30,7 @@ INITIAL_CONDITIONS = {
     "IC2": "1979-01-03T00:00:00",
 }
 
-GROUP_TEMPLATE = "shield-amip-1deg-ace2-inference-perturbed-30yr-{group_suffix}"
+GROUP_TEMPLATE = "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-{group_suffix}"
 NAME_TEMPLATE = "{group_name}-{experiment_suffix}"
 
 def get_experiment_overlay(perturbation: float, ic_date: str):

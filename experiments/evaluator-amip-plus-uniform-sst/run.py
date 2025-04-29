@@ -34,6 +34,36 @@ INITIAL_CONDITIONS = {
 GROUP_TEMPLATE = "{model}-ace2-inference-perturbed-30yr-ms-{group_suffix}"
 NAME_TEMPLATE = "{group_name}-{experiment_suffix}"
 
+HUNDRED_DAY_RUN_GROUP = "shield-amip-1deg-ace2-inference-perturbed-30yr-100d"
+HUNDRED_DAY_RUN_NAME = f"{HUNDRED_DAY_RUN_GROUP}-4p0-IC0"
+HUNDRED_DAY_OVERLAY = {
+    "data_writer": {
+        "save_monthly_files": False,
+        "save_prediction_files": True,
+    },
+    "n_forward_steps": 400,
+    "forcing_loader": {
+        "perturbations": {
+            "sst": [
+                {
+                    "name": "constant",
+                    "config": {
+                        "amplitude": 4.0,
+                    },
+                },
+            ]
+        },
+    },
+    "initial_condition": {
+        "start_indices": {
+            "times":
+                [
+                    "1979-01-01T00:00:00",
+                ]
+        }
+    },
+}
+
 def get_experiment_overlay(perturbation: float, ic_date: str) -> Dict[str, Any]:
     return {
         "forcing_loader": {
@@ -157,11 +187,17 @@ if __name__ == "__main__":
     with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
         base_config = yaml.safe_load(f)
 
+    print(f"Creating experiment {HUNDRED_DAY_RUN_NAME}.")
+    hundred_day_config = merge_configs(base_config, HUNDRED_DAY_OVERLAY)
+    print(f"Config that is being submitted:\n{hundred_day_config}")
+    hundred_day_spec = get_experiment_spec(HUNDRED_DAY_RUN_GROUP, HUNDRED_DAY_RUN_NAME, hundred_day_config, ACE2_SHIELD_MODEL_DATASET_ID)
+    try_submit_experiment(HUNDRED_DAY_RUN_NAME, hundred_day_spec)
+
     for perturbation_name, perturbation in PERTURBATIONS.items():
         for model_name, model_id in zip(
-            ("shield-amip-1deg ", "era5"),
+            ("shield-amip-1deg", "era5"),
             (ACE2_SHIELD_MODEL_DATASET_ID, ACE2_ERA5_MODEL_DATASET_ID)
-        ):
+        ): 
             perturbation_group_name = GROUP_TEMPLATE.format(model=model_name, group_suffix=perturbation_name)
             for ic_name, ic_date in INITIAL_CONDITIONS.items():
                 ic_experiment_name = NAME_TEMPLATE.format(group_name=perturbation_group_name, experiment_suffix=ic_name)

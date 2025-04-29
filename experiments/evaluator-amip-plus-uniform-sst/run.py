@@ -9,7 +9,8 @@ import yaml
 import os
 
 IMAGE_NAME = "brianhenn/fme-926fd6e7"
-TRAINED_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
+ACE2_SHIELD_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
+ACE2_ERA5_MODEL_DATASET_ID = "01J4MT10JPQ8MFA41F2AXGFYJ9"
 REFERENCE_DATASET_PATH = "" # TBD
 C24_4DEG_DATASET_PATH = "" # TBD
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
@@ -30,10 +31,10 @@ INITIAL_CONDITIONS = {
     "IC2": "1979-01-03T00:00:00",
 }
 
-GROUP_TEMPLATE = "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-{group_suffix}"
+GROUP_TEMPLATE = "{model}-ace2-inference-perturbed-30yr-ms-{group_suffix}"
 NAME_TEMPLATE = "{group_name}-{experiment_suffix}"
 
-def get_experiment_overlay(perturbation: float, ic_date: str):
+def get_experiment_overlay(perturbation: float, ic_date: str) -> Dict[str, Any]:
     return {
         "forcing_loader": {
             "perturbations": {
@@ -69,7 +70,7 @@ def merge_configs(base: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
     return base_copy
 
 
-def write_config_dataset(config: Dict[str, Any]):
+def write_config_dataset(config: Dict[str, Any]) -> beaker.Dataset:
     with tempfile.TemporaryDirectory() as temp_dir:
         filepath = os.path.join(temp_dir, DATASET_CONFIG_FILENAME)
         with open(filepath, "w") as f:
@@ -83,9 +84,9 @@ def get_experiment_spec(
     group_name: str,
     experiment_name: str,
     config: Dict[str, Any],
-    image_name=IMAGE_NAME,
-    trained_model_dataset_id=TRAINED_MODEL_DATASET_ID,
-):
+    trained_model_dataset_id: str,
+    image_name: str=IMAGE_NAME,
+) -> beaker.ExperimentSpec:
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
     config_dataset = write_config_dataset(config)
     env_vars = [
@@ -134,6 +135,21 @@ def get_experiment_spec(
     )
     return spec
 
+def try_submit_experiment(experiment_name: str, spec: beaker.ExperimentSpec):
+    try:
+        experiment = client.experiment.create(experiment_name, spec)
+        print(
+            f"Experiment {experiment_name} created. See https://beaker.org/ex/{experiment.id}"
+        )
+    except beaker.exceptions.ExperimentConflict:
+        print(
+            f"Failed to create experiment {experiment_name} because it already exists. "
+            "Skipping experiment creation. If you want to submit this experiment, "
+            "delete the existing experiment with the same name, or rename the new "
+            "experiment."
+        )
+
+
 
 if __name__ == "__main__":
     client = beaker.Beaker.from_env()
@@ -141,25 +157,17 @@ if __name__ == "__main__":
     with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
         base_config = yaml.safe_load(f)
 
-    print("Validating that configs have correct types.")
     for perturbation_name, perturbation in PERTURBATIONS.items():
-        perturbation_group_name = GROUP_TEMPLATE.format(group_suffix=perturbation_name)
-        for ic_name, ic_date in INITIAL_CONDITIONS.items():
-            ic_experiment_name = NAME_TEMPLATE.format(group_name=perturbation_group_name, experiment_suffix=ic_name)
-            experiment_overlay = get_experiment_overlay(perturbation, ic_date)
-            config = merge_configs(base_config, experiment_overlay)
-            print(f"Creating experiment {ic_experiment_name}.")
-            print(f"Config that is being submitted:\n{config}")
-            spec = get_experiment_spec(perturbation_group_name, ic_experiment_name, config)
-            try:
-                experiment = client.experiment.create(ic_experiment_name, spec)
-                print(
-                    f"Experiment {ic_experiment_name} created. See https://beaker.org/ex/{experiment.id}"
-                )
-            except beaker.exceptions.ExperimentConflict:
-                print(
-                    f"Failed to create experiment {ic_experiment_name} because it already exists. "
-                    "Skipping experiment creation. If you want to submit this experiment, "
-                    "delete the existing experiment with the same name, or rename the new "
-                    "experiment."
-                )
+        for model_name, model_id in zip(
+            ("shield-amip-1deg ", "era5"),
+            (ACE2_SHIELD_MODEL_DATASET_ID, ACE2_ERA5_MODEL_DATASET_ID)
+        ):
+            perturbation_group_name = GROUP_TEMPLATE.format(model=model_name, group_suffix=perturbation_name)
+            for ic_name, ic_date in INITIAL_CONDITIONS.items():
+                ic_experiment_name = NAME_TEMPLATE.format(group_name=perturbation_group_name, experiment_suffix=ic_name)
+                experiment_overlay = get_experiment_overlay(perturbation, ic_date)
+                config = merge_configs(base_config, experiment_overlay)
+                print(f"Creating experiment {ic_experiment_name}.")
+                print(f"Config that is being submitted:\n{config}")
+                spec = get_experiment_spec(perturbation_group_name, ic_experiment_name, config, model_id)
+                try_submit_experiment(ic_experiment_name, spec)

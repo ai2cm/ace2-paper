@@ -167,5 +167,22 @@ ENSO_DEEP_DIVE = {
     },
 }
 
+PERTURBED_SSTS = {
+    "ACE2-SHiELD": {
+        0.0: wandb_ids["shield-amip-1deg-ace2-inference-perturbed-30yr-ms-0p0-IC0"],
+        0.5: wandb_ids["shield-amip-1deg-ace2-inference-perturbed-30yr-ms-0p5-IC0"],
+        1.0: wandb_ids["shield-amip-1deg-ace2-inference-perturbed-30yr-ms-1p0-IC0"],
+        2.0: wandb_ids["shield-amip-1deg-ace2-inference-perturbed-30yr-ms-2p0-IC0"],
+        4.0: wandb_ids["shield-amip-1deg-ace2-inference-perturbed-30yr-ms-4p0-IC0"],
+    },
+    "ACE2-ERA5": {
+        0.0: wandb_ids["era5-ace2-inference-perturbed-30yr-ms2-0p0-IC0"],
+        0.5: wandb_ids["era5-ace2-inference-perturbed-30yr-ms2-0p5-IC0"],
+        1.0: wandb_ids["era5-ace2-inference-perturbed-30yr-ms2-1p0-IC0"],
+        2.0: wandb_ids["era5-ace2-inference-perturbed-30yr-ms2-2p0-IC0"],
+        4.0: wandb_ids["era5-ace2-inference-perturbed-30yr-ms2-4p0-IC0"],
+    }
+}
+
 # physical constants
 SECONDS_PER_DAY = 86_400

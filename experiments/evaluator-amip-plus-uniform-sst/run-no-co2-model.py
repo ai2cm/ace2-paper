@@ -9,93 +9,45 @@ import yaml
 import os
 
 IMAGE_NAME = "brianhenn/fme-926fd6e7"
-ACE2_SHIELD_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
+ACE2_SHIELD_MODEL_DATASET_ID = "brianhenn/shield-amip-1deg-ace2-train-noCO2-RS1-best-inference-ckpt"
 SHIELD_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
-ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
-IC_FILENAME = "1979010100.nc"
-ACE2_ERA5_MODEL_DATASET_ID = "01J4MT10JPQ8MFA41F2AXGFYJ9"
+SHIELD_P2K_DATASET_PATH = "/climate-default/2025-04-29-c96-1deg-shield-amip-p2k-dataset/ic_0001"
+SHIELD_P4K_DATASET_PATH = "/climate-default/2025-04-29-c96-1deg-shield-amip-p4k-dataset/ic_0001"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
-LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
+LOCAL_BASE_CONFIG_FILENAME = "no-co2-base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 
 PERTURBATIONS = {
-    "0p0": 0.0,
-    "0p5": 0.5,
-    "1p0": 1.0,
-    "2p0": 2.0,
-    "4p0": 4.0,
+    "0p0": SHIELD_DATASET_PATH,
+    "2p0": SHIELD_P2K_DATASET_PATH,
+    "4p0": SHIELD_P4K_DATASET_PATH,
 }
 INITIAL_CONDITIONS = {
-    "IC0": "1979-01-01T00:00:00",
+    "IC0": "1979-01-01T06:00:00",
     "IC1": "1979-01-02T00:00:00",
     "IC2": "1979-01-03T00:00:00",
 }
 
-GROUP_TEMPLATE = "{model}-ace2-inference-perturbed-30yr-ms2-{group_suffix}"
+GROUP_TEMPLATE = "shield-amip-no-co2-1deg-ace2-inference-perturbed-30yr-ms2-{group_suffix}"
 NAME_TEMPLATE = "{group_name}-{experiment_suffix}"
 
-HUNDRED_DAY_RUN_GROUP = "shield-amip-1deg-ace2-inference-perturbed-30yr-100d"
-HUNDRED_DAY_RUN_NAME = f"{HUNDRED_DAY_RUN_GROUP}-4p0-IC0"
-HUNDRED_DAY_OVERLAY = {
-    "data_writer": {
-        "save_monthly_files": False,
-        "save_prediction_files": True,
-    },
-    "n_forward_steps": 400,
-    "forcing_loader": {
-        "perturbations": {
-            "sst": [
-                {
-                    "name": "constant",
-                    "config": {
-                        "amplitude": 4.0,
-                    },
-                },
-            ]
-        },
-    },
-    "initial_condition": {
-        "start_indices": {
-            "times":
-                [
-                    "1979-01-01T00:00:00",
-                ]
-        }
-    },
-}
 
 def get_experiment_overlay(
-    perturbation: float,
-    ic_date: str,
-    dataset_dir: str,
-    ic_filename: str=IC_FILENAME,
+    dataset_path: str,
+    start_date: str,
 ) -> Dict[str, Any]:
     return {
-        "forcing_loader": {
+        "loader": {
             "dataset": {
-                "data_path": dataset_dir
+                "data_path": dataset_path,
             },
-            "perturbations": {
-                "sst": [
-                    {
-                        "name": "constant",
-                        "config": {
-                            "amplitude": perturbation,
-                        },
-                    },
+            "start_indices": {
+                "times": [
+                    start_date
                 ]
             },
         },
-        "initial_condition": {
-            "path": f"{dataset_dir}/{ic_filename}",
-            "start_indices": {
-                "times":
-                    [
-                        ic_date,
-                    ]
-            }
-        }
     }
 
 
@@ -124,7 +76,7 @@ def get_experiment_spec(
     group_name: str,
     experiment_name: str,
     config: Dict[str, Any],
-    trained_model_dataset_id: str,
+    trained_model_dataset_id: str=ACE2_SHIELD_MODEL_DATASET_ID,
     image_name: str=IMAGE_NAME,
 ) -> beaker.ExperimentSpec:
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
@@ -161,7 +113,7 @@ def get_experiment_spec(
                 command=[
                     "python",
                     "-m",
-                    "fme.ace.inference",
+                    "fme.ace.evaluator",
                     f"{DATASET_CONFIG_MOUNTPATH}/{DATASET_CONFIG_FILENAME}",
                 ],
                 result=beaker.ResultSpec(path="/output"),
@@ -197,24 +149,13 @@ if __name__ == "__main__":
     with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
         base_config = yaml.safe_load(f)
 
-    print(f"Creating experiment {HUNDRED_DAY_RUN_NAME}.")
-    hundred_day_config = merge_configs(base_config, HUNDRED_DAY_OVERLAY)
-    print(f"Config that is being submitted:\n{hundred_day_config}")
-    hundred_day_spec = get_experiment_spec(HUNDRED_DAY_RUN_GROUP, HUNDRED_DAY_RUN_NAME, hundred_day_config, ACE2_SHIELD_MODEL_DATASET_ID)
-    try_submit_experiment(HUNDRED_DAY_RUN_NAME, hundred_day_spec)
-
-    for perturbation_name, perturbation in PERTURBATIONS.items():
-        for model_name, model_id, dataset_dir in zip(
-            ("shield-amip-1deg", "era5"),
-            (ACE2_SHIELD_MODEL_DATASET_ID, ACE2_ERA5_MODEL_DATASET_ID),
-            (SHIELD_DATASET_PATH, ERA5_DATASET_PATH),
-        ): 
-            perturbation_group_name = GROUP_TEMPLATE.format(model=model_name, group_suffix=perturbation_name)
-            for ic_name, ic_date in INITIAL_CONDITIONS.items():
-                ic_experiment_name = NAME_TEMPLATE.format(group_name=perturbation_group_name, experiment_suffix=ic_name)
-                experiment_overlay = get_experiment_overlay(perturbation, ic_date, dataset_dir)
-                config = merge_configs(base_config, experiment_overlay)
-                print(f"Creating experiment {ic_experiment_name}.")
-                print(f"Config that is being submitted:\n{config}")
-                spec = get_experiment_spec(perturbation_group_name, ic_experiment_name, config, model_id)
-                try_submit_experiment(ic_experiment_name, spec)
+    for perturbation_name, perturbed_dataset in PERTURBATIONS.items():
+        perturbation_group_name = GROUP_TEMPLATE.format(group_suffix=perturbation_name)
+        for ic_name, ic_date in INITIAL_CONDITIONS.items():
+            ic_experiment_name = NAME_TEMPLATE.format(group_name=perturbation_group_name, experiment_suffix=ic_name)
+            experiment_overlay = get_experiment_overlay(perturbed_dataset, ic_date)
+            config = merge_configs(base_config, experiment_overlay)
+            print(f"Creating experiment {ic_experiment_name}.")
+            print(f"Config that is being submitted:\n{config}")
+            spec = get_experiment_spec(perturbation_group_name, ic_experiment_name, config)
+            try_submit_experiment(ic_experiment_name, spec)

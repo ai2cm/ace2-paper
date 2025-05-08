@@ -12,6 +12,7 @@ import yaml
 # ../experiments/evaluator-era5-main/run-weather-forecast.py
 # ../experiments/evaluator-shield-amip-1deg/run.py
 # ../experiments/evaluator-shield-constraints-ablation/run.py
+# ../experiments/evaluator-amip-plus-uniform-sst/run.py
 
 beaker_experiment_names = [
     "era5-co2-10yr-RS2-IC0-ni",
@@ -113,6 +114,16 @@ beaker_experiment_names = [
     "shield-amip-1deg-ace2-inference-10yr-IC1-monthly",
     "shield-amip-1deg-ace2-inference-10yr-IC2-monthly",
     "shield-amip-1deg-ace2-inference-81yr-IC0-monthly",
+    "era5-ace2-inference-perturbed-30yr-ms2-0p0-IC0",
+    "era5-ace2-inference-perturbed-30yr-ms2-0p5-IC0",
+    "era5-ace2-inference-perturbed-30yr-ms2-1p0-IC0",
+    "era5-ace2-inference-perturbed-30yr-ms2-2p0-IC0",
+    "era5-ace2-inference-perturbed-30yr-ms2-4p0-IC0",
+    "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-0p0-IC0",
+    "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-0p5-IC0",
+    "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-1p0-IC0",
+    "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-2p0-IC0",
+    "shield-amip-1deg-ace2-inference-perturbed-30yr-ms-4p0-IC0",
 ]
 
 # assuming all runs are using same wandb entity and project

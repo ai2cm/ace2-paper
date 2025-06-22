@@ -7,8 +7,6 @@ import uuid
 from typing import Any, Dict
 
 import beaker
-import dacite
-import fme
 import yaml
 
 IMAGE_NAME = "brianhenn/fme-944f247d"
@@ -17,57 +15,147 @@ CHECKPOINT_NAME = "best_inference_ckpt.tar"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
-SHIELD_AMIP_DATA_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+SHIELD_AMIP_TARGET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+SHIELD_AMIP_REFERENCE_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 
 EXPERIMENT_OVERLAYS = {
-    "ERA5-on-SHiELD-AMIP-81yr-RS2-IC0": {
+    "ACE2-ERA5-on-SHiELD-AMIP-81yr-RS2-IC0": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": SHIELD_AMIP_DATA_PATH},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
     },
-    "ERA5-on-SHiELD-AMIP-81yr-RS2-IC1": {
+    "ACE2-ERA5-on-SHiELD-AMIP-81yr-RS2-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
-            "dataset": {"data_path": SHIELD_AMIP_DATA_PATH},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
     },
-    "ERA5-on-SHiELD-AMIP-81yr-RS2-IC2": {
+    "ACE2-ERA5-on-SHiELD-AMIP-81yr-RS2-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
-            "dataset": {"data_path": SHIELD_AMIP_DATA_PATH},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
     },
-    "ERA5-on-ERA5-81yr-RS2-IC0": {
+    "ACE2-ERA5-on-ERA5-81yr-RS2-IC0": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "dataset": {"data_path": ERA5_DATA_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
     },
-    "ERA5-on-ERA5-81yr-RS2-IC1": {
+    "ACE2-ERA5-on-ERA5-81yr-RS2-IC1": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-02T12:00:00"]},
             "dataset": {"data_path": ERA5_DATA_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
     },
-    "ERA5-on-ERA5-81yr-RS2-IC2": {
+    "ACE2-ERA5-on-ERA5-81yr-RS2-IC2": {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-03T12:00:00"]},
             "dataset": {"data_path": ERA5_DATA_PATH},
         },
-        "aggregator": {},
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+    },
+    "ERA5-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": ERA5_DATA_PATH},
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": ERA5_DATA_PATH},
+        },
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+    },
+    "SHiELD-AMIP-IC0001-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_REFERENCE_PATH},
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_REFERENCE_PATH},
+        },
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
+    },
+    "SHiELD-AMIP-IC0002-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
+        },
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
+    },
+    "ERA5-vs-SHiELD-AMIP-IC0001-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": ERA5_DATA_PATH},
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_REFERENCE_PATH},
+        },
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
+    },
+    "ERA5-vs-SHiELD-AMIP-IC0002-81yr": {
+        "n_forward_steps": 118341,
+        "loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": ERA5_DATA_PATH},
+        },
+        "prediction_loader": {
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
+        },
+        "aggregator": {
+            "log_zonal_mean_images": False,
+        },
+        "allow_incompatible_dataset": True,
     },
 }
 
@@ -120,7 +208,7 @@ def get_experiment_spec(
                 command=[
                     "python",
                     "-m",
-                    "fme.ace.inference",
+                    "fme.ace.evaluator",
                     f"{DATASET_CONFIG_MOUNTPATH}/{DATASET_CONFIG_FILENAME}",
                 ],
                 result=beaker.ResultSpec(path="/output"),
@@ -147,15 +235,7 @@ if __name__ == "__main__":
     with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
         base_config = yaml.safe_load(f)
 
-    print("Validating that configs have correct types.")
-    for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
-        print(f"Validating config for experiment {name}.")
-        print(f"Config that is being validated:\n{config}")
-        dacite.from_dict(
-            fme.ace.InferenceEvaluatorConfig, config, config=dacite.Config(strict=True)
-        )
-    print("All configs are valid. Starting experiment submission.")
+    print("Starting experiment submission.")
     for name, overlay in EXPERIMENT_OVERLAYS.items():
         config = {**base_config, **overlay}
         print(f"Creating experiment {name}.")

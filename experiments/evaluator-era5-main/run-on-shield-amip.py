@@ -16,7 +16,7 @@ LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 SHIELD_AMIP_TARGET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
-SHIELD_AMIP_REFERENCE_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+SHIELD_AMIP_REFERENCE_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 
 EXPERIMENT_OVERLAYS = {
@@ -131,11 +131,11 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": ERA5_DATA_PATH},
+            "dataset": {"data_path": SHIELD_AMIP_REFERENCE_PATH},
         },
         "prediction_loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": SHIELD_AMIP_REFERENCE_PATH},
+            "dataset": {"data_path": ERA5_DATA_PATH},
         },
         "aggregator": {
             "log_zonal_mean_images": False,
@@ -146,11 +146,11 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 118341,
         "loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": ERA5_DATA_PATH},
+            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
         },
         "prediction_loader": {
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
-            "dataset": {"data_path": SHIELD_AMIP_TARGET_PATH},
+            "dataset": {"data_path": ERA5_DATA_PATH},
         },
         "aggregator": {
             "log_zonal_mean_images": False,
@@ -179,9 +179,11 @@ def get_experiment_spec(
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
     config_dataset = write_config_dataset(config)
     env_vars = [
-        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key"),
+        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
         beaker.EnvVar(name="WANDB_JOB_TYPE", value="inference"),
         beaker.EnvVar(name="WANDB_NAME", value=name),
+        beaker.EnvVar(name="WANDB_RUN_GROUP", value="ACE2-ERA5-AMIP-forcing"),
+        beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983"),
     ]
     datasets = [
         beaker.DataMount(

@@ -20,13 +20,13 @@ FORCING_DATASET_PATH = "/climate-default/2025-06-24-c96-1deg-shield-amip"
 
 
 EXPERIMENT_OVERLAYS = {
-    "ACE2-ERA5-on-AMIP-81yr-RS2-IC0": {
+    "ACE2-ERA5-inference-on-AMIP-81yr-RS2-IC0": {
         "n_forward_steps": 118341,
         "forward_steps_in_memory": 40,
         "forcing_loader": {
             "dataset": {
                 "data_path": FORCING_DATASET_PATH,
-                "file_pattern": "minimal_forcing.zarr",
+                "file_pattern": "SHiELD_AMIP_correct_sea_ice_fraction_minimal_forcing.zarr",
                 "engine": "zarr",
             },
             "num_data_workers": 8,
@@ -40,13 +40,13 @@ EXPERIMENT_OVERLAYS = {
             "save_prediction_files": False,
         },
     },
-    "ACE2-ERA5-on-AMIP-81yr-RS2-IC1": {
+    "ACE2-ERA5-inference-on-AMIP-81yr-RS2-IC1": {
         "n_forward_steps": 118341,
         "forward_steps_in_memory": 40,
         "forcing_loader": {
             "dataset": {
                 "data_path": FORCING_DATASET_PATH,
-                "file_pattern": "minimal_forcing.zarr",
+                "file_pattern": "SHiELD_AMIP_correct_sea_ice_fraction_minimal_forcing.zarr",
                 "engine": "zarr",
             },
             "num_data_workers": 8,
@@ -60,13 +60,13 @@ EXPERIMENT_OVERLAYS = {
             "save_prediction_files": False,
         },
     },
-    "ACE2-ERA5-on-AMIP-81yr-RS2-IC2": {
+    "ACE2-ERA5-inference-on-AMIP-81yr-RS2-IC2": {
         "n_forward_steps": 118341,
         "forward_steps_in_memory": 40,
         "forcing_loader": {
             "dataset": {
                 "data_path": FORCING_DATASET_PATH,
-                "file_pattern": "minimal_forcing.zarr",
+                "file_pattern": "SHiELD_AMIP_correct_sea_ice_fraction_minimal_forcing.zarr",
                 "engine": "zarr",
             },
             "num_data_workers": 8,

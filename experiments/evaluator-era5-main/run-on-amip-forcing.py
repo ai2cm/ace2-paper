@@ -80,6 +80,66 @@ EXPERIMENT_OVERLAYS = {
             "save_prediction_files": False,
         },
     },
+    "ACE2-ERA5-inference-on-ERA5-AMIP-SST-sea-ice-81yr-RS2-IC0": {
+        "n_forward_steps": 118341,
+        "forward_steps_in_memory": 40,
+        "forcing_loader": {
+            "dataset": {
+                "data_path": FORCING_DATASET_PATH,
+                "file_pattern": "ERA5_AMIP_SST_sea_ice_minimal_forcing.zarr",
+                "engine": "zarr",
+            },
+            "num_data_workers": 8,
+        },
+        "initial_condition": {
+            "path": INITIAL_CONDITION_PATH,
+            "start_indices": {"times": ["1940-01-01T12:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": False,
+            "save_prediction_files": False,
+        },
+    },
+    "ACE2-ERA5-inference-on-ERA5-AMIP-SST-sea-ice-81yr-RS2-IC1": {
+        "n_forward_steps": 118341,
+        "forward_steps_in_memory": 40,
+        "forcing_loader": {
+            "dataset": {
+                "data_path": FORCING_DATASET_PATH,
+                "file_pattern": "ERA5_AMIP_SST_sea_ice_minimal_forcing.zarr",
+                "engine": "zarr",
+            },
+            "num_data_workers": 8,
+        },
+        "initial_condition": {
+            "path": INITIAL_CONDITION_PATH,
+            "start_indices": {"times": ["1940-01-02T12:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": False,
+            "save_prediction_files": False,
+        },
+    },
+    "ACE2-ERA5-inference-on-ERA5-AMIP-SST-sea-ice-81yr-RS2-IC2": {
+        "n_forward_steps": 118341,
+        "forward_steps_in_memory": 40,
+        "forcing_loader": {
+            "dataset": {
+                "data_path": FORCING_DATASET_PATH,
+                "file_pattern": "ERA5_AMIP_SST_sea_ice_minimal_forcing.zarr",
+                "engine": "zarr",
+            },
+            "num_data_workers": 8,
+        },
+        "initial_condition": {
+            "path": INITIAL_CONDITION_PATH,
+            "start_indices": {"times": ["1940-01-03T12:00:00"]},
+        },
+        "data_writer": {
+            "save_monthly_files": False,
+            "save_prediction_files": False,
+        },
+    },
 }
 
 

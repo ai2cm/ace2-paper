@@ -83,7 +83,12 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
                 result=beaker.ResultSpec(path="/output"),
                 resources=beaker.TaskResources(gpu_count=8, shared_memory="400GiB"),
                 context=beaker.TaskContext(priority="high", preemptible=True),
-                constraints=beaker.Constraints(cluster=["ai2/jupiter-cirrascale-2"]),
+                constraints=beaker.Constraints(
+                    cluster=[
+                        "ai2/jupiter-cirrascale-2",
+                        "ai2/ceres",
+                    ]
+                ),
                 env_vars=env_vars,
                 datasets=datasets,
             )

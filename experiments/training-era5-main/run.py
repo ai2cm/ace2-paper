@@ -1,17 +1,19 @@
 # requires beaker-py, install with
 # pip install -U beaker-py
 
-import beaker
-import uuid
-from typing import Dict, Any
-import tempfile
-import yaml
 import os
-import fme
+import tempfile
+import uuid
+from typing import Any, Dict
+
+import beaker
 import dacite
+import fme
+import yaml
 
 IMAGE_NAME = "oliverwm/fme-d8961d26"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
+LOCAL_NO_CO2_CONFIG_FILENAME = "no-co2-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019-v2"
@@ -20,10 +22,14 @@ ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "era5-ace2-co2-rs0": {},
-    "era5-ace2-co2-rs1": {},
-    "era5-ace2-co2-rs2": {},
-    "era5-ace2-co2-rs3": {},
+    "era5-ace2-co2-rs0": (LOCAL_BASE_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-rs1": (LOCAL_BASE_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-rs2": (LOCAL_BASE_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-rs3": (LOCAL_BASE_CONFIG_FILENAME, {}),
+    "era5-ace2-no-co2-rs0": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
+    "era5-ace2-no-co2-rs1": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
+    "era5-ace2-no-co2-rs2": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
+    "era5-ace2-no-co2-rs3": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
 }
 
 
@@ -88,20 +94,14 @@ def get_experiment_spec(name: str, config: Dict[str, Any], image_name=IMAGE_NAME
 
 if __name__ == "__main__":
     client = beaker.Beaker.from_env()
-
-    with open(LOCAL_BASE_CONFIG_FILENAME, "r") as f:
-        base_config = yaml.safe_load(f)
-
-    print("Validating that configs have correct types.")
-    for name, overlay in EXPERIMENT_OVERLAYS.items():
+    for name, (base_config_filename, overlay) in EXPERIMENT_OVERLAYS.items():
+        with open(base_config_filename, "r") as f:
+            base_config = yaml.safe_load(f)
         config = {**base_config, **overlay}
         print(f"Validating config for experiment {name}.")
         print(f"Config that is being validated:\n{config}")
         dacite.from_dict(fme.ace.TrainConfig, config, config=dacite.Config(strict=True))
-    print("All configs are valid. Starting experiment submission.")
-    for name, overlay in EXPERIMENT_OVERLAYS.items():
-        config = {**base_config, **overlay}
-        print(f"Creating experiment {name}.")
+        print(f"Config is valid. Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
             experiment = client.experiment.create(name, spec, workspace="ai2/ace")

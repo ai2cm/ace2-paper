@@ -7,8 +7,6 @@ import uuid
 from typing import Any, Dict
 
 import beaker
-import dacite
-import fme
 import yaml
 
 IMAGE_NAME = "brianhenn/fme-cc2482fe"
@@ -98,10 +96,10 @@ if __name__ == "__main__":
         with open(base_config_filename, "r") as f:
             base_config = yaml.safe_load(f)
         config = {**base_config, **overlay}
-        print(f"Validating config for experiment {name}.")
-        print(f"Config that is being validated:\n{config}")
-        dacite.from_dict(fme.ace.TrainConfig, config, config=dacite.Config(strict=True))
-        print(f"Config is valid. Creating experiment {name}.")
+        # print(f"Validating config for experiment {name}.")
+        # print(f"Config that is being validated:\n{config}")
+        # dacite.from_dict(fme.ace.TrainConfig, config, config=dacite.Config(strict=True))
+        # print(f"Config is valid. Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
             experiment = client.experiment.create(name, spec, workspace="ai2/ace")

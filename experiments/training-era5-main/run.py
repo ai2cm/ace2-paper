@@ -11,9 +11,8 @@ import dacite
 import fme
 import yaml
 
-IMAGE_NAME = "oliverwm/fme-d8961d26"
-LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
-LOCAL_NO_CO2_CONFIG_FILENAME = "no-co2-config.yaml"
+IMAGE_NAME = "brianhenn/fme-cc2482fe"
+LOCAL_NOISE_COND_SFNO_CONFIG_FILENAME = "noise-cond-sfno-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
 STATS_DATASET_NAME = "oliverwm/era5-1deg-8layer-stats-1990-2019-v2"
@@ -22,14 +21,10 @@ ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "era5-ace2-co2-rs0": (LOCAL_BASE_CONFIG_FILENAME, {}),
-    "era5-ace2-co2-rs1": (LOCAL_BASE_CONFIG_FILENAME, {}),
-    "era5-ace2-co2-rs2": (LOCAL_BASE_CONFIG_FILENAME, {}),
-    "era5-ace2-co2-rs3": (LOCAL_BASE_CONFIG_FILENAME, {}),
-    "era5-ace2-no-co2-rs0": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
-    "era5-ace2-no-co2-rs1": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
-    "era5-ace2-no-co2-rs2": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
-    "era5-ace2-no-co2-rs3": (LOCAL_NO_CO2_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-noise-cond-sfno-rs0": (LOCAL_NOISE_COND_SFNO_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-noise-cond-sfno-rs1": (LOCAL_NOISE_COND_SFNO_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-noise-cond-sfno-rs2": (LOCAL_NOISE_COND_SFNO_CONFIG_FILENAME, {}),
+    "era5-ace2-co2-noise-cond-sfno-rs3": (LOCAL_NOISE_COND_SFNO_CONFIG_FILENAME, {}),
 }
 
 

@@ -1,14 +1,15 @@
 # requires beaker-py, install with
 # pip install -U beaker-py
 
-import beaker
-import uuid
-from typing import Dict, Any
-import tempfile
-import yaml
 import os
-import fme
+import tempfile
+import uuid
+from typing import Any, Dict
+
+import beaker
 import dacite
+import fme
+import yaml
 
 IMAGE_NAME = "oliverwm/fme-d8961d26"
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
@@ -20,10 +21,10 @@ ERA5_DATA_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs
 
 # experiments defined by overlays which will overwrite the keys of the base config
 EXPERIMENT_OVERLAYS = {
-    "era5-ace2-co2-rs0": {},
-    "era5-ace2-co2-rs1": {},
-    "era5-ace2-co2-rs2": {},
-    "era5-ace2-co2-rs3": {},
+    "era5-ace2-co2-aimip-period-rs0": {},
+    "era5-ace2-co2-aimip-period-rs1": {},
+    "era5-ace2-co2-aimip-period-rs2": {},
+    "era5-ace2-co2-aimip-period-rs3": {},
 }
 
 

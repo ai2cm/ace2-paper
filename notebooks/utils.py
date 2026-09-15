@@ -47,7 +47,12 @@ def wandb_to_beaker_result(project: str, id: str, entity: str = "ai2cm") -> str:
     """Given a wandb run ID, return ID of corresponding beaker result dataset"""
     experiment_id = wandb_to_beaker_experiment(project, id, entity=entity)
     client = beaker.Beaker.from_env()
-    result_dataset = client.experiment.results(experiment_id)
+    if hasattr(client, "workload"):
+        # beaker-py >= 2 models experiments as workloads
+        workload = client.workload.get(experiment_id)
+        result_dataset = client.workload.get_results(workload)
+    else:
+        result_dataset = client.experiment.results(experiment_id)
     return result_dataset.id
 
 
@@ -57,8 +62,16 @@ def beaker_to_xarray(dataset_id: str, path: str) -> xr.Dataset:
     Note: dataset must fit in memory. Requires h5netcdf backend.
     """
     client = beaker.Beaker.from_env()
-    file = client.dataset.get_file(dataset_id, path)
-    return xr.open_dataset(io.BytesIO(file), engine='h5netcdf').load()
+    if hasattr(client.dataset, "get_file"):
+        buffer = io.BytesIO(client.dataset.get_file(dataset_id, path))
+    else:
+        # beaker-py >= 2 dropped get_file and streams from a Dataset rather than an ID
+        buffer = io.BytesIO()
+        dataset = client.dataset.get(dataset_id)
+        for chunk in client.dataset.stream_file(dataset, path):
+            buffer.write(chunk)
+        buffer.seek(0)
+    return xr.open_dataset(buffer, engine='h5netcdf').load()
 
 
 def get_wandb_scalar_metrics(

@@ -3,7 +3,11 @@ experiment_dir: /output
 forward_steps_in_memory: 40
 loader:
   dataset:
-    data_path: "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+    # zarr stores are selected by file_pattern within data_path; the loader globs
+    # data_path/file_pattern and defaults to "*.nc", so engine must be set too
+    data_path: "/climate-default/2026-06-08-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset"
+    file_pattern: "ic_0002.zarr"
+    engine: "zarr"
   num_data_workers: 8
   start_indices:
     times:
@@ -11,7 +15,6 @@ loader:
 aggregator:
   log_zonal_mean_images: false
   log_histograms: true
-  monthly_reference_data: "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset-monthly/monthly_mean_data.nc"
 data_writer:
   save_monthly_files: false
   save_prediction_files: false

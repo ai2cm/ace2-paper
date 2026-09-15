@@ -1,5 +1,8 @@
-# requires beaker-py, install with
-# pip install -U beaker-py
+# requires beaker-py >= 2, install with
+#     pip install -U "beaker-py>=2"
+# 2.x renamed every spec type (ExperimentSpec -> BeakerExperimentSpec etc.), made
+# experiment.create keyword-only, and renamed ExperimentConflict. It is needed here for
+# BeakerTaskContext.min_runtime; see MIN_RUNTIME_NS below.
 
 import os
 import tempfile
@@ -11,18 +14,30 @@ import dacite
 import fme
 import yaml
 
-IMAGE_NAME = "brianhenn/fme-926fd6e7"
+# beaker-py 2.x does not resolve the unqualified `default_workspace: ace` in
+# ~/.beaker/config.yml, so name the workspace explicitly.
+WORKSPACE_NAME = "ai2/ace"
+# fme-926fd6e7 (Oct 2024) ships zarr 2.x and cannot read the zarr v3 stores that
+# replaced the netCDF datasets. fme-9a8d7719 (Feb 2025) is the earliest image
+# pinning zarr>=3; the configs below validate against it unchanged.
+IMAGE_NAME = "spencerc/fme-9a8d7719"
 TRAINED_MODEL_DATASET_ID = (
     "brianhenn/shield-amip-1deg-ace2-train-RS2-best-inference-ckpt"
 )
-REFERENCE_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
-TARGET_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
+# the 2024-07-24 netCDF datasets were deleted from weka; these zarr v3 stores hold
+# the same data (identical global means, plus PRMSL)
+DATASET_DIR = "/climate-default/2026-06-08-vertically-resolved-c96-1deg-shield-amip-ensemble-dataset"
+REFERENCE_DATASET_PATTERN = "ic_0001.zarr"
+TARGET_DATASET_PATTERN = "ic_0002.zarr"
 C24_4DEG_IC0_DATASET_PATH = "/climate-default/2024-11-11-vertically-resolved-c24-4deg-shield-amip-tuned-cdmbgwd-ensemble-dataset/netcdf/ic_0001"
 C24_4DEG_IC1_DATASET_PATH = "/climate-default/2024-11-11-vertically-resolved-c24-4deg-shield-amip-tuned-cdmbgwd-ensemble-dataset/netcdf/ic_0002"
 C96_4DEG_IC0_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0001"
 C96_4DEG_IC1_DATASET_PATH = "/climate-default/2024-07-24-vertically-resolved-c96-4deg-shield-amip-ensemble-dataset/netCDFs/ic_0002"
 ERA5_DATASET_PATH = "/climate-default/2024-06-20-era5-1deg-8layer-1940-2022-netcdfs"
 CHECKPOINT_NAME = "best_inference_ckpt.tar"
+# Beaker expresses minimum runtime in nanoseconds. A job needs minRuntime > 0 to be
+# eligible for the budget's allocated slots; unallocated jobs sit in the shared queue.
+MIN_RUNTIME_NS = 4 * 3_600_000_000_000  # 4 hours
 LOCAL_BASE_CONFIG_FILENAME = "base-config.yaml"
 DATASET_CONFIG_FILENAME = "config.yaml"
 DATASET_CONFIG_MOUNTPATH = "/configmount"
@@ -150,10 +165,89 @@ EXPERIMENT_OVERLAYS = {
             ],
         },
     },
+    "shield-amip-1deg-ace2-inference-42yr-fixedCO2-1979-IC0": {
+        # matched to the constant-CO2 SHiELD AMIP simulation: starts 1979 and holds
+        # global_mean_co2 at that run's value of 336.6 ppm, rather than the 1940 value
+        # of 307.29 ppm used by the 81yr fixedCO2 runs above. Ends on the same final
+        # timestep (2020-12-31T18:00:00) as those runs.
+        "n_forward_steps": 61361,
+        "loader": {
+            "start_indices": {"times": ["1979-01-01T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.0003366,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "air_temperature_0",
+                "global_mean_co2",
+            ],
+        },
+    },
+    "shield-amip-1deg-ace2-inference-42yr-fixedCO2-1979-IC1": {
+        # matched to the constant-CO2 SHiELD AMIP simulation: starts 1979 and holds
+        # global_mean_co2 at that run's value of 336.6 ppm, rather than the 1940 value
+        # of 307.29 ppm used by the 81yr fixedCO2 runs above. Ends on the same final
+        # timestep (2020-12-31T18:00:00) as those runs.
+        "n_forward_steps": 61361,
+        "loader": {
+            "start_indices": {"times": ["1979-01-02T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.0003366,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "air_temperature_0",
+                "global_mean_co2",
+            ],
+        },
+    },
+    "shield-amip-1deg-ace2-inference-42yr-fixedCO2-1979-IC2": {
+        # matched to the constant-CO2 SHiELD AMIP simulation: starts 1979 and holds
+        # global_mean_co2 at that run's value of 336.6 ppm, rather than the 1940 value
+        # of 307.29 ppm used by the 81yr fixedCO2 runs above. Ends on the same final
+        # timestep (2020-12-31T18:00:00) as those runs.
+        "n_forward_steps": 61361,
+        "loader": {
+            "start_indices": {"times": ["1979-01-03T12:00:00"]},
+            "dataset": {
+                "overwrite": {
+                    "constant": {
+                        "global_mean_co2": 0.0003366,
+                    },
+                },
+            },
+        },
+        "data_writer": {
+            "save_monthly_files": True,
+            "names": [
+                "TMP2m",
+                "air_temperature_0",
+                "global_mean_co2",
+            ],
+        },
+    },
     "shield-amip-1deg-reference-inference-10yr": {
         "n_forward_steps": 14600,
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -164,7 +258,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1941-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1941-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -175,7 +273,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1951-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1951-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -186,7 +288,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1961-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1961-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -197,7 +303,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1971-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1971-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -208,7 +318,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1981-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1981-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -219,7 +333,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["1991-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1991-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -230,7 +348,11 @@ EXPERIMENT_OVERLAYS = {
             "start_indices": {"times": ["2011-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["2011-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -239,7 +361,11 @@ EXPERIMENT_OVERLAYS = {
         "n_forward_steps": 118341,
         "loader": {"start_indices": {"times": ["1940-01-01T12:00:00"]}},
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
@@ -256,11 +382,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-IC1-vs-era5-10yr": {
         "n_forward_steps": 14600,
         "loader": {
-            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "dataset": {
+                "data_path": ERA5_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -269,11 +403,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-IC2-vs-era5-10yr": {
         "n_forward_steps": 14600,
         "loader": {
-            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "dataset": {
+                "data_path": ERA5_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": TARGET_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": TARGET_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -282,11 +424,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-IC1-vs-era5-81yr": {
         "n_forward_steps": 118341,
         "loader": {
-            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "dataset": {
+                "data_path": ERA5_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": REFERENCE_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": REFERENCE_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
@@ -295,11 +445,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-IC2-vs-era5-81yr": {
         "n_forward_steps": 118341,
         "loader": {
-            "dataset": {"data_path": ERA5_DATASET_PATH},
+            "dataset": {
+                "data_path": ERA5_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": TARGET_DATASET_PATH},
+            "dataset": {
+                "data_path": DATASET_DIR,
+                "file_pattern": TARGET_DATASET_PATTERN,
+                "engine": "zarr",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
@@ -308,11 +466,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-c96-vs-c24-4deg-10yr-IC0": {
         "n_forward_steps": 14600,
         "loader": {
-            "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
+            "dataset": {
+                "data_path": C24_4DEG_IC0_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": C96_4DEG_IC0_DATASET_PATH},
+            "dataset": {
+                "data_path": C96_4DEG_IC0_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -321,11 +487,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-c96-vs-c24-4deg-10yr-IC1": {
         "n_forward_steps": 14600,
         "loader": {
-            "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
+            "dataset": {
+                "data_path": C24_4DEG_IC1_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": C96_4DEG_IC1_DATASET_PATH},
+            "dataset": {
+                "data_path": C96_4DEG_IC1_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["2001-01-01T00:00:00"]},
             "num_data_workers": 8,
         },
@@ -334,11 +508,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-c96-vs-c24-4deg-81yr-IC0": {
         "n_forward_steps": 118341,
         "loader": {
-            "dataset": {"data_path": C24_4DEG_IC0_DATASET_PATH},
+            "dataset": {
+                "data_path": C24_4DEG_IC0_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": C96_4DEG_IC0_DATASET_PATH},
+            "dataset": {
+                "data_path": C96_4DEG_IC0_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
@@ -347,11 +529,19 @@ EXPERIMENT_OVERLAYS = {
     "shield-amip-c96-vs-c24-4deg-81yr-IC1": {
         "n_forward_steps": 118341,
         "loader": {
-            "dataset": {"data_path": C24_4DEG_IC1_DATASET_PATH},
+            "dataset": {
+                "data_path": C24_4DEG_IC1_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
         },
         "prediction_loader": {
-            "dataset": {"data_path": C96_4DEG_IC1_DATASET_PATH},
+            "dataset": {
+                "data_path": C96_4DEG_IC1_DATASET_PATH,
+                "file_pattern": "*.nc",
+                "engine": "netcdf4",
+            },
             "start_indices": {"times": ["1940-01-01T12:00:00"]},
             "num_data_workers": 8,
         },
@@ -1138,7 +1328,9 @@ def write_config_dataset(config: Dict[str, Any]):
         with open(filepath, "w") as f:
             yaml.safe_dump(config, f)
         dataset_name = "ace-inference-config-" + str(uuid.uuid4())[:8]
-        dataset = client.dataset.create(dataset_name, filepath)
+        dataset = client.dataset.create(
+            dataset_name, filepath, workspace=client.workspace.get(WORKSPACE_NAME)
+        )
     return dataset
 
 
@@ -1151,44 +1343,48 @@ def get_experiment_spec(
     """Given a dict representing the inference configuration, return a beaker experiment spec."""
     config_dataset = write_config_dataset(config)
     env_vars = [
-        beaker.EnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
-        beaker.EnvVar(name="WANDB_JOB_TYPE", value="inference"),
-        beaker.EnvVar(name="WANDB_NAME", value=name),
-        beaker.EnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-inference"),
-        beaker.EnvVar(name="WANDB_USERNAME", value="bhenn1983"),
+        beaker.BeakerEnvVar(name="WANDB_API_KEY", secret="wandb-api-key-ai2cm-sa"),
+        beaker.BeakerEnvVar(name="WANDB_JOB_TYPE", value="inference"),
+        beaker.BeakerEnvVar(name="WANDB_NAME", value=name),
+        beaker.BeakerEnvVar(name="WANDB_RUN_GROUP", value="shield-amip-ace2-inference"),
+        beaker.BeakerEnvVar(name="WANDB_USERNAME", value="bhenn1983"),
     ]
     datasets = [
-        beaker.DataMount(
-            source=beaker.DataSource(beaker=config_dataset.id),
+        beaker.BeakerDataMount(
+            source=beaker.BeakerDataSource(beaker=config_dataset.id),
             mount_path=DATASET_CONFIG_MOUNTPATH,
         ),
-        beaker.DataMount(
+        beaker.BeakerDataMount(
             mount_path="/ckpt.tar",
-            source=beaker.DataSource(beaker=trained_model_dataset_id),
+            source=beaker.BeakerDataSource(beaker=trained_model_dataset_id),
             sub_path=f"training_checkpoints/{CHECKPOINT_NAME}",
         ),
-        beaker.DataMount(
+        beaker.BeakerDataMount(
             mount_path="/climate-default",
-            source=beaker.DataSource(weka="climate-default"),
+            source=beaker.BeakerDataSource(weka="climate-default"),
         ),
     ]
-    spec = beaker.ExperimentSpec(
-        budget="ai2/climate",
+    spec = beaker.BeakerExperimentSpec(
+        budget="ai2/atec-climate",
         description="Do inference with ACE2 model trained on SHiELD-AMIP.",
         tasks=[
-            beaker.TaskSpec(
+            beaker.BeakerTaskSpec(
                 name=name,
-                image=beaker.ImageSource(beaker=image_name),
+                image=beaker.BeakerImageSource(beaker=image_name),
                 command=[
                     "python",
                     "-m",
                     "fme.ace.evaluator",
                     f"{DATASET_CONFIG_MOUNTPATH}/{DATASET_CONFIG_FILENAME}",
                 ],
-                result=beaker.ResultSpec(path="/output"),
-                resources=beaker.TaskResources(gpu_count=1, shared_memory="50GiB"),
-                context=beaker.TaskContext(priority="high", preemptible=True),
-                constraints=beaker.Constraints(cluster=["ai2/saturn-cirrascale"]),
+                result=beaker.BeakerResultSpec(path="/output"),
+                resources=beaker.BeakerTaskResources(gpu_count=1, shared_memory="50GiB"),
+                context=beaker.BeakerTaskContext(
+                    priority=beaker.BeakerJobPriority.high,
+                    preemptible=False,  # preemptible jobs cannot hold an allocated slot
+                    min_runtime=MIN_RUNTIME_NS,
+                ),
+                constraints=beaker.BeakerConstraints(cluster=["ai2/jupiter"]),
                 env_vars=env_vars,
                 datasets=datasets,
             )
@@ -1217,11 +1413,15 @@ if __name__ == "__main__":
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config)
         try:
-            experiment = client.experiment.create(name, spec)
-            print(
-                f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
+            # beaker-py 2.x returns a Workload, whose experiment id is nested
+            workload = client.experiment.create(
+                name=name, spec=spec, workspace=client.workspace.get(WORKSPACE_NAME)
             )
-        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Experiment {name} created. "
+                f"See https://beaker.org/ex/{workload.experiment.id}"
+            )
+        except beaker.exceptions.BeakerExperimentConflict:
             print(
                 f"Failed to create experiment {name} because it already exists. "
                 "Skipping experiment creation. If you want to submit this experiment, "
@@ -1245,11 +1445,15 @@ if __name__ == "__main__":
         print(f"Creating experiment {name}.")
         spec = get_experiment_spec(name, config, trained_model_dataset_id=checkpoint)
         try:
-            experiment = client.experiment.create(name, spec)
-            print(
-                f"Experiment {name} created. See https://beaker.org/ex/{experiment.id}"
+            # beaker-py 2.x returns a Workload, whose experiment id is nested
+            workload = client.experiment.create(
+                name=name, spec=spec, workspace=client.workspace.get(WORKSPACE_NAME)
             )
-        except beaker.exceptions.ExperimentConflict:
+            print(
+                f"Experiment {name} created. "
+                f"See https://beaker.org/ex/{workload.experiment.id}"
+            )
+        except beaker.exceptions.BeakerExperimentConflict:
             print(
                 f"Failed to create experiment {name} because it already exists. "
                 "Skipping experiment creation. If you want to submit this experiment, "

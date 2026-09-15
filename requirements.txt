@@ -1,4 +1,8 @@
-beaker-py==1.35.0
+# beaker-py 2.x is required for BeakerTaskContext.min_runtime, without which jobs cannot
+# use the budget's allocated slots. Its API is not backwards compatible: only
+# experiments/evaluator-shield-amip-1deg/run.py has been ported, the other
+# experiments/*/run.py still use the 1.x API and need updating before they can run.
+beaker-py==2.8.0
 Bottleneck
 cartopy>=0.22.0
 dask[distributed]

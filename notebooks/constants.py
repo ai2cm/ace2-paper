@@ -111,6 +111,11 @@ SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS = get_runs_subset(
 SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS = get_runs_subset(
     wandb_ids, "shield-amip-1deg-ace2-inference-81yr-noCO2-RS1-IC"
 )
+# CO2 held at the 336.6 ppm 1979 value of the constant-CO2 SHiELD AMIP simulation and
+# started in 1979 to match it, rather than the 1940 value/start of the 81yr runs above
+SHiELD_AMIP_1DEG_BEST_INFERENCE_42YR_FIXEDCO2_1979_WANDB_RUN_IDS = get_runs_subset(
+    wandb_ids, "shield-amip-1deg-ace2-inference-42yr-fixedCO2-1979-IC"
+)
 
 # inference summary at 1deg
 INFERENCE_COMPARISON_1DEG = {
@@ -139,7 +144,9 @@ INFERENCE_COMPARISON_1DEG = {
 # CO2 sensitivity
 CO2_SENSITIVITY_ACE2_SHiELD_1DEG = {
     "historical-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_WANDB_RUN_IDS,
-    "fixed-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS,
+    # matched to the constant-CO2 SHiELD reference; the 1940-level runs remain
+    # available as SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_FIXEDCO2_WANDB_RUN_IDS
+    "fixed-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_42YR_FIXEDCO2_1979_WANDB_RUN_IDS,
     "no-CO2": SHiELD_AMIP_1DEG_BEST_INFERENCE_81YR_NOCO2_WANDB_RUN_IDS,
     "SHiELD-reference": SHiELD_AMIP_1DEG_REFERENCE_81YR_WANDB_RUN_ID,
 }
